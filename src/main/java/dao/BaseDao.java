@@ -20,7 +20,7 @@ public abstract class BaseDao <T>{
 		this.sessionFactory = sessionFactory;
 	}
 	
-	//ÔÚÃ»ÓĞÊ¹ÓÃSpringÖ®Ç°£¬ĞèÒª×Ô¼º´´½¨Ò»¸öSessionFactory
+	//åœ¨æ²¡æœ‰ä½¿ç”¨Springä¹‹å‰ï¼Œéœ€è¦è‡ªå·±åˆ›å»ºä¸€ä¸ªSessionFactory
 	public BaseDao() {
 		super();
 		cfg = new Configuration().configure();
@@ -55,19 +55,19 @@ public abstract class BaseDao <T>{
 		else return false;
 	}
 	
-	// »ñÈ¡ËùÓĞÊµÌå
+	// è·å–æ‰€æœ‰å®ä½“
 	public List<T> findAll(Class<T> entityClazz)
 	{
 		return find("select en from "
 			+ entityClazz.getSimpleName() + " en");
 	}
 	
-	// »ñÈ¡ÊµÌå×ÜÊı
+	// è·å–å®ä½“æ€»æ•°
 	public long findCount(Class<T> entityClazz)
 	{
 		List<?> list = find("select count(*) from "
 			+ entityClazz.getSimpleName());
-		// ·µ»Ø²éÑ¯µÃµ½µÄÊµÌå×ÜÊı
+		// è¿”å›æŸ¥è¯¢å¾—åˆ°çš„å®ä½“æ€»æ•°
 		if (list != null && list.size() == 1 )
 		{
 			return (Long)list.get(0);
@@ -75,7 +75,7 @@ public abstract class BaseDao <T>{
 		return 0;
 	}
 
-	// ¸ù¾İHQLÓï¾ä²éÑ¯ÊµÌå
+	// æ ¹æ®HQLè¯­å¥æŸ¥è¯¢å®ä½“
 	@SuppressWarnings("unchecked")
 	protected List<T> find(String hql)
 	{
@@ -83,14 +83,14 @@ public abstract class BaseDao <T>{
 			.createQuery(hql)
 			.list();
 	}
-	// ¸ù¾İ´øÕ¼Î»·û²ÎÊıHQLÓï¾ä²éÑ¯ÊµÌå
+	// æ ¹æ®å¸¦å ä½ç¬¦å‚æ•°HQLè¯­å¥æŸ¥è¯¢å®ä½“
 	@SuppressWarnings("unchecked")
 	protected List<T> find(String hql , Object... params)
 	{
-		// ´´½¨²éÑ¯
+		// åˆ›å»ºæŸ¥è¯¢
 		Query query = getSessionFactory().openSession()
 			.createQuery(hql);
-		// Îª°üº¬Õ¼Î»·ûµÄHQLÓï¾äÉèÖÃ²ÎÊı
+		// ä¸ºåŒ…å«å ä½ç¬¦çš„HQLè¯­å¥è®¾ç½®å‚æ•°
 		for(int i = 0 , len = params.length ; i < len ; i++)
 		{
 			query.setParameter(i + "" , params[i]);
@@ -98,45 +98,45 @@ public abstract class BaseDao <T>{
 		return (List<T>)query.list();
 	}
 	/**
-	 * Ê¹ÓÃhql Óï¾ä½øĞĞ·ÖÒ³²éÑ¯²Ù×÷
-	 * @param hql ĞèÒª²éÑ¯µÄhqlÓï¾ä
-	 * @param pageNo ²éÑ¯µÚpageNoÒ³µÄ¼ÇÂ¼
-	 * @param pageSize Ã¿Ò³ĞèÒªÏÔÊ¾µÄ¼ÇÂ¼Êı
-	 * @return µ±Ç°Ò³µÄËùÓĞ¼ÇÂ¼
+	 * ä½¿ç”¨hql è¯­å¥è¿›è¡Œåˆ†é¡µæŸ¥è¯¢æ“ä½œ
+	 * @param hql éœ€è¦æŸ¥è¯¢çš„hqlè¯­å¥
+	 * @param pageNo æŸ¥è¯¢ç¬¬pageNoé¡µçš„è®°å½•
+	 * @param pageSize æ¯é¡µéœ€è¦æ˜¾ç¤ºçš„è®°å½•æ•°
+	 * @return å½“å‰é¡µçš„æ‰€æœ‰è®°å½•
 	 */
 	@SuppressWarnings("unchecked")
 	protected List<T> findByPage(String hql,
 		 int pageNo, int pageSize)
 	{
-		// ´´½¨²éÑ¯
+		// åˆ›å»ºæŸ¥è¯¢
 		return getSessionFactory().openSession()
 			.createQuery(hql)
-			// Ö´ĞĞ·ÖÒ³
+			// æ‰§è¡Œåˆ†é¡µ
 			.setFirstResult((pageNo - 1) * pageSize)
 			.setMaxResults(pageSize)
 			.list();
 	}
 	/**
-	 * Ê¹ÓÃhql Óï¾ä½øĞĞ·ÖÒ³²éÑ¯²Ù×÷
-	 * @param hql ĞèÒª²éÑ¯µÄhqlÓï¾ä
-	 * @param params Èç¹ûhql´øÕ¼Î»·û²ÎÊı£¬paramsÓÃÓÚ´«ÈëÕ¼Î»·û²ÎÊı
-	 * @param pageNo ²éÑ¯µÚpageNoÒ³µÄ¼ÇÂ¼
-	 * @param pageSize Ã¿Ò³ĞèÒªÏÔÊ¾µÄ¼ÇÂ¼Êı
-	 * @return µ±Ç°Ò³µÄËùÓĞ¼ÇÂ¼
+	 * ä½¿ç”¨hql è¯­å¥è¿›è¡Œåˆ†é¡µæŸ¥è¯¢æ“ä½œ
+	 * @param hql éœ€è¦æŸ¥è¯¢çš„hqlè¯­å¥
+	 * @param params å¦‚æœhqlå¸¦å ä½ç¬¦å‚æ•°ï¼Œparamsç”¨äºä¼ å…¥å ä½ç¬¦å‚æ•°
+	 * @param pageNo æŸ¥è¯¢ç¬¬pageNoé¡µçš„è®°å½•
+	 * @param pageSize æ¯é¡µéœ€è¦æ˜¾ç¤ºçš„è®°å½•æ•°
+	 * @return å½“å‰é¡µçš„æ‰€æœ‰è®°å½•
 	 */
 	@SuppressWarnings("unchecked")
 	protected List<T> findByPage(String hql , int pageNo, int pageSize
 		, Object... params)
 	{
-		// ´´½¨²éÑ¯
+		// åˆ›å»ºæŸ¥è¯¢
 		Query query = getSessionFactory().openSession()
 			.createQuery(hql);
-		// Îª°üº¬Õ¼Î»·ûµÄHQLÓï¾äÉèÖÃ²ÎÊı
+		// ä¸ºåŒ…å«å ä½ç¬¦çš„HQLè¯­å¥è®¾ç½®å‚æ•°
 		for(int i = 0 , len = params.length ; i < len ; i++)
 		{
 			query.setParameter(i + "" , params[i]);
 		}
-		// Ö´ĞĞ·ÖÒ³£¬²¢·µ»Ø²éÑ¯½á¹û
+		// æ‰§è¡Œåˆ†é¡µï¼Œå¹¶è¿”å›æŸ¥è¯¢ç»“æœ
 		return query.setFirstResult((pageNo - 1) * pageSize)
 			.setMaxResults(pageSize)
 			.list();

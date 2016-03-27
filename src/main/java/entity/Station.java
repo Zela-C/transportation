@@ -12,7 +12,6 @@ import javax.persistence.Table;
 @Entity
 @Table(name="station")
 public class Station {
-	//Õ¾µã±êºÅ
 	@Id
 	@GeneratedValue (strategy=GenerationType.IDENTITY)
 	private Integer id;

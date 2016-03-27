@@ -18,7 +18,7 @@
 	media="screen,projection" />
 </head>
 <body>
-	<!-- 页头 -->
+	<!-- 页头，不用修改 -->
 	<header> <nav class=" light-blue lighten-2">
 	<div class="nav-wrapper container">
 		<div href="#!" class="brand-logo">
@@ -47,10 +47,10 @@
 				</div>
 			</div>
 			<div class="divider"></div>
-			<a  href="station.jsp"
-				class="waves-effect waves-light light-blue-text text-lighten-2"><center>Station</center></a>
+			<li style="width: 100%"
+				class="waves-effect waves-light light-blue-text text-lighten-2 active"><center>Station</center></li>
 			<div class="divider"></div>
-			<a href="#"
+			<a href="routine.jsp"
 				class="waves-effect waves-light light-blue-text text-lighten-2"><center>Routine</center></a>
 			<div class="divider"></div>
 			<a href="#"
@@ -62,35 +62,69 @@
 		</ul>
 	</div>
 	</nav> </header>
-	<main>
-	<p>&nbsp;</p>
-	<div class="row">
-		<!-- 登录界面 -->
-		<form class="col s12" action="">
+	<main class="">
+	<div class="container">
+		<!-- 搜索框 -->
+		<div class="row">
 			<div class="col s3">&nbsp;</div>
-			<div class="row">
-				<div class="input-field col s6">
-					<input id="" type="text" class="validate"> <label for="">Name</label>
-				</div>
-				<div class="col s3"></div>
+			<div class="col s6 input-field center">
+				<input class="left-align" type="search" placeholder="search？"
+					length="20"> <i class="material-icons">search</i>
 			</div>
-			<div class="row">
-				<div class="col s3">&nbsp;</div>
-				<div class="input-field col s6 ">
-					<input id="password" type="password" class="validate "> <label
-						for="password">Password</label>
-				</div>
-				<div class="col s3"></div>
-			</div>
-			<center>
-				<div class="btn light-blue lighten-2 waves-effect waves-light">
-					<span>&nbsp;</span> <input type="submit" value="Bingo&nbsp;">
-				</div>
-			</center>
-		</form>
+		</div>
+		<!-- 站点信息 -->
+		<table class="centered striped collection responsive-table">
+			<thead>
+				<tr>
+					<th>Id</th>
+					<th>Item Name</th>
+					<th>longitude</th>
+					<th>latitude</th>
+					<th>Operation</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				<tr>
+					<td>1</td>
+					<td>魔仙堡</td>
+					<td>000.00</td>
+					<td>000.00</td>
+					<td><i class="btn-flat material-icons  red0 tooltipped"
+						data-position="top" data-delay="50" data-tooltip="delete?">×</i></td>
+				</tr>
+				<tr>
+					<td>2</td>
+					<td>雾之湖</td>
+					<td>000.00</td>
+					<td>000.00</td>
+					<td><i class="btn-flat material-icons  red0 tooltipped"
+						data-position="top" data-delay="50" data-tooltip="delete?">×</i></td>
+				</tr>
+				<tr>
+					<td>3</td>
+					<td>周家坝</td>
+					<td>000.00</td>
+					<td>000.00</td>
+					<td><i class="btn-flat material-icons  red0 tooltipped"
+						data-position="top" data-delay="50" data-tooltip="delete?">×</i></td>
+				</tr>
+			</tbody>
+		</table>
+		<!-- 页码 -->
+		<ul class="pagination center ">
+			<li class="disabled "><a href="#!"><i class="material-icons">chevron_left</i></a></li>
+			<li class="active light-blue lighten-4"><a href="#!">1</a></li>
+			<li class="waves-effect"><a href="#!">2</a></li>
+			<li class="waves-effect"><a href="#!">3</a></li>
+			<li class="waves-effect"><a href="#!">4</a></li>
+			<li class="waves-effect"><a href="#!">5</a></li>
+			<li class="waves-effect"><a href="#!"><i
+					class="material-icons">chevron_right</i></a></li>
+		</ul>
 	</div>
 	</main>
-	<!-- 页脚 -->
+	<!-- 页脚  -->
 	<footer class="page-footer light-blue lighten-2">
 	<div class="container">
 		<div class="row">

@@ -11,6 +11,17 @@
 	position:relative;
 }
 
+  body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+  }
+
+  main {
+    flex: 1 0 auto;
+  }
+#center { MARGIN-RIGHT: auto; MARGIN-LEFT: auto; }
+
 /* WebKit browsers */
 ::-webkit-input-placeholder {
 	color: #D6D4D4;
