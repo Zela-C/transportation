@@ -50,7 +50,7 @@
 			<a  href="station.jsp"
 				class="waves-effect waves-light light-blue-text text-lighten-2"><center>Station</center></a>
 			<div class="divider"></div>
-			<a href="#"
+			<a href="routine.jsp"
 				class="waves-effect waves-light light-blue-text text-lighten-2"><center>Routine</center></a>
 			<div class="divider"></div>
 			<a href="#"
@@ -66,18 +66,18 @@
 	<p>&nbsp;</p>
 	<div class="row">
 		<!-- 登录界面 -->
-		<form class="col s12" action="">
+		<form class="col s12" action="login">
 			<div class="col s3">&nbsp;</div>
 			<div class="row">
 				<div class="input-field col s6">
-					<input id="" type="text" class="validate"> <label for="">Name</label>
+					<input id="username" name="username" type="text" class="validate"> <label for="">Username</label>
 				</div>
 				<div class="col s3"></div>
 			</div>
 			<div class="row">
 				<div class="col s3">&nbsp;</div>
 				<div class="input-field col s6 ">
-					<input id="password" type="password" class="validate "> <label
+					<input id="password" name="password"type="password" class="validate "> <label
 						for="password">Password</label>
 				</div>
 				<div class="col s3"></div>

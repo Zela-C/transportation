@@ -9,7 +9,7 @@
 <body>
 login!
 <%
-out.println(request.getParameter("name"));
+out.println(request.getParameter("username"));
 %>
 </body>
 </html>
