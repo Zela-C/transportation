@@ -1,4 +1,4 @@
-package servlet;
+package filter;
 
 import java.io.IOException;
 
@@ -11,28 +11,33 @@ import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
-@WebFilter(filterName = "GuestFilter", urlPatterns = { "/station.jsp", "/routine.jsp" })
-public class GuestFilter implements Filter {
+@WebFilter(filterName = "AdminFilter", urlPatterns = { "/routine.jsp", "/station.jsp" })
+// this two module need administrator authority
+public class AdminFilter implements Filter {
 	private FilterConfig config;
 
 	public void init(FilterConfig filterConfig) throws ServletException {
-		System.out.println("老子初始化了");
 		config = filterConfig;
 	}
 
 	public void destroy() {
-		System.out.println("老子去死了");
 		this.config = null;
 	}
 
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
 		System.out.println("开始拦截");
-		long before=System.currentTimeMillis();
+		long before = System.currentTimeMillis();
 		HttpServletRequest req = (HttpServletRequest) request;
 		HttpServletResponse res = (HttpServletResponse) response;
+		HttpSession session = req.getSession();
+		if (null == session.getAttribute("authority") || ((Integer) session.getAttribute("authority")) < 1) {
+			req.getRequestDispatcher("/balala.jsp").forward(req, res);
+		}
 		chain.doFilter(request, response);
+
 	}
 
 }

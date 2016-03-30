@@ -16,18 +16,21 @@ public class LoginServlet extends HttpServlet{
 	public void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		response.setContentType("text/html;charSet=utf-8");
-		
 		String name = request.getParameter("username");
 		String pwd = bytesToMD5(request.getParameter("password").getBytes());
 		UserDao userDao = new UserDao();
+		System.out.println(pwd);
 		if(!userDao.isUserExist(name)){
 			System.out.println("Error in username");
 		}
 		else if(!userDao.checkPassWord(name, pwd)){
 			System.out.println("Error in password");
 		}
-		else{
-			request.getRequestDispatcher("/station.jsp").forward(request, response);
+		else{ 
+			int admin=(int)userDao.getUserAuthority(name);
+			System.out.println(admin);
+			request.getSession().setAttribute("authority", admin);
+			request.getRequestDispatcher("/path.jsp").forward(request, response);
 		}
 		
 	}

@@ -53,7 +53,7 @@
 			<li style="width: 100%"
 				class="waves-effect waves-light light-blue-text text-lighten-2 active"><center>Routine</center></li>
 			<div class="divider"></div>
-			<a href="#"
+			<a href="path.jsp"
 				class="waves-effect waves-light light-blue-text text-lighten-2"><center>Path</center></a>
 			<div class="divider"></div>
 			<a href="#"
