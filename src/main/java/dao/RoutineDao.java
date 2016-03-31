@@ -2,31 +2,29 @@ package dao;
 
 import java.util.List;
 
+import entity.Bus;
 import entity.Station;
 
-public class StationDao extends BaseDao<Station> {
-	public StationDao() {
+public class RoutineDao extends BaseDao<Bus>{
+	public RoutineDao() {
 		super();
 	}
 
-	public List<Station> getAllStations() {
-		return findAll(Station.class);
+	public List<Bus> getAllStations() {
+		return findAll(Bus.class);
 	}
 
 	public long getStationsCount() {
-		return findCount(Station.class);
+		return findCount(Bus.class);
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Station> findByPage(String hql, int pageNo, int pageSize) {
+	public List<Bus> findByPage(String hql, int pageNo, int pageSize) {
 		// 创建查询
 		return getSessionFactory().openSession().createQuery(hql)
 				// 执行分页
 				.setFirstResult((pageNo - 1) * pageSize).setMaxResults(pageSize).list();
 	}
 	
-	public String getStationName(Integer id){
-		return get(Station.class,id).getName();
-	}
 }

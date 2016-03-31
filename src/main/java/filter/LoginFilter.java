@@ -20,6 +20,7 @@ public class LoginFilter implements Filter {
 
 	public void init(FilterConfig filterConfig) throws ServletException {
 		config = filterConfig;
+		System.out.println("娘子，");
 	}
 
 	public void destroy() {
@@ -28,10 +29,11 @@ public class LoginFilter implements Filter {
 
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
+		System.out.println("啊哈！");
 		HttpServletRequest req = (HttpServletRequest) request;
 		HttpServletResponse res = (HttpServletResponse) response;
 		HttpSession session = req.getSession();
-		if (!(null == session.getAttribute("username"))) {
+		if (!(null == session.getAttribute("authority"))) {
 			request.getRequestDispatcher("/path.jsp").forward(request, response);
 		}
 		chain.doFilter(request, response);

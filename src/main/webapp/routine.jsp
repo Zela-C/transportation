@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
-	pageEncoding="utf-8"%>
+	pageEncoding="utf-8"
+	import="java.util.List,dao.RoutineDao,entity.Bus,dao.StationDao"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -7,7 +8,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, maximum-scale=1.0" />
-<title>Starter Template - Materialize</title>
+<title>松江区公交管理系统</title>
 
 <!-- CSS  -->
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
@@ -17,6 +18,11 @@
 <link href="css/zela.css" type="text/css" rel="stylesheet"
 	media="screen,projection" />
 </head>
+<%!private RoutineDao routineDao = new RoutineDao();
+	private StationDao stationDao = new StationDao();
+	int count = (int) routineDao.getStationsCount();
+	int curPage = 1;
+	private static final int pageSize = 10;%>
 <body>
 	<!-- header不用管，是已经写好了的 -->
 	<header> <nav class=" light-blue lighten-2">
@@ -80,95 +86,149 @@
 			<div class="divider"></div>
 			<!-- 各个线路 -->
 			<ul class="collapsible" data-collapsible="expandable">
+				<%
+					//边界判定
+					String param = request.getParameter("curPage");
+					if (null == param)
+						curPage = 1;
+					else
+						curPage = Integer.valueOf(param);
+					if (curPage < 1 || curPage > count / 10 + 1) {
+						response.sendRedirect("/transportation/routine.jsp");
+					}
+					//按页查询
+					List<Bus> routines = routineDao.findByPage("select en from " + Bus.class.getSimpleName() + " en", curPage,
+							pageSize);
+					//遍历该页所有对象
+					for (Bus routine : routines) {
+						//初始化
+						String[] idTo = routine.getIdTo().trim().split("\\$");
+						String[] endTimeTo = routine.getEndTimeTo().trim().split("\\$");
+						String[] startTimeTo = routine.getStartTimeTo().trim().split("\\$");
+
+						String from = routine.getIdFrom().trim();
+
+						String[] idFrom = null;
+						String[] endTimeFrom = null;
+						String[] startTimeFrom = null;
+						if (null != from && !from.equals("")) {
+							idFrom = from.split("\\$");
+							endTimeFrom = routine.getEndTimeFrom().trim().split("\\$");
+							startTimeFrom = routine.getStartTimeFrom().trim().split("\\$");
+						}
+				%>
 				<li>
 					<!-- 线路名称信息 -->
 					<div class="collapsible-header">
 						<a><i class="material-icons bule0 tooltipped"
 							data-position="top" data-delay="50" data-tooltip="company">my_location</i></a>
-						松江3路 <a href="#!" class="secondary-content"><i
+						<%=routine.getName()%><%=(null==idFrom)?"(环)":"" %>
+						<a href="#!" class="secondary-content"><i
 							class="material-icons red0 tooltipped" data-position="top"
 							data-delay="50" data-tooltip="delete?">close</i></a>
-					</div>
-					<!-- 线路的站点信息 -->
+					</div> <!-- 线路的站点信息 -->
 					<div class="collapsible-body">
 						<!-- p标签用来调行间距 -->
 						<p style="line-height: 300%" />
 						<!-- 起点 -->
 						<span class="light-blue-text text-darken-2 btn-flat disabled"
-							style="font-size: 13px; margin: 0px; padding: 0px">
-							start(12:00) </span> 
+							style="font-size: 13px; margin: 0px; padding: 0px"> start
+						</span>
 						<!-- 箭头 -->
 						<span
 							class="waves-effect waves-light red-text text-accent-1 btn-flat tooltipped"
 							data-position="top" data-delay="50" data-tooltip="add?"
 							style="font-size: 20px; margin: 0px; padding: 0px"> ---> </span>
+						<%
+							for (int i = 0; i < idTo.length; i++) {
+						%>
+
 						<!-- 站点 -->
 						<a
 							class='waves-effect waves-light btn-flat  light-blue lighten-4 white-text tooltipped'
-							data-position="top" data-delay="50" data-tooltip="delete?"
-							href='#'> 合川路 </a> <span
+							data-position="top" data-delay="50" data-tooltip="<%=startTimeTo[i]%>---><%=endTimeTo[i] %>"
+							href='#'> <%=stationDao.getStationName(Integer.valueOf(idTo[i]))%>
+						</a> <span
 							class="waves-effect waves-light red-text text-accent-1 btn-flat tooltipped"
 							data-position="top" data-delay="50" data-tooltip="add?"
 							style="font-size: 20px; margin: 0px; padding: 0px"> ---> </span>
-						<a
-							class='waves-effect waves-light btn-flat  light-blue lighten-4 white-text tooltipped'
-							data-position="top" data-delay="50" data-tooltip="delete?"
-							href='#'> 桂林路 </a> <span
-							class="waves-effect waves-light red-text text-accent-1 btn-flat tooltipped"
-							data-position="top" data-delay="50" data-tooltip="add?"
-							style="font-size: 20px; margin: 0px; padding: 0px"> ---> </span>
+						<%
+							}
+						%>
 						<span class="light-blue-text text-darken-2 btn-flat disabled"
-							style="font-size: 13px; margin: 0px; padding: 0px">
-							end(22:30) </span>
-					</div>
-				</li>
-				<!-- 该区域的下一条线路 -->
-				<li>
-					<div class="collapsible-header">
-						<a><i class="material-icons bule0 tooltipped"
-							data-position="top" data-delay="50" data-tooltip="company">my_location</i></a>
-						松江4路 <a href="#!" class="secondary-content"><i
-							class="material-icons red0 tooltipped" data-position="top"
-							data-delay="50" data-tooltip="delete?">close</i></a>
-					</div>
-					<div class="collapsible-body">
-						<p style="line-height: 300%" />
+							style="font-size: 13px; margin: 0px; padding: 0px"> end </span> </br>
+						<%
+							if (null != idFrom) {
+						%>
+						<!-- 起点 -->
 						<span class="light-blue-text text-darken-2 btn-flat disabled"
 							style="font-size: 13px; margin: 0px; padding: 0px"> start
-						</span> <span
+						</span>
+						<!-- 箭头 -->
+						<span
 							class="waves-effect waves-light red-text text-accent-1 btn-flat tooltipped"
 							data-position="top" data-delay="50" data-tooltip="add?"
 							style="font-size: 20px; margin: 0px; padding: 0px"> ---> </span>
+						<%
+							for (int i = 0; i < idFrom.length; i++) {
+						%>
 						<a
 							class='waves-effect waves-light btn-flat  light-blue lighten-4 white-text tooltipped'
-							data-position="top" data-delay="50" data-tooltip="delete?"
-							href='#'> 合川路 </a> <span
+							data-position="top" data-delay="50" data-tooltip="<%=startTimeFrom[i]%>---><%=endTimeFrom[i] %>"
+							href='#'> <%=stationDao.getStationName(Integer.valueOf(idFrom[i]))%>
+						</a> <span
 							class="waves-effect waves-light red-text text-accent-1 btn-flat tooltipped"
 							data-position="top" data-delay="50" data-tooltip="add?"
 							style="font-size: 20px; margin: 0px; padding: 0px"> ---> </span>
-						<a
-							class='waves-effect waves-light btn-flat  light-blue lighten-4 white-text tooltipped'
-							data-position="top" data-delay="50" data-tooltip="delete?"
-							href='#'> 桂林路 </a> <span
-							class="waves-effect waves-light red-text text-accent-1 btn-flat tooltipped"
-							data-position="top" data-delay="50" data-tooltip="add?"
-							style="font-size: 20px; margin: 0px; padding: 0px"> ---> </span>
+						<%
+							}
+						%>
 						<span class="light-blue-text text-darken-2 btn-flat disabled"
 							style="font-size: 13px; margin: 0px; padding: 0px"> end </span>
+						<%
+							}
+						%></br>
+						<div class="card-action row orange-text text-darken-2">
+							<span class="col s2">Time:24min</span>&nbsp<span class="col s2">Length:6.8km</span>
+							<!-- 附加信息结束 -->
+						</div>
+						<%
+							}
+						%>
 					</div>
 				</li>
 			</ul>
 		</div>
 		<!-- 页码，也需要动态修改 -->
+		<!-- TODO 最后可能不足5页的边界判定 -->
 		<ul class="pagination center ">
-			<li class="disabled "><a href="#!"><i class="material-icons">chevron_left</i></a></li>
-			<li class="active light-blue lighten-4"><a href="#!">1</a></li>
-			<li class="waves-effect"><a href="#!">2</a></li>
-			<li class="waves-effect"><a href="#!">3</a></li>
-			<li class="waves-effect"><a href="#!">4</a></li>
-			<li class="waves-effect"><a href="#!">5</a></li>
-			<li class="waves-effect"><a href="#!"><i
-					class="material-icons">chevron_right</i></a></li>
+			<li class=<%=curPage == 1 ? "disabled" : "enabled"%>><a
+				href="?curPage=<%=curPage - 1%>"><i class="material-icons">chevron_left</i></a></li>
+			<li
+				class=<%=curPage == ((curPage - 1) / 5 * 5 + 1) ? "active light-blue lighten-4" : "waves-effect"%>><a
+				href="?curPage=<%=(curPage - 1) / 5 * 5 + 1%>"><%=(curPage - 1) / 5 * 5 + 1%></a></li>
+			<%=((curPage - 1) / 5 * 5 + 2) > count / 10 + 1 ? "<!--" : ""%>
+			<li
+				class=<%=curPage == ((curPage - 1) / 5 * 5 + 2) ? "active light-blue lighten-4" : "waves-effect"%>><a
+				href="?curPage=<%=(curPage - 1) / 5 * 5 + 2%>"><%=(curPage - 1) / 5 * 5 + 2%></a></li>
+			<%=((curPage - 1) / 5 * 5 + 2) > count / 10 + 1 ? "--!>" : ""%>
+			<%=((curPage - 1) / 5 * 5 + 3) > count / 10 + 1 ? "<!--" : ""%>
+			<li
+				class=<%=curPage == ((curPage - 1) / 5 * 5 + 3) ? "active light-blue lighten-4" : "waves-effect"%>><a
+				href="?curPage=<%=(curPage - 1) / 5 * 5 + 3%>"><%=(curPage - 1) / 5 * 5 + 3%></a></li>
+			<%=((curPage - 1) / 5 * 5 + 3) > count / 10 + 1 ? "--!>" : ""%>
+			<%=((curPage - 1) / 5 * 5 + 4) > count / 10 + 1 ? "<!--" : ""%>
+			<li
+				class=<%=curPage == ((curPage - 1) / 5 * 5 + 4) ? "active light-blue lighten-4" : "waves-effect"%>><a
+				href="?curPage=<%=(curPage - 1) / 5 * 5 + 4%>"><%=(curPage - 1) / 5 * 5 + 4%></a></li>
+			<%=((curPage - 1) / 5 * 5 + 4) > count / 10 + 1 ? "--!>" : ""%>
+			<%=((curPage - 1) / 5 * 5 + 5) > count / 10 + 1 ? "<!--" : ""%>
+			<li
+				class=<%=curPage == ((curPage - 1) / 5 * 5 + 5) ? "active light-blue lighten-4" : "waves-effect"%>><a
+				href="?curPage=<%=(curPage - 1) / 5 * 5 + 5%>"><%=(curPage - 1) / 5 * 5 + 5%></a></li>
+			<%=((curPage - 1) / 5 * 5 + 5) > count / 10 + 1 ? "--!>" : ""%>
+			<li class=<%=curPage > count / 10 ? "disabled" : "enabled"%>><a
+				href="?curPage=<%=curPage + 1%>"><i class="material-icons">chevron_right</i></a></li>
 		</ul>
 	</div>
 	</main>
