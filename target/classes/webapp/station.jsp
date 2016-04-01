@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
-	pageEncoding="utf-8"%>
+	pageEncoding="utf-8"
+	import="java.util.List,entity.Station,dao.StationDao"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -7,7 +8,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, maximum-scale=1.0" />
-<title>Starter Template - Materialize</title>
+<title>松江区公交管理系统</title>
 
 <!-- CSS  -->
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
@@ -17,6 +18,10 @@
 <link href="css/zela.css" type="text/css" rel="stylesheet"
 	media="screen,projection" />
 </head>
+<%!private StationDao stationDao = new StationDao();
+	int count = (int) stationDao.getStationsCount();
+	int curPage = 1;
+	private static final int pageSize = 10;%>
 <body>
 	<!-- 页头，不用修改 -->
 	<header> <nav class=" light-blue lighten-2">
@@ -53,7 +58,7 @@
 			<a href="routine.jsp"
 				class="waves-effect waves-light light-blue-text text-lighten-2"><center>Routine</center></a>
 			<div class="divider"></div>
-			<a href="#"
+			<a href="path.jsp"
 				class="waves-effect waves-light light-blue-text text-lighten-2"><center>Path</center></a>
 			<div class="divider"></div>
 			<a href="#"
@@ -85,42 +90,63 @@
 			</thead>
 
 			<tbody>
+				<%
+					String param = request.getParameter("curPage");
+					if (null == param)
+						curPage = 1;
+					else
+						curPage = Integer.valueOf(param);
+					if (curPage < 1 || curPage > count / 10 + 1) {
+						response.sendRedirect("/transportation/station.jsp");
+					}
+					List<Station> stations = stationDao.findByPage("select en from " + Station.class.getSimpleName() + " en",
+							curPage, pageSize);
+					for (Station station : stations) {
+				%>
 				<tr>
-					<td>1</td>
-					<td>魔仙堡</td>
-					<td>000.00</td>
-					<td>000.00</td>
+					<td><%=station.getId()%></td>
+					<td><%=station.getName()%></td>
+					<td><%=station.getLongitude()%></td>
+					<td><%=station.getLatitude()%></td>
 					<td><i class="btn-flat material-icons  red0 tooltipped"
 						data-position="top" data-delay="50" data-tooltip="delete?">×</i></td>
 				</tr>
-				<tr>
-					<td>2</td>
-					<td>雾之湖</td>
-					<td>000.00</td>
-					<td>000.00</td>
-					<td><i class="btn-flat material-icons  red0 tooltipped"
-						data-position="top" data-delay="50" data-tooltip="delete?">×</i></td>
-				</tr>
-				<tr>
-					<td>3</td>
-					<td>周家坝</td>
-					<td>000.00</td>
-					<td>000.00</td>
-					<td><i class="btn-flat material-icons  red0 tooltipped"
-						data-position="top" data-delay="50" data-tooltip="delete?">×</i></td>
-				</tr>
+				<%
+					}
+				%>
+
 			</tbody>
 		</table>
 		<!-- 页码 -->
+		<!-- TODO 最后可能不足5页的边界判定 -->
 		<ul class="pagination center ">
-			<li class="disabled "><a href="#!"><i class="material-icons">chevron_left</i></a></li>
-			<li class="active light-blue lighten-4"><a href="#!">1</a></li>
-			<li class="waves-effect"><a href="#!">2</a></li>
-			<li class="waves-effect"><a href="#!">3</a></li>
-			<li class="waves-effect"><a href="#!">4</a></li>
-			<li class="waves-effect"><a href="#!">5</a></li>
-			<li class="waves-effect"><a href="#!"><i
-					class="material-icons">chevron_right</i></a></li>
+			<li class=<%=curPage == 1 ? "disabled" : "enabled"%>><a
+				href="?curPage=<%=curPage - 1%>"><i class="material-icons">chevron_left</i></a></li>
+			<li
+				class=<%=curPage == ((curPage - 1) / 5 * 5 + 1) ? "active light-blue lighten-4" : "waves-effect"%>><a
+				href="?curPage=<%=(curPage - 1) / 5 * 5 + 1%>"><%=(curPage - 1) / 5 * 5 + 1%></a></li>
+			<%=((curPage - 1) / 5 * 5 + 2) > count / 10 + 1 ? "<!--" : ""%>
+			<li
+				class=<%=curPage == ((curPage - 1) / 5 * 5 + 2) ? "active light-blue lighten-4" : "waves-effect"%>><a
+				href="?curPage=<%=(curPage - 1) / 5 * 5 + 2%>"><%=(curPage - 1) / 5 * 5 + 2%></a></li>
+			<%=((curPage - 1) / 5 * 5 + 2) > count / 10 + 1 ? "--!>" : ""%>
+			<%=((curPage - 1) / 5 * 5 + 3) > count / 10 + 1 ? "<!--" : ""%>
+			<li
+				class=<%=curPage == ((curPage - 1) / 5 * 5 + 3) ? "active light-blue lighten-4" : "waves-effect"%>><a
+				href="?curPage=<%=(curPage - 1) / 5 * 5 + 3%>"><%=(curPage - 1) / 5 * 5 + 3%></a></li>
+			<%=((curPage - 1) / 5 * 5 + 3) > count / 10 + 1 ? "--!>" : ""%>
+			<%=((curPage - 1) / 5 * 5 + 4) > count / 10 + 1 ? "<!--" : ""%>
+			<li
+				class=<%=curPage == ((curPage - 1) / 5 * 5 + 4) ? "active light-blue lighten-4" : "waves-effect"%>><a
+				href="?curPage=<%=(curPage - 1) / 5 * 5 + 4%>"><%=(curPage - 1) / 5 * 5 + 4%></a></li>
+			<%=((curPage - 1) / 5 * 5 + 4) > count / 10 + 1 ? "--!>" : ""%>
+			<%=((curPage - 1) / 5 * 5 + 5) > count / 10 + 1 ? "<!--" : ""%>
+			<li
+				class=<%=curPage == ((curPage - 1) / 5 * 5 + 5) ? "active light-blue lighten-4" : "waves-effect"%>><a
+				href="?curPage=<%=(curPage - 1) / 5 * 5 + 5%>"><%=(curPage - 1) / 5 * 5 + 5%></a></li>
+			<%=((curPage - 1) / 5 * 5 + 5) > count / 10 + 1 ? "--!>" : ""%>
+			<li class=<%=curPage > count / 10 ? "disabled" : "enabled"%>><a
+				href="?curPage=<%=curPage + 1%>"><i class="material-icons">chevron_right</i></a></li>
 		</ul>
 	</div>
 	</main>

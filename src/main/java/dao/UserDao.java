@@ -10,7 +10,6 @@ public class UserDao extends BaseDao<User> {
 	
 	public UserDao() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public boolean isUserExist(Serializable name){
@@ -28,4 +27,10 @@ public class UserDao extends BaseDao<User> {
 		}
 		else return false;
 	}
+	
+	public int getUserAuthority(Serializable name){
+		User user=((User)get(User.class,name));
+		return user==null?-1:user.getIsAdmin();
+	}
+	
 }

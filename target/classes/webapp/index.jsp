@@ -7,7 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, maximum-scale=1.0" />
-<title>Starter Template - Materialize</title>
+<title>松江区公交管理系统</title>
 
 <!-- CSS  -->
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
@@ -50,10 +50,10 @@
 			<a  href="station.jsp"
 				class="waves-effect waves-light light-blue-text text-lighten-2"><center>Station</center></a>
 			<div class="divider"></div>
-			<a href="#"
+			<a href="routine.jsp"
 				class="waves-effect waves-light light-blue-text text-lighten-2"><center>Routine</center></a>
 			<div class="divider"></div>
-			<a href="#"
+			<a href="path.jsp"
 				class="waves-effect waves-light light-blue-text text-lighten-2"><center>Path</center></a>
 			<div class="divider"></div>
 			<a href="#"
@@ -66,18 +66,18 @@
 	<p>&nbsp;</p>
 	<div class="row">
 		<!-- 登录界面 -->
-		<form class="col s12" action="">
-			<div class="col s3">&nbsp;</div>
+		<form class="col s12" action="login" method="post">
+		<div class="col s3">&nbsp;</div>
 			<div class="row">
 				<div class="input-field col s6">
-					<input id="" type="text" class="validate"> <label for="">Name</label>
+					<input id="username" name="username" type="text" class="validate"> <label for="">Username</label>
 				</div>
 				<div class="col s3"></div>
 			</div>
 			<div class="row">
 				<div class="col s3">&nbsp;</div>
 				<div class="input-field col s6 ">
-					<input id="password" type="password" class="validate "> <label
+					<input id="password" name="password"type="password" class="validate"> <label
 						for="password">Password</label>
 				</div>
 				<div class="col s3"></div>
