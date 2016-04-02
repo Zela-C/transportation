@@ -16,6 +16,12 @@ public class StationDao extends BaseDao<Station> {
 	public long getStationsCount() {
 		return findCount(Station.class);
 	}
+	
+	public Station findByName(String name){
+		List<Station> list = find("select distinct * from Station where name = "+name) ;
+		if(list != null) return list.get(0);
+		else return null;
+	}
 
 	@SuppressWarnings("unchecked")
 	@Override

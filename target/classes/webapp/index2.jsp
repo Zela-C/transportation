@@ -5,29 +5,84 @@
 <head>
 
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, maximum-scale=1.0" />
 <title>无标题文档</title>
-<link href="css/style.css" rel='stylesheet' type='text/css' />
-        <style>
-            body{overflow:hidden; margin:0; padding:0;}
-            #a{width:100%; height:100%; background-color:gray;}
-        </style>
+ <!-- CSS  -->
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+	rel="stylesheet">
+<link href="css/materialize.min.css" type="text/css" rel="stylesheet"
+	media="screen,projection" />
+<link href="css/zela.css" type="text/css" rel="stylesheet"
+	media="screen,projection" />
+
 </head>
 
-<body>
-	<div class="banner">
-	<div class="login-background">
-		<div class="contact-bottom">
-			<form method="post" action="login">
-				<input type="text" name="name" placeholder="Name"
-					onfocus=""
-					onblur="" /> <br><br/>
-				<input type="password" name="passWord" placeholder="PassWord"/>
-				<div class="submit-btn">
-					<input type="submit" value="SUBMIT">
+<body style="height:1000px">
+
+  <!-- Modal Trigger -->
+
+  <!-- 这个是对话框 -->
+  <div id="modal1" class="modal" style="width:270px; height:230x">
+    <form action=""  method="post">
+    <div class="modal-content" >
+      <h5 class=""><span class="red-text text-accent-1">Add</span> a station?</h5>
+          <div class="row" style="height:30px">
+				<div class="input-field">
+				          <input id="station_add" type="text" placeholder="Station">
 				</div>
-			</form>
+			    </div>
+	<center>
+				<div class="btn-flat waves-effect waves-red">
+					<span>&nbsp;</span> <input type="submit" value="Sure&nbsp;">
+				</div>
+          </center>
+    </div>
+     </form>
+  </div>
+  
+   <!-- 对话框的Trigger 注意data-target为对话框id -->
+  <button data-target="modal1" class="btn modal-trigger">线路增加站点</button>
+  
+  
+    <!-- 这个是对话框 -->
+  <div id="modal2" class="modal" style="width:270px;">
+    <form action=""  method="post">
+    <div class="modal-content" >
+      <h5 class=""><span class="red-text text-accent-1">New</span> station?</h5>
+         <div class="row" style="height:30px">
+				<div class="input-field col s12">
+				          <input id="" type="text" placeholder="Station">
+				</div>
 		</div>
+		 <div class="row" style="height:30px">
+				<div class="input-field col s6" >
+				          <input id="" type="text" placeholder="Longitude">
+				</div>
+				<div class="input-field col s6">
+				          <input id="" type="text" placeholder="Latitude">
+				</div>
 	</div>
-	</div>
+	         <div class="row" style= "height:30px">
+				<div class="input-field col s12">
+				          <input id="" type="text" placeholder="Region">
+				</div>
+		</div>
+	<center >
+				<div class="btn-flat waves-effect waves-red">
+					<span>&nbsp;</span> <input type="submit" value="Sure&nbsp;">
+				</div>
+          </center>
+    </div>
+     </form>
+  </div>
+
+
+   <!-- 对话框的Trigger 注意data-target为对话框id-->
+  <button data-target="modal2" class="btn modal-trigger">增加新的站点资料</button>
+  	<!--  Scripts-->
+	<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+	<script src="js/materialize.js"></script>
+	<script src="js/init.js"></script>
 </body>
 </html>

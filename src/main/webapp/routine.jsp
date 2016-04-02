@@ -24,6 +24,23 @@
 	int curPage = 1;
 	private static final int pageSize = 10;%>
 <body>
+  <div id="add_stop_dialoge" class="modal" style="width:270px; height:230x">
+    <form action=""  method="post">
+    <div class="modal-content" >
+      <h5 class=""><span class="red-text text-accent-1">Add</span> a station?</h5>
+          <div class="row" style="height:30px">
+				<div class="input-field">
+				          <input id="station_add" type="text" placeholder="Station">
+				</div>
+			    </div>
+	<center>
+				<div class="btn-flat waves-effect waves-red">
+					<span>&nbsp;</span> <input type="submit" value="Sure&nbsp;">
+				</div>
+          </center>
+    </div>
+     </form>
+  </div>
 	<!-- header不用管，是已经写好了的 -->
 	<header> <nav class=" light-blue lighten-2">
 	<div class="nav-wrapper container">
@@ -85,7 +102,7 @@
 			<h4 class=" blue-text text-lighten-1 center thin">松江区</h4>
 			<div class="divider"></div>
 			<!-- 各个线路 -->
-			<ul class="collapsible" data-collapsible="expandable">
+			<ul class="collapsible popout" data-collapsible="expandable">
 				<%
 					//边界判定
 					String param = request.getParameter("curPage");
@@ -136,8 +153,8 @@
 						</span>
 						<!-- 箭头 -->
 						<span
-							class="waves-effect waves-light red-text text-accent-1 btn-flat tooltipped"
-							data-position="top" data-delay="50" data-tooltip="add?"
+							class="waves-effect waves-light red-text text-accent-1 btn-flat tooltipped modal-trigger"
+							data-position="top" data-delay="50" data-tooltip="add?" data-target="add_stop_dialoge"
 							style="font-size: 20px; margin: 0px; padding: 0px"> ---> </span>
 						<%
 							for (int i = 0; i < idTo.length; i++) {
@@ -149,25 +166,26 @@
 							data-position="top" data-delay="50" data-tooltip="<%=startTimeTo[i]%>---><%=endTimeTo[i] %>"
 							href='#'> <%=stationDao.getStationName(Integer.valueOf(idTo[i]))%>
 						</a> <span
-							class="waves-effect waves-light red-text text-accent-1 btn-flat tooltipped"
-							data-position="top" data-delay="50" data-tooltip="add?"
+							class="waves-effect waves-light red-text text-accent-1 btn-flat tooltipped modal-trigger"
+							data-position="top" data-delay="50" data-tooltip="add?" data-target="add_stop_dialoge"
 							style="font-size: 20px; margin: 0px; padding: 0px"> ---> </span>
 						<%
 							}
 						%>
 						<span class="light-blue-text text-darken-2 btn-flat disabled"
-							style="font-size: 13px; margin: 0px; padding: 0px"> end </span> </br>
+							style="font-size: 13px; margin: 0px; padding: 0px"> end </span>
 						<%
 							if (null != idFrom) {
 						%>
+						<br>
 						<!-- 起点 -->
 						<span class="light-blue-text text-darken-2 btn-flat disabled"
 							style="font-size: 13px; margin: 0px; padding: 0px"> start
 						</span>
 						<!-- 箭头 -->
 						<span
-							class="waves-effect waves-light red-text text-accent-1 btn-flat tooltipped"
-							data-position="top" data-delay="50" data-tooltip="add?"
+							class="waves-effect waves-light red-text text-accent-1 btn-flat tooltipped modal-trigger"
+							data-position="top" data-delay="50" data-tooltip="add?" data-target="add_stop_dialoge"
 							style="font-size: 20px; margin: 0px; padding: 0px"> ---> </span>
 						<%
 							for (int i = 0; i < idFrom.length; i++) {
@@ -177,8 +195,8 @@
 							data-position="top" data-delay="50" data-tooltip="<%=startTimeFrom[i]%>---><%=endTimeFrom[i] %>"
 							href='#'> <%=stationDao.getStationName(Integer.valueOf(idFrom[i]))%>
 						</a> <span
-							class="waves-effect waves-light red-text text-accent-1 btn-flat tooltipped"
-							data-position="top" data-delay="50" data-tooltip="add?"
+							class="waves-effect waves-light red-text text-accent-1 btn-flat tooltipped modal-trigger"
+							data-position="top" data-delay="50" data-tooltip="add?" data-target="add_stop_dialoge"
 							style="font-size: 20px; margin: 0px; padding: 0px"> ---> </span>
 						<%
 							}
@@ -187,23 +205,25 @@
 							style="font-size: 13px; margin: 0px; padding: 0px"> end </span>
 						<%
 							}
-						%></br>
-						<div class="card-action row orange-text text-darken-2">
-							<span class="col s2">Time:24min</span>&nbsp<span class="col s2">Length:6.8km</span>
+						%>
+						<div class="divider"></div>
+						<br/>
+						<div class="row orange-text text-darken-2 container">
+							<span class="col s1 container">&nbsp;</span><span class="col s2 container">Time:24min</span><span class="col s1 container">&nbsp;</span><span class="col s2">Length:6.8km</span>
 							<!-- 附加信息结束 -->
 						</div>
+					</div>
+				</li>
 						<%
 							}
 						%>
-					</div>
-				</li>
 			</ul>
 		</div>
 		<!-- 页码，也需要动态修改 -->
 		<!-- TODO 最后可能不足5页的边界判定 -->
 		<ul class="pagination center ">
 			<li class=<%=curPage == 1 ? "disabled" : "enabled"%>><a
-				href="?curPage=<%=curPage - 1%>"><i class="material-icons">chevron_left</i></a></li>
+				href=<%=curPage <= 1 ? "#!":"?curPage="+(curPage -1) %>><i class="material-icons">chevron_left</i></a></li>
 			<li
 				class=<%=curPage == ((curPage - 1) / 5 * 5 + 1) ? "active light-blue lighten-4" : "waves-effect"%>><a
 				href="?curPage=<%=(curPage - 1) / 5 * 5 + 1%>"><%=(curPage - 1) / 5 * 5 + 1%></a></li>
@@ -228,9 +248,22 @@
 				href="?curPage=<%=(curPage - 1) / 5 * 5 + 5%>"><%=(curPage - 1) / 5 * 5 + 5%></a></li>
 			<%=((curPage - 1) / 5 * 5 + 5) > count / 10 + 1 ? "--!>" : ""%>
 			<li class=<%=curPage > count / 10 ? "disabled" : "enabled"%>><a
-				href="?curPage=<%=curPage + 1%>"><i class="material-icons">chevron_right</i></a></li>
+				href=<%=curPage >= count / 10 + 1 ? "#!":"?curPage="+(curPage +1) %>><i class="material-icons">chevron_right</i></a></li>
 		</ul>
 	</div>
+	
+	
+	
+	
+	
+	<div class="fixed-action-btn" style="bottom: 25px; right: 24px;">
+          <a class="btn-floating btn-large light-blue lighten-2 waves-effect waves-light tooltipped"
+							data-position="top" data-delay="50" data-tooltip="new routine?">
+            <i class="material-icons">add</i>
+          </a>
+    </div>
+      
+      
 	</main>
 	<!-- 页脚不用修改 -->
 	<footer class="page-footer light-blue lighten-2">
