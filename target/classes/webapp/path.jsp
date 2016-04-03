@@ -67,7 +67,7 @@
 	<main class="">
 	<div class="container">
 		<!-- 搜索框 -->
-		<form class="container" action="">
+		<form class="container" action="findPath" method="post">
 			<ul>
 				<li style="height: 50px;">
 					<div class="row ">
@@ -78,7 +78,7 @@
 							<input id="end" type="text"> <label for="end">end</label>
 						</div>
 						<div class="input-field col l4">
-							<select>
+							<select id="sort">
 								<option value="" disabled selected>sort by ?</option>
 								<option value="1">length</option>
 								<option value="2">time</option>
@@ -140,7 +140,6 @@
             <!-- 下面是card的附加信息，用来存放线路耗时和长度，以及换乘次数 -->
             <div class="card-action row orange-text text-darken-2">
             <span class="col s2">Time:24min</span>
-			<span class="col s2">Length:6.8km</span>
 			<span class="col s2">Transfer:1</span>
 			<!-- 附加信息结束 -->
             </div>
@@ -185,7 +184,6 @@
             <!-- 下面是card的附加信息，用来存放线路耗时和长度，以及换乘次数 -->
             <div class="card-action row orange-text text-darken-2">
             <span class="col s2">Time:24min</span>
-			<span class="col s2">Length:6.8km</span>
 			<span class="col s2">Transfer:1</span>
 			<!-- 附加信息结束 -->
             </div>
