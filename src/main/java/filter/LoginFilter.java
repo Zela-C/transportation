@@ -14,7 +14,7 @@ import javax.servlet.http.HttpSession;
 
 import org.hibernate.Session;
 
-@WebFilter(filterName = "LoginFilter", urlPatterns = { "/", "/login" })
+@WebFilter(filterName = "LoginFilter", urlPatterns = { "/index.jsp", "/login" })
 public class LoginFilter implements Filter {
 	private FilterConfig config;
 

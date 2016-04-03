@@ -122,7 +122,7 @@
 					<div class="collapsible-header">
 						<a><i class="material-icons bule0 tooltipped"
 							data-position="top" data-delay="50" data-tooltip="company">my_location</i></a>
-						<%=routine.getName()%><%=(null==idFrom)?"(环)":"" %>
+						<%=routine.getName()%><%=(null == idFrom) ? "(环)" : ""%>
 						<a href="#!" class="secondary-content"><i
 							class="material-icons red0 tooltipped" data-position="top"
 							data-delay="50" data-tooltip="delete?">close</i></a>
@@ -146,8 +146,9 @@
 						<!-- 站点 -->
 						<a
 							class='waves-effect waves-light btn-flat  light-blue lighten-4 white-text tooltipped'
-							data-position="top" data-delay="50" data-tooltip="<%=startTimeTo[i]%>---><%=endTimeTo[i] %>"
-							href='#'> <%=stationDao.getStationName(Integer.valueOf(idTo[i]))%>
+							data-position="top" data-delay="50"
+							data-tooltip="<%=startTimeTo[i]%>---><%=endTimeTo[i]%>" href='#'>
+							<%=stationDao.getStationName(Integer.valueOf(idTo[i]))%>
 						</a> <span
 							class="waves-effect waves-light red-text text-accent-1 btn-flat tooltipped"
 							data-position="top" data-delay="50" data-tooltip="add?"
@@ -174,7 +175,8 @@
 						%>
 						<a
 							class='waves-effect waves-light btn-flat  light-blue lighten-4 white-text tooltipped'
-							data-position="top" data-delay="50" data-tooltip="<%=startTimeFrom[i]%>---><%=endTimeFrom[i] %>"
+							data-position="top" data-delay="50"
+							data-tooltip="<%=startTimeFrom[i]%>---><%=endTimeFrom[i]%>"
 							href='#'> <%=stationDao.getStationName(Integer.valueOf(idFrom[i]))%>
 						</a> <span
 							class="waves-effect waves-light red-text text-accent-1 btn-flat tooltipped"
@@ -189,7 +191,9 @@
 							}
 						%></br>
 						<div class="card-action row orange-text text-darken-2">
-							<span class="col s2">Time:24min</span>&nbsp<span class="col s2">Length:6.8km</span>
+							<span class="col s2">Time:<%=routine.getTime()%>min
+							</span>&nbsp<span class="col s2">Length:<%=routine.getLength()%>km
+							</span>
 							<!-- 附加信息结束 -->
 						</div>
 						<%

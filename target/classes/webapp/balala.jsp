@@ -7,7 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-	permission failed,your authority is: 
+	request denied,your authority is:&nbsp 
 	<%= session.getAttribute("authority") %>
 </body>
 </html>
