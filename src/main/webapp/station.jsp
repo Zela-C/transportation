@@ -23,6 +23,41 @@
 	int curPage = 1;
 	private static final int pageSize = 10;%>
 <body>
+	<!-- 这个是对话框 -->
+	<div id="add_station_dialoge" class="modal" style="width: 270px;">
+		<form action="" method="post">
+			<div class="modal-content">
+				<h5 class="">
+					<span class="red-text text-accent-1">New</span> station?
+				</h5>
+				<div class="row" style="height: 30px">
+					<div class="input-field col s12">
+						<input id="" type="text" placeholder="Station">
+					</div>
+				</div>
+				<div class="row" style="height: 30px">
+					<div class="input-field col s6">
+						<input id="" type="text" placeholder="Longitude">
+					</div>
+					<div class="input-field col s6">
+						<input id="" type="text" placeholder="Latitude">
+					</div>
+				</div>
+				<div class="row" style="height: 30px">
+					<div class="input-field col s12">
+						<input id="" type="text" placeholder="Region">
+					</div>
+				</div>
+				<center>
+					<div class="btn-flat waves-effect waves-red">
+						<span>&nbsp;</span> <input type="submit" value="Sure&nbsp;">
+					</div>
+				</center>
+			</div>
+		</form>
+	</div>
+
+
 	<!-- 页头，不用修改 -->
 	<header> <nav class=" light-blue lighten-2">
 	<div class="nav-wrapper container">
@@ -121,7 +156,8 @@
 		<!-- TODO 最后可能不足5页的边界判定 -->
 		<ul class="pagination center ">
 			<li class=<%=curPage == 1 ? "disabled" : "enabled"%>><a
-				href="?curPage=<%=curPage - 1%>"><i class="material-icons">chevron_left</i></a></li>
+				href=<%=curPage <= 1 ? "#!":"?curPage="+(curPage -1) %>><i
+					class="material-icons">chevron_left</i></a></li>
 			<li
 				class=<%=curPage == ((curPage - 1) / 5 * 5 + 1) ? "active light-blue lighten-4" : "waves-effect"%>><a
 				href="?curPage=<%=(curPage - 1) / 5 * 5 + 1%>"><%=(curPage - 1) / 5 * 5 + 1%></a></li>
@@ -146,8 +182,16 @@
 				href="?curPage=<%=(curPage - 1) / 5 * 5 + 5%>"><%=(curPage - 1) / 5 * 5 + 5%></a></li>
 			<%=((curPage - 1) / 5 * 5 + 5) > count / 10 + 1 ? "--!>" : ""%>
 			<li class=<%=curPage > count / 10 ? "disabled" : "enabled"%>><a
-				href="?curPage=<%=curPage + 1%>"><i class="material-icons">chevron_right</i></a></li>
+				href=<%=curPage >= count / 10 + 1 ? "#!":"?curPage="+(curPage +1) %>><i
+					class="material-icons">chevron_right</i></a></li>
 		</ul>
+	</div>
+	<div class="fixed-action-btn modal-trigger" data-target="add_station_dialoge" style="bottom: 25px; right: 24px;">
+		<a
+			class="btn-floating btn-large light-blue lighten-2 waves-effect waves-light tooltipped"
+			data-position="top" data-delay="50" data-tooltip="new station?">
+			<i class="material-icons">add</i>
+		</a>
 	</div>
 	</main>
 	<!-- 页脚  -->

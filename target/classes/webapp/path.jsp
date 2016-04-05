@@ -1,5 +1,6 @@
+<%@page import="javax.persistence.criteria.CriteriaBuilder.In"%>
 <%@ page language="java" contentType="text/html; charset=utf-8"
-	pageEncoding="utf-8"%>
+	pageEncoding="utf-8" import="java.util.*,helper.Path"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -67,22 +68,21 @@
 	<main class="">
 	<div class="container">
 		<!-- 搜索框 -->
-		<form class="container" action="">
+		<form class="container" action="findPath" method="post">
 			<ul>
 				<li style="height: 50px;">
 					<div class="row ">
 						<div class="input-field col l4">
-							<input id="start" type="text"> <label for="start">start</label>
+							<input  id="start" name="start" type="text" value=<%=null==request.getParameter("start")?"":request.getParameter("start")%>> <label  class="<%=null==request.getParameter("start")?"":"active"%>"  for="start">start</label>
 						</div>
 						<div class="input-field col l4">
-							<input id="end" type="text"> <label for="end">end</label>
+							<input  id="end" name="end" type="text" value=<%=null==request.getParameter("end")?"":request.getParameter("end")%>> <label class="<%=null==request.getParameter("end")?"":"active"%>" for="end">end</label>
 						</div>
 						<div class="input-field col l4">
-							<select>
-								<option value="" disabled selected>sort by ?</option>
-								<option value="1">length</option>
-								<option value="2">time</option>
-								<option value="3">transfer</option>
+							<select id="sort" name="sort">
+								<option value="" disabled selected >sort by ?</option>
+								<option value="1"  <%=null !=request.getAttribute("sort") || (null!=request.getParameter("sort")&&1==Integer.valueOf(request.getParameter("sort")))?"selected":""%>>time</option>
+								<option value="2"  <%=null!=request.getParameter("sort")&&2==Integer.valueOf(request.getParameter("sort"))?"selected":""%>>transfer</option>
 							</select> <label>condition</label>
 						</div>
 					</div>
@@ -91,7 +91,7 @@
 				<li class="row">
 					<div class="col l8">&nbsp;</div>
 					<div class="input-field col l4 right-align">
-						<input class="btn-flat hoverable right-align light-blue lighten-2 white-text" id="searchPath" type="submit"
+						<input class="btn-flat hoverable right-align light-blue lighten-2 white-text" type="submit"
 							value="search" style="padding: 0px 10px">
 					</div>
 					<div class="col l3">&nbsp;</div>
@@ -102,112 +102,67 @@
 	
 	<!-- 这个div用来存放所有的card -->
 	<div class="container">
+	<%
+	ArrayList<Path> ret = (ArrayList<Path>)request.getAttribute("PathRET");
+		if(null== ret || 0 == ret.size()){
+		if(null!=request.getAttribute("flag")){
+	%>
+	<h4 class="center light-blue-text text-lighten-2">No Result!</h4>
+	<%}else{ %>
+		<h4 class="center light-blue-text text-lighten-2">Making your Tour.</h4>
+	<%
+		}
+		}
+	else{
+		int cnt=0;
+		for(Path path:ret){
+				List<String> line=path.path;
+				List<Integer> busTime=path.busTime;
+		
+	%>
 		<!-- 第一个card例子 -->
           <div class="card">
           	<!-- card的内容-->
             <div class="card-content">
               <!-- card的标题 -->
-              <span class="card-title light-blue-text text-lighten-2">No.1</span>
+              <span class="card-title light-blue-text text-lighten-2">No.<%=++cnt %></span>
               	<!-- card的正文，放在下面这个p标签里 -->
               	<p class="center" style="line-height: 300%">
+              			<%
+              				for(int i=0,j=0;i<line.size()-1;i+=2,j++){
+              			%>
               			<!-- 站点 -->
 						<a
 							class='waves-effect waves-light btn-flat light-blue lighten-4 white-text tooltipped'
 							data-position="top" data-delay="50" data-tooltip="jump?" style="padding: 0px 10px"
-							href='#'> 东华大学 </a> 
+							href='#'> <%=line.get(i)%> </a> 
 						<!-- 箭头和信息 -->
 						<span
 							class=" red-text text-accent-1"
-							style="font-size: 15px; margin: 0px; padding: 0px"> --松江13路(15min)--> </span>
-						<!-- 站点 -->
-						<a
-							class='waves-effect waves-light btn-flat  light-blue lighten-4 white-text tooltipped'
-							data-position="top" data-delay="50" data-tooltip="jump?" style="padding: 0px 10px"
-							href='#'> 魔仙堡 </a>
-						<!-- 箭头和信息 -->
-						<span
-							class="red-text text-accent-1"
-							style="font-size: 15px; margin: 0px; padding: 0px"> --动力火车(9min)--> </span>
-						<!-- 站点 -->
-						<a
-							class='waves-effect waves-light btn-flat  light-blue lighten-4 white-text tooltipped'
-							data-position="top" data-delay="50" data-tooltip="jump?" style="padding: 0px 10px"
-							href='#'> 雾之湖 </a>
+							style="font-size: 15px; margin: 0px; padding: 0px"> --<%=line.get(i+1) %>(<%=busTime.get(j) %>min)--> </span>
+						<%
+							} 
+              			%>
+	              			<!-- 站点 -->
+							<a
+								class='waves-effect waves-light btn-flat light-blue lighten-4 white-text tooltipped'
+								data-position="top" data-delay="50" data-tooltip="jump?" style="padding: 0px 10px"
+								href='#'> <%=line.get(line.size()-1)%> </a>
 			</p>
 			<!-- 正文结束 -->
             </div>
             <!-- 内容结束 -->
             <!-- 下面是card的附加信息，用来存放线路耗时和长度，以及换乘次数 -->
-            <div class="card-action row orange-text text-darken-2">
-            <span class="col s2">Time:24min</span>
-			<span class="col s2">Length:6.8km</span>
-			<span class="col s2">Transfer:1</span>
+            <div class="card-action orange-text text-darken-2">
+            <span>Time:<%=path.time%>min</span>
+			<span >Transfer:<%=path.transfer%></span>
 			<!-- 附加信息结束 -->
             </div>
             <!-- 第一card实例结束 -->
           </div>
+          <%} }%>
           
-		<!-- 第二个card例子 -->
-          <div class="card">
-          	<!-- card的内容-->
-            <div class="card-content">
-              <!-- card的标题 -->
-              <span class="card-title light-blue-text text-lighten-2">No.2</span>
-              	<!-- card的正文，放在下面这个p标签里 -->
-              	<p class="center" style="line-height: 300%">
-              			<!-- 站点 -->
-						<a
-							class='waves-effect waves-light btn-flat light-blue lighten-4 white-text tooltipped'
-							data-position="top" data-delay="50" data-tooltip="jump?" style="padding: 0px 10px"
-							href='#'> 东华大学 </a> 
-						<!-- 箭头和信息 -->
-						<span
-							class=" red-text text-accent-1"
-							style="font-size: 15px; margin: 0px; padding: 0px"> --松江13路(15min)--> </span>
-						<!-- 站点 -->
-						<a
-							class='waves-effect waves-light btn-flat  light-blue lighten-4 white-text tooltipped'
-							data-position="top" data-delay="50" data-tooltip="jump?" style="padding: 0px 10px"
-							href='#'> 魔仙堡 </a>
-						<!-- 箭头和信息 -->
-						<span
-							class="red-text text-accent-1"
-							style="font-size: 15px; margin: 0px; padding: 0px"> --动力火车(9min)--> </span>
-						<!-- 站点 -->
-						<a
-							class='waves-effect waves-light btn-flat  light-blue lighten-4 white-text tooltipped'
-							data-position="top" data-delay="50" data-tooltip="jump?" style="padding: 0px 10px"
-							href='#'> 雾之湖 </a>
-			</p>
-			<!-- 正文结束 -->
-            </div>
-            <!-- 内容结束 -->
-            <!-- 下面是card的附加信息，用来存放线路耗时和长度，以及换乘次数 -->
-            <div class="card-action row orange-text text-darken-2">
-            <span class="col s2">Time:24min</span>
-			<span class="col s2">Length:6.8km</span>
-			<span class="col s2">Transfer:1</span>
-			<!-- 附加信息结束 -->
-            </div>
-            <!-- 第二card实例结束 -->
-          </div>
-          
- 
     <!-- 包裹所有card的div结束 -->
-	</div>
-	
-	<div>
-		<!-- 页码，也需要动态修改 -->
-		<ul class="pagination center ">
-			<li class="disabled "><a href="#!"><i class="material-icons">chevron_left</i></a></li>
-			<li class="active light-blue lighten-4"><a href="#!">1</a></li>
-			<li class="waves-effect"><a href="#!">2</a></li>
-			<li class="waves-effect"><a href="#!">3</a></li>
-			<li class="waves-effect"><a href="#!">4</a></li>
-			<li class="waves-effect"><a href="#!">5</a></li>
-			<li class="waves-effect"><a href="#!"><i
-					class="material-icons">chevron_right</i></a></li>
-		</ul>
 	</div>
 	
 	</main>
