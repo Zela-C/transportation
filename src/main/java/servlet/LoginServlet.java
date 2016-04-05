@@ -30,7 +30,7 @@ public class LoginServlet extends HttpServlet{
 			int admin=(int)userDao.getUserAuthority(name);
 			System.out.println(admin);
 			request.getSession().setAttribute("authority", admin);
-			request.getRequestDispatcher("/path.jsp").forward(request, response);
+			response.sendRedirect("path.jsp");
 		}
 		
 	}

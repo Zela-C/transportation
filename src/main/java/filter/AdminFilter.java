@@ -13,12 +13,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-@WebFilter(filterName = "AdminFilter", urlPatterns = { "/routine.jsp", "/station.jsp" })
+@WebFilter(filterName = "AdminFilter", urlPatterns = { "/routine.jsp", "/station.jsp","/index.jsp","/" })
 // this two module need administrator authority
 public class AdminFilter implements Filter {
-	private FilterConfig config;
+	private FilterConfig config = null;
+	HttpServletRequest req = null;
+	HttpServletResponse res = null;
+	HttpSession session = null;
+	String url=null;
 
 	public void init(FilterConfig filterConfig) throws ServletException {
+		System.out.println("ssssssssssssssssssssssssssss");
 		config = filterConfig;
 	}
 
@@ -30,14 +35,31 @@ public class AdminFilter implements Filter {
 			throws IOException, ServletException {
 		System.out.println("开始拦截");
 		long before = System.currentTimeMillis();
-		HttpServletRequest req = (HttpServletRequest) request;
-		HttpServletResponse res = (HttpServletResponse) response;
-		HttpSession session = req.getSession();
-		if (null == session.getAttribute("authority") || ((Integer) session.getAttribute("authority")) < 1) {
-			req.getRequestDispatcher("/balala.jsp").forward(req, res);
-		}
-		chain.doFilter(request, response);
-
+		req = (HttpServletRequest) request;
+		res = (HttpServletResponse) response;
+		session = req.getSession();
+		url=req.getRequestURL().toString();
+		System.out.println(url);
+		if(url.contains("routine") || url.contains("station")){
+			authorityJudge(chain);
+		}else if(url.equals("http://localhost:8080/transportation/") || url.contains("index")){
+			loginStateJudge(chain);
+		}else
+			chain.doFilter(request, response);
 	}
-
+	
+	private void authorityJudge(FilterChain chain) throws ServletException, IOException{
+		if (null == session.getAttribute("authority") || ((Integer) session.getAttribute("authority")) < 1) {
+			res.sendRedirect("balala.jsp");
+		}
+		chain.doFilter(req, res);
+	}
+	
+	private void loginStateJudge(FilterChain chain) throws ServletException, IOException{
+		if (!(null == session.getAttribute("authority"))) {
+			res.sendRedirect("path.jsp");
+		}
+		chain.doFilter(req, res);
+	}
+	
 }

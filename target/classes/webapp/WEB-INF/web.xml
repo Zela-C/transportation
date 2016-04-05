@@ -4,14 +4,4 @@
 
 <web-app>
   <display-name>Archetype Created Web Application</display-name>
-  <filter>
-  	<filter-name>LoginFilter</filter-name>
-  	<display-name>LoginFilter</display-name>
-  	<description></description>
-  	<filter-class>filter.LoginFilter</filter-class>
-  </filter>
-  <filter-mapping>
-  	<filter-name>LoginFilter</filter-name>
-  	<url-pattern>/LoginFilter</url-pattern>
-  </filter-mapping>
 </web-app>

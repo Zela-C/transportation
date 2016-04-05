@@ -19,7 +19,7 @@ public class StationDao extends BaseDao<Station> {
 	
 	public Station findByName(String name){
 		List<Station> list = find("select distinct * from Station where name = "+name) ;
-		if(list != null) return list.get(0);
+		if(!list.isEmpty()&& list != null) return list.get(0);
 		else return null;
 	}
 

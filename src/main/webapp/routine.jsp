@@ -20,7 +20,7 @@
 </head>
 <%!private RoutineDao routineDao = new RoutineDao();
 	private StationDao stationDao = new StationDao();
-	int count = (int) routineDao.getStationsCount();
+	int count = (int) routineDao.getRoutineCount();
 	int curPage = 1;
 	private static final int pageSize = 10;%>
 <body>
@@ -207,19 +207,12 @@
 							style="font-size: 13px; margin: 0px; padding: 0px"> end </span>
 						<%
 							}
-<<<<<<< HEAD
 						%></br>
 						<div class="card-action row orange-text text-darken-2">
 							<span class="col s2">Time:<%=routine.getTime()%>min
 							</span>&nbsp<span class="col s2">Length:<%=routine.getLength()%>km
 							</span>
-=======
-						%>
-						<div class="divider"></div>
-						<br/>
-						<div class="row orange-text text-darken-2 container">
-							<span class="col s1 container">&nbsp;</span><span class="col s2 container">Time:24min</span><span class="col s1 container">&nbsp;</span><span class="col s2">Length:6.8km</span>
->>>>>>> 1970056ed487e962e79dd20301c7d006af2f1adc
+
 							<!-- 附加信息结束 -->
 						</div>
 					</div>
