@@ -25,12 +25,12 @@
 	private static final int pageSize = 10;%>
 <body>
   <div id="add_stop_dialoge" class="modal" style="width:270px; height:230x">
-    <form action=""  method="post">
+    <form action="addstop"  method="post">
     <div class="modal-content" >
       <h5 class=""><span class="red-text text-accent-1">Add</span> a station?</h5>
           <div class="row" style="height:30px">
 				<div class="input-field">
-				          <input id="station_add" type="text" placeholder="Station">
+				          <input id="stop" name="stop" type="text" placeholder="Station">
 				</div>
 			    </div>
 	<center>

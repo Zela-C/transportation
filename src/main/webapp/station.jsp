@@ -5,7 +5,7 @@
 <html>
 <head>
 
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, maximum-scale=1.0" />
 <title>松江区公交管理系统</title>
@@ -25,27 +25,27 @@
 <body>
 	<!-- 这个是对话框 -->
 	<div id="add_station_dialoge" class="modal" style="width: 270px;">
-		<form action="" method="post">
+		<form action="addstation" method="post">
 			<div class="modal-content">
 				<h5 class="">
 					<span class="red-text text-accent-1">New</span> station?
 				</h5>
 				<div class="row" style="height: 30px">
 					<div class="input-field col s12">
-						<input id="" type="text" placeholder="Station">
+						<input name="station" id="" type="text" placeholder="Station">
 					</div>
 				</div>
 				<div class="row" style="height: 30px">
 					<div class="input-field col s6">
-						<input id="" type="text" placeholder="Longitude">
+						<input name="longtitude" id="" type="text" placeholder="Longitude">
 					</div>
 					<div class="input-field col s6">
-						<input id="" type="text" placeholder="Latitude">
+						<input name="latitude" id="" type="text" placeholder="Latitude">
 					</div>
 				</div>
 				<div class="row" style="height: 30px">
 					<div class="input-field col s12">
-						<input id="" type="text" placeholder="Region">
+						<input name="region" id="" type="text" placeholder="Region">
 					</div>
 				</div>
 				<center>
@@ -139,12 +139,13 @@
 					for (Station station : stations) {
 				%>
 				<tr>
-					<td><%=station.getId()%></td>
+					<td><%=station.getPos()%></td>
 					<td><%=station.getName()%></td>
 					<td><%=station.getLongitude()%></td>
 					<td><%=station.getLatitude()%></td>
 					<td><i class="btn-flat material-icons  red0 tooltipped"
-						data-position="top" data-delay="50" data-tooltip="delete?">×</i></td>
+						data-position="top" data-delay="50" data-tooltip="delete?"
+						onclick="deleteStation(<%=station.getPos()%>)">×</i></td>
 				</tr>
 				<%
 					}
@@ -156,7 +157,7 @@
 		<!-- TODO 最后可能不足5页的边界判定 -->
 		<ul class="pagination center ">
 			<li class=<%=curPage == 1 ? "disabled" : "enabled"%>><a
-				href=<%=curPage <= 1 ? "#!":"?curPage="+(curPage -1) %>><i
+				href=<%=curPage <= 1 ? "#!" : "?curPage=" + (curPage - 1)%>><i
 					class="material-icons">chevron_left</i></a></li>
 			<li
 				class=<%=curPage == ((curPage - 1) / 5 * 5 + 1) ? "active light-blue lighten-4" : "waves-effect"%>><a
@@ -182,11 +183,12 @@
 				href="?curPage=<%=(curPage - 1) / 5 * 5 + 5%>"><%=(curPage - 1) / 5 * 5 + 5%></a></li>
 			<%=((curPage - 1) / 5 * 5 + 5) > count / 10 + 1 ? "--!>" : ""%>
 			<li class=<%=curPage > count / 10 ? "disabled" : "enabled"%>><a
-				href=<%=curPage >= count / 10 + 1 ? "#!":"?curPage="+(curPage +1) %>><i
+				href=<%=curPage >= count / 10 + 1 ? "#!" : "?curPage=" + (curPage + 1)%>><i
 					class="material-icons">chevron_right</i></a></li>
 		</ul>
 	</div>
-	<div class="fixed-action-btn modal-trigger" data-target="add_station_dialoge" style="bottom: 25px; right: 24px;">
+	<div class="fixed-action-btn modal-trigger"
+		data-target="add_station_dialoge" style="bottom: 25px; right: 24px;">
 		<a
 			class="btn-floating btn-large light-blue lighten-2 waves-effect waves-light tooltipped"
 			data-position="top" data-delay="50" data-tooltip="new station?">
@@ -222,5 +224,10 @@
 	<script src="js/materialize.js"></script>
 	<script src="js/init.js"></script>
 
+	<script type="text/javascript">
+	  function deleteStation(pos){
+		location.href="http://localhost:8080/transportation/deletestation?pos="+pos;
+	  } 
+	</script>
 </body>
 </html>

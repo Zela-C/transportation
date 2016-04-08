@@ -13,6 +13,8 @@ import dao.UserDao;
 @WebServlet(name="Login" , urlPatterns={"/login"})
 public class LoginServlet extends HttpServlet{
 
+	private static final long serialVersionUID = -2537735349278237643L;
+
 	public void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		response.setContentType("text/html;charSet=utf-8");

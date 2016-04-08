@@ -17,6 +17,10 @@ public class Bus {
 	@Id
 	@GeneratedValue (strategy=GenerationType.IDENTITY)
 	private Integer id;
+	
+	@Column(nullable=false,unique=true)
+	private Integer pos;
+	
 	@Column(nullable=false,unique=true)
 	private String name;
 
@@ -88,6 +92,14 @@ public class Bus {
 
 	public void setId(Integer id) {
 		this.id = id;
+	}
+
+	public Integer getPos() {
+		return pos;
+	}
+
+	public void setPos(Integer pos) {
+		this.pos = pos;
 	}
 
 	public String getName() {

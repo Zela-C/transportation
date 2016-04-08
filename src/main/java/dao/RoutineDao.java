@@ -20,6 +20,7 @@ public class RoutineDao extends BaseDao<Bus>{
 	
 	public Bus findByName(String name){
 		List<Bus> list = find(" from Bus where name = '"+name+"'") ;
+
 		if(list != null) return list.get(0);
 		else return null;
 	}
