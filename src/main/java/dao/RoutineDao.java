@@ -10,12 +10,18 @@ public class RoutineDao extends BaseDao<Bus>{
 		super();
 	}
 
-	public List<Bus> getAllStations() {
+	public List<Bus> getAllRoutines() {
 		return findAll(Bus.class);
 	}
 
-	public long getStationsCount() {
+	public long getRoutineCount() {
 		return findCount(Bus.class);
+	}
+	
+	public Bus findByName(String name){
+		List<Bus> list = find("select distinct * from Bus where name = "+name) ;
+		if(list != null) return list.get(0);
+		else return null;
 	}
 
 	@SuppressWarnings("unchecked")

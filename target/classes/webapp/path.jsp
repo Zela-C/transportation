@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
-	pageEncoding="utf-8"%>
+	pageEncoding="utf-8" import="java.util.*,helper.Path"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -18,222 +18,113 @@
 	media="screen,projection" />
 </head>
 <body>
-	<!-- header不用管，是已经写好了的 -->
-	<header> <nav class=" light-blue lighten-2">
+	<!-- 页头 -->
+	<header> <nav class=" white header-menu navbar-fixed">
 	<div class="nav-wrapper container">
-		<div href="#!" class="brand-logo">
-			Path<a class="flow-text"> &nbsp;go?</a>
-		</div>
-		<a href="#" data-activates="nav-mobile" class="button-collapse"><i
-			class="material-icons">menu</i></a>
-		<ul id="nav-mobile" class="side-nav fixed"
-			style="width: 200px; left: 0px;">
-			<div class="card z-depth-0"
-				style="margin: 0px 0px; padding: 0px 0px; list-style-type: none;">
-				<div class="card-image waves-effect waves-block waves-light">
-					<img class="activator" src="images/office.jpg">
-				</div>
-				<div class="card-content">
-					<span class="card-title activator light-blue-text text-darken-4">User<i
-						class="material-icons right">more_vert</i>
-					</span>
-				</div>
-				<div class="card-reveal">
-					<span class="card-title light-blue-text text-darken-4">User<i
-						class="material-icons right">close</i></span>
-					<div class="light-blue-text text-darken-2"
-						style="font-size: 100%; line-height: 100%">Here is some more
-						information about this user.</div>
-				</div>
-			</div>
-			<div class="divider"></div>
-			<a href="station.jsp"
-				class="waves-effect waves-light light-blue-text text-lighten-2"><center>Station</center></a>
-			<div class="divider"></div>
-			<a href="routine.jsp"
-				class="waves-effect waves-light light-blue-text text-lighten-2"><center>Routine</center>
-			</a>
-			<div class="divider"></div>
-			<li style="width: 100%"
-				class="waves-effect waves-light light-blue-text text-lighten-2 active"><center>Path</center></li>
-			<div class="divider"></div>
-			<a href="#"
-				class="waves-effect waves-light light-blue-text text-lighten-2"><center>Company</center></a>
-			<div class="divider"></div>
+		<img src="images/logo_icon.png" alt=""
+			class="brand-logo circle responsive-img header-menu circle responsive-img"
+			style="padding: 3px">
+		<!--       <a href="#!" class="brand-logo cyan-text header-menu">Logo</a> -->
+		<a href="#" data-activates="mobile"
+			class="button-collapse header-menu"><i
+			class="material-icons cyan-text  header-menu">menu</i></a>
+		<ul class="right hide-on-med-and-down ">
+			<li><a href="path.jsp" class="header-menu cyan-text">Path</a></li>
+			<li><a href="station.jsp" class="header-menu cyan-text">Station</a></li>
+			<li><a href="routine.jsp" class="header-menu cyan-text">Routine</a></li>
+			<li><a href="company.jsp" class="header-menu cyan-text">Company</a></li>
+		</ul>
+		<ul class="side-nav" id="mobile">
+			<li><a href="path.jsp">Path</a></li>
+			<li><a href="station.jsp">Station</a></li>
+			<li><a href="routine.jsp">Routine</a></li>
+			<li><a href="company.jsp">Company</a></li>
 		</ul>
 	</div>
 	</nav> </header>
-	<!-- 主要需要动态修改main -->
-	<main class="">
+	<main class="cyan">
 	<div class="container">
+	<div class="row">
+		<div class="col s0 m2">&nbsp;</div>
 		<!-- 搜索框 -->
-		<form class="container" action="">
-			<ul>
-				<li style="height: 50px;">
-					<div class="row ">
-						<div class="input-field col l4">
-							<input id="start" type="text"> <label for="start">start</label>
-						</div>
-						<div class="input-field col l4">
-							<input id="end" type="text"> <label for="end">end</label>
-						</div>
-						<div class="input-field col l4">
-							<select>
-								<option value="" disabled selected>sort by ?</option>
-								<option value="1">length</option>
-								<option value="2">time</option>
-								<option value="3">transfer</option>
-							</select> <label>condition</label>
-						</div>
-					</div>
-				</li>
-
-				<li class="row">
-					<div class="col l8">&nbsp;</div>
-					<div class="input-field col l4 right-align">
-						<input class="btn-flat hoverable right-align light-blue lighten-2 white-text" id="searchPath" type="submit"
-							value="search" style="padding: 0px 10px">
-					</div>
-					<div class="col l3">&nbsp;</div>
-				</li>
-			</ul>
+		<form class="container card  col s12 m8 path-search-card "
+			action="findPath" method="post">
+			<div class="row ">
+				<div class="input-field col s12 l3 m4">
+					<input placeholder="start" name="start" value="<%=null==request.getParameter("start")?"":request.getParameter("start")%>" type="text">
+				</div>
+				<div class="input-field col s12 l3 m4">
+					<input placeholder="end" name="end" value="<%=null==request.getParameter("end")?"":request.getParameter("end")%>" type="text">
+				</div>
+				<div class="input-field col s12 l3 m4">
+					<select id="sort" name="sort">
+						<option value="" disabled selected>sort by ?</option>
+						<option value="1"
+							<%=null !=request.getAttribute("sort") || (null!=request.getParameter("sort")&&1==Integer.valueOf(request.getParameter("sort")))?"selected":""%>>time</option>
+						<option value="2"
+							<%=null!=request.getParameter("sort")&&2==Integer.valueOf(request.getParameter("sort"))?"selected":""%>>transfer</option>
+					</select>
+				</div>
+				<div class="input-field col s12 l3 m12 center-align">
+					<button class="btn btn-rnd cyan waves-effect waves-light"
+						type="submit" required="" name="login">Search</button>
+				</div>
+			</div>
 		</form>
 	</div>
-	
-	<!-- 这个div用来存放所有的card -->
-	<div class="container">
-		<!-- 第一个card例子 -->
-          <div class="card">
-          	<!-- card的内容-->
-            <div class="card-content">
-              <!-- card的标题 -->
-              <span class="card-title light-blue-text text-lighten-2">No.1</span>
-              	<!-- card的正文，放在下面这个p标签里 -->
-              	<p class="center" style="line-height: 300%">
-              			<!-- 站点 -->
-						<a
-							class='waves-effect waves-light btn-flat light-blue lighten-4 white-text tooltipped'
-							data-position="top" data-delay="50" data-tooltip="jump?" style="padding: 0px 10px"
-							href='#'> 东华大学 </a> 
-						<!-- 箭头和信息 -->
-						<span
-							class=" red-text text-accent-1"
-							style="font-size: 15px; margin: 0px; padding: 0px"> --松江13路(15min)--> </span>
-						<!-- 站点 -->
-						<a
-							class='waves-effect waves-light btn-flat  light-blue lighten-4 white-text tooltipped'
-							data-position="top" data-delay="50" data-tooltip="jump?" style="padding: 0px 10px"
-							href='#'> 魔仙堡 </a>
-						<!-- 箭头和信息 -->
-						<span
-							class="red-text text-accent-1"
-							style="font-size: 15px; margin: 0px; padding: 0px"> --动力火车(9min)--> </span>
-						<!-- 站点 -->
-						<a
-							class='waves-effect waves-light btn-flat  light-blue lighten-4 white-text tooltipped'
-							data-position="top" data-delay="50" data-tooltip="jump?" style="padding: 0px 10px"
-							href='#'> 雾之湖 </a>
-			</p>
-			<!-- 正文结束 -->
-            </div>
-            <!-- 内容结束 -->
-            <!-- 下面是card的附加信息，用来存放线路耗时和长度，以及换乘次数 -->
-            <div class="card-action row orange-text text-darken-2">
-            <span class="col s2">Time:24min</span>
-			<span class="col s2">Length:6.8km</span>
-			<span class="col s2">Transfer:1</span>
-			<!-- 附加信息结束 -->
-            </div>
-            <!-- 第一card实例结束 -->
-          </div>
-          
-		<!-- 第二个card例子 -->
-          <div class="card">
-          	<!-- card的内容-->
-            <div class="card-content">
-              <!-- card的标题 -->
-              <span class="card-title light-blue-text text-lighten-2">No.2</span>
-              	<!-- card的正文，放在下面这个p标签里 -->
-              	<p class="center" style="line-height: 300%">
-              			<!-- 站点 -->
-						<a
-							class='waves-effect waves-light btn-flat light-blue lighten-4 white-text tooltipped'
-							data-position="top" data-delay="50" data-tooltip="jump?" style="padding: 0px 10px"
-							href='#'> 东华大学 </a> 
-						<!-- 箭头和信息 -->
-						<span
-							class=" red-text text-accent-1"
-							style="font-size: 15px; margin: 0px; padding: 0px"> --松江13路(15min)--> </span>
-						<!-- 站点 -->
-						<a
-							class='waves-effect waves-light btn-flat  light-blue lighten-4 white-text tooltipped'
-							data-position="top" data-delay="50" data-tooltip="jump?" style="padding: 0px 10px"
-							href='#'> 魔仙堡 </a>
-						<!-- 箭头和信息 -->
-						<span
-							class="red-text text-accent-1"
-							style="font-size: 15px; margin: 0px; padding: 0px"> --动力火车(9min)--> </span>
-						<!-- 站点 -->
-						<a
-							class='waves-effect waves-light btn-flat  light-blue lighten-4 white-text tooltipped'
-							data-position="top" data-delay="50" data-tooltip="jump?" style="padding: 0px 10px"
-							href='#'> 雾之湖 </a>
-			</p>
-			<!-- 正文结束 -->
-            </div>
-            <!-- 内容结束 -->
-            <!-- 下面是card的附加信息，用来存放线路耗时和长度，以及换乘次数 -->
-            <div class="card-action row orange-text text-darken-2">
-            <span class="col s2">Time:24min</span>
-			<span class="col s2">Length:6.8km</span>
-			<span class="col s2">Transfer:1</span>
-			<!-- 附加信息结束 -->
-            </div>
-            <!-- 第二card实例结束 -->
-          </div>
-          
- 
-    <!-- 包裹所有card的div结束 -->
-	</div>
-	
+	<%
+	ArrayList<Path> ret = (ArrayList<Path>)request.getAttribute("PathRET");
+		if(null== ret || 0 == ret.size()){
+		if(null!=request.getAttribute("flag")){
+	%>
+	<br>
+	<h3 class="center thin white-text">No Result!</h3>
+	<%}else{ %>
+	<br>
+		<h3 class="center thin white-text ">Making your Tour.</h3>
+	<%
+		}
+		}
+	else{
+		int cnt=0;
+		for(Path path:ret){
+				List<String> line=path.path;
+				List<Integer> busTime=path.busTime;
+		
+
+	              					if(0!=cnt) {%>
+              					<br>
+              					<%} %>
 	<div>
-		<!-- 页码，也需要动态修改 -->
-		<ul class="pagination center ">
-			<li class="disabled "><a href="#!"><i class="material-icons">chevron_left</i></a></li>
-			<li class="active light-blue lighten-4"><a href="#!">1</a></li>
-			<li class="waves-effect"><a href="#!">2</a></li>
-			<li class="waves-effect"><a href="#!">3</a></li>
-			<li class="waves-effect"><a href="#!">4</a></li>
-			<li class="waves-effect"><a href="#!">5</a></li>
-			<li class="waves-effect"><a href="#!"><i
-					class="material-icons">chevron_right</i></a></li>
-		</ul>
+		<h4 class="thin center-align white-text">No.<span class=<%=cnt==0?"red-text text-accent-2":cnt==1?"orange-text text-accent-2": cnt==2?"teal-text text-accent-2":"white-text"%>><%=++cnt%></span></h4>
+		<hr class="" width=180px   color=#ffffff  size="1" align=center noshade>
+		           <div class=" center-align white-text"> <span >Time:<%=path.time%>min</span>
+			<span >Transfer:<%=path.transfer %></span></div>
+	<div class="border-side-white no-margin cyan">
+		<div class=" path-card-margin">
+              	<!-- card的正文，放在下面这个p标签里 -->
+              	<p class="center-align no-margin" style="line-height: 318%">
+                            			<%
+              				for(int i=0,j=0;i<line.size()-1;i+=2,j++){
+              					%>
+              		
+              			<!-- 站点 -->
+						<a class='path-station-change path-station-rnd  disabled  cyan-text  z-depth-1 ' > <%=line.get(i)%></a> 
+						<!-- 箭头和信息 -->
+						<a class=" btn-flat disabled btn-rnd white-text" style="font-size: 15px; margin: 0px; padding: 0px"> --<%=line.get(i+1)%>(<%=busTime.get(j)%>min) --> </a>
+											<%
+							} 
+              			%>
+              			<a class='path-station-change path-station-rnd  disabled  cyan-text  z-depth-1 ' > <%=line.get(line.size()-1) %></a> 
+			</p>
+			<!-- 正文结束 -->
+            </div>
+		</div>
+		</div>
+	 <%} }%>
 	</div>
-	
+	<!-- 包裹所有card的div结束 -->
 	</main>
-	<!-- 页脚不用修改 -->
-	<footer class="page-footer light-blue lighten-2">
-	<div class="container">
-		<div class="row">
-			<div class="col l6 s12">
-				<h5 class="white-text">Footer Content</h5>
-				<p class="grey-text text-lighten-4">Login for more functions.</p>
-			</div>
-			<div class="col l4 offset-l2 s12">
-				<h5 class="white-text">Links</h5>
-				<ul>
-					<li><a class="grey-text text-lighten-3" href="#!">Link 1</a></li>
-				</ul>
-			</div>
-		</div>
-	</div>
-	<div class="footer-copyright">
-		<div class="container">
-			© 2016 Copyright 5012 <a class="grey-text text-lighten-4 right"
-				href="#!">More Links</a>
-		</div>
-	</div>
-	</footer>
 	<!--  Scripts-->
 	<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 	<script src="js/materialize.js"></script>

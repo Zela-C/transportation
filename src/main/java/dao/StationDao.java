@@ -16,6 +16,13 @@ public class StationDao extends BaseDao<Station> {
 	public long getStationsCount() {
 		return findCount(Station.class);
 	}
+	
+	public Station findByName(String name){
+		List<Station> list = find("from Station where name = '"+name+"'") ;
+		System.out.println("查询的结果："+list.size());
+		if(null !=list && 0!=list.size()) return list.get(0);
+		else return null;
+	}
 
 	@SuppressWarnings("unchecked")
 	@Override

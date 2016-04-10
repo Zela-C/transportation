@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
-	pageEncoding="utf-8"
-	import="java.util.List,dao.RoutineDao,entity.Bus,dao.StationDao"%>
+	pageEncoding="utf-8" import="java.util.List,dao.RoutineDao,entity.Bus,dao.StationDao"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -17,75 +16,89 @@
 	media="screen,projection" />
 <link href="css/zela.css" type="text/css" rel="stylesheet"
 	media="screen,projection" />
+	<style type="text/css">
+	.pagination li {
+	padding: 0 0px !important;
+	font-size: medium;
+}
+
+.collapsible-body p {
+	padding-top: 1rem !important;
+}
+	</style>
 </head>
 <%!private RoutineDao routineDao = new RoutineDao();
 	private StationDao stationDao = new StationDao();
-	int count = (int) routineDao.getStationsCount();
+	int count = (int) routineDao.getRoutineCount();
 	int curPage = 1;
 	private static final int pageSize = 10;%>
 <body>
-	<!-- header不用管，是已经写好了的 -->
-	<header> <nav class=" light-blue lighten-2">
+  <div id="add_stop_dialoge" class="modal" style="width:270px; height:230x">
+    <form action=""  method="post">
+    <div class="modal-content" >
+      <h5 class=""><span class="red-text text-accent-1">Add</span> a station?</h5>
+          <div class="row" style="height:30px">
+				<div class="input-field">
+				          <input id="station_add" type="text" placeholder="Station">
+				</div>
+			    </div>
+	<center>
+				<div class="btn-flat waves-effect waves-red">
+					<span>&nbsp;</span> <input type="submit" value="Sure&nbsp;">
+				</div>
+          </center>
+    </div>
+     </form>
+  </div>
+	<!-- 页头 -->
+	<header> <nav class=" white header-menu navbar-fixed">
 	<div class="nav-wrapper container">
-		<div href="#!" class="brand-logo">
-			Routine<a class="flow-text"> &nbsp;check.</a>
-		</div>
-		<a href="#" data-activates="nav-mobile" class="button-collapse"><i
-			class="material-icons">menu</i></a>
-		<ul id="nav-mobile" class="side-nav fixed"
-			style="width: 200px; left: 0px;">
-			<div class="card z-depth-0"
-				style="margin: 0px 0px; padding: 0px 0px; list-style-type: none;">
-				<div class="card-image waves-effect waves-block waves-light">
-					<img class="activator" src="images/office.jpg">
-				</div>
-				<div class="card-content">
-					<span class="card-title activator light-blue-text text-darken-4">User<i
-						class="material-icons right">more_vert</i>
-					</span>
-				</div>
-				<div class="card-reveal">
-					<span class="card-title light-blue-text text-darken-4">User<i
-						class="material-icons right">close</i></span>
-					<div class="light-blue-text text-darken-2"
-						style="font-size: 100%; line-height: 100%">Here is some more
-						information about this user.</div>
-				</div>
-			</div>
-			<div class="divider"></div>
-			<a href="station.jsp"
-				class="waves-effect waves-light light-blue-text text-lighten-2"><center>Station</center></a>
-			<div class="divider"></div>
-			<li style="width: 100%"
-				class="waves-effect waves-light light-blue-text text-lighten-2 active"><center>Routine</center></li>
-			<div class="divider"></div>
-			<a href="path.jsp"
-				class="waves-effect waves-light light-blue-text text-lighten-2"><center>Path</center></a>
-			<div class="divider"></div>
-			<a href="#"
-				class="waves-effect waves-light light-blue-text text-lighten-2"><center>Company</center></a>
-			<div class="divider"></div>
+		<img src="images/logo_icon.png" alt=""
+			class="brand-logo circle responsive-img header-menu circle responsive-img"
+			style="padding: 3px">
+		<!--       <a href="#!" class="brand-logo cyan-text header-menu">Logo</a> -->
+		<a href="#" data-activates="mobile"
+			class="button-collapse header-menu"><i
+			class="material-icons cyan-text  header-menu">menu</i></a>
+		<ul class="right hide-on-med-and-down ">
+			<li><a href="path.jsp" class="header-menu cyan-text">Path</a></li>
+			<li><a href="station.jsp" class="header-menu cyan-text">Station</a></li>
+			<li><a href="routine.jsp" class="header-menu cyan-text">Routine</a></li>
+			<li><a href="company.jsp" class="header-menu cyan-text">Company</a></li>
+		</ul>
+		<ul class="side-nav" id="mobile">
+			<li><a href="path.jsp">Path</a></li>
+			<li><a href="station.jsp">Station</a></li>
+			<li><a href="routine.jsp">Routine</a></li>
+			<li><a href="company.jsp">Company</a></li>
 		</ul>
 	</div>
 	</nav> </header>
-	<!-- 主要需要动态修改main -->
-	<main class="">
+	<main class="cyan">
 	<div class="container">
-		<!--搜索框 -->
-		<div class="row">
-			<div class="col s3">&nbsp;</div>
-			<div class="col s6 input-field center">
-				<input class="left-align" type="search" placeholder="search？"
-					length="20"> <i class="material-icons">search</i>
+	<div class="row">
+		<div class="col s0 m2">&nbsp;</div>
+		<!-- 搜索框 -->
+		<form class="container card  col s12 m8 path-search-card "
+			action="" method="post">
+			<div class="row ">
+				<div class="input-field col s12 l9 m8">
+					<input placeholder="routine" name="routine" value="" type="text">
+				</div>
+				<div class="input-field col s12 l3 m4 center-align">
+					<button class="btn btn-rnd cyan waves-effect waves-light"
+						type="submit" required="" name="search">Search</button>
+				</div>
 			</div>
-		</div>
-		<!-- 下面的信息是模板 -->
-		<div>
+		</form>
+	</div>
+	
+	<div>
 			<!-- 区域名字title -->
-			<h4 class=" blue-text text-lighten-1 center thin">松江区</h4>
-			<div class="divider"></div>
+			<h4 class="white-text  center thin ">松江区</h4>
+			<hr class="" width=240px   color=#ffffff  size="1" align=center noshade">
 			<!-- 各个线路 -->
-			<ul class="collapsible" data-collapsible="expandable">
+			<ul class="collapsible popout" data-collapsible="expandable">
 				<%
 					//边界判定
 					String param = request.getParameter("curPage");
@@ -119,7 +132,7 @@
 				%>
 				<li>
 					<!-- 线路名称信息 -->
-					<div class="collapsible-header">
+					<div class="collapsible-header grey-text text-darken-1">
 						<a><i class="material-icons bule0 tooltipped"
 							data-position="top" data-delay="50" data-tooltip="company">my_location</i></a>
 						<%=routine.getName()%><%=(null==idFrom)?"(环)":"" %>
@@ -127,134 +140,127 @@
 							class="material-icons red0 tooltipped" data-position="top"
 							data-delay="50" data-tooltip="delete?">close</i></a>
 					</div> <!-- 线路的站点信息 -->
-					<div class="collapsible-body">
+					<div class="collapsible-body white">
 						<!-- p标签用来调行间距 -->
-						<p style="line-height: 300%" />
-						<!-- 起点 -->
-						<span class="light-blue-text text-darken-2 btn-flat disabled"
-							style="font-size: 13px; margin: 0px; padding: 0px"> start
-						</span>
-						<!-- 箭头 -->
-						<span
-							class="waves-effect waves-light red-text text-accent-1 btn-flat tooltipped"
-							data-position="top" data-delay="50" data-tooltip="add?"
-							style="font-size: 20px; margin: 0px; padding: 0px"> ---> </span>
+						<p class="center-align no-margin" style="line-height: 318%" />
+						<span class="thin grey-text text-darken-1 routine-orientation-text" >To</span>
 						<%
 							for (int i = 0; i < idTo.length; i++) {
+								if(i==0|| i==idTo.length-1){
 						%>
-
+					
 						<!-- 站点 -->
 						<a
-							class='waves-effect waves-light btn-flat  light-blue lighten-4 white-text tooltipped'
+							class='routine-station-change2 path-station-rnd   cyan  white-text  z-depth-1 tooltipped'
 							data-position="top" data-delay="50" data-tooltip="<%=startTimeTo[i]%>---><%=endTimeTo[i] %>"
 							href='#'> <%=stationDao.getStationName(Integer.valueOf(idTo[i]))%>
-						</a> <span
-							class="waves-effect waves-light red-text text-accent-1 btn-flat tooltipped"
-							data-position="top" data-delay="50" data-tooltip="add?"
-							style="font-size: 20px; margin: 0px; padding: 0px"> ---> </span>
+						</a> 
+						<%} 
+						else {%>
+						<a
+							class='routine-station-change path-station-rnd  disabled  white grey-text text-darken-1 z-depth-1 tooltipped'
+							data-position="top" data-delay="50" data-tooltip="<%=startTimeTo[i]%>---><%=endTimeTo[i] %>"
+							href='#'> <%=stationDao.getStationName(Integer.valueOf(idTo[i]))%>
+						</a> 
+						
 						<%
-							}
+						}
+								if(i  < idTo.length-1){
 						%>
-						<span class="light-blue-text text-darken-2 btn-flat disabled"
-							style="font-size: 13px; margin: 0px; padding: 0px"> end </span> </br>
+						<span
+							class="waves-effect waves-light  grey-text text-darken-1 btn-flat tooltipped modal-trigger"
+							data-position="top" data-delay="50" data-tooltip="add?" data-target="add_stop_dialoge"
+							style="font-size: 20px; margin: 0px; padding: 0px"> ----> </span>
+						<%
+							}}
+						%>
+						
 						<%
 							if (null != idFrom) {
-						%>
-						<!-- 起点 -->
-						<span class="light-blue-text text-darken-2 btn-flat disabled"
-							style="font-size: 13px; margin: 0px; padding: 0px"> start
-						</span>
-						<!-- 箭头 -->
-						<span
-							class="waves-effect waves-light red-text text-accent-1 btn-flat tooltipped"
-							data-position="top" data-delay="50" data-tooltip="add?"
-							style="font-size: 20px; margin: 0px; padding: 0px"> ---> </span>
-						<%
+								%>
+														<span class="thin grey-text text-darken-1 routine-orientation-text" style="margin-top: 28px;">From</span>
+							<%
 							for (int i = 0; i < idFrom.length; i++) {
+								if(i==0 || i == idFrom.length-1){
 						%>
 						<a
-							class='waves-effect waves-light btn-flat  light-blue lighten-4 white-text tooltipped'
+							class='routine-station-change2 path-station-rnd  disabled  cyan  white-text  z-depth-1 tooltipped'
 							data-position="top" data-delay="50" data-tooltip="<%=startTimeFrom[i]%>---><%=endTimeFrom[i] %>"
 							href='#'> <%=stationDao.getStationName(Integer.valueOf(idFrom[i]))%>
-						</a> <span
-							class="waves-effect waves-light red-text text-accent-1 btn-flat tooltipped"
-							data-position="top" data-delay="50" data-tooltip="add?"
-							style="font-size: 20px; margin: 0px; padding: 0px"> ---> </span>
+						</a> 
+						<%}else{ %>
+						
+												<a
+							class='routine-station-change path-station-rnd  white grey-text text-darken-1  z-depth-1 tooltipped'
+							data-position="top" data-delay="50" data-tooltip="<%=startTimeFrom[i]%>---><%=endTimeFrom[i] %>"
+							href='#'> <%=stationDao.getStationName(Integer.valueOf(idFrom[i]))%>
+						</a> 
+						<%}
+								if(i<idFrom.length-1){%>
+						<span
+							class="waves-effect waves-light  grey-text text-darken-1 btn-flat tooltipped modal-trigger"
+							data-position="top" data-delay="50" data-tooltip="add?" data-target="add_stop_dialoge"
+							style="font-size: 20px; margin: 0px; padding: 0px"> ----> </span>
 						<%
+								}
+							}
 							}
 						%>
-						<span class="light-blue-text text-darken-2 btn-flat disabled"
-							style="font-size: 13px; margin: 0px; padding: 0px"> end </span>
-						<%
-							}
-						%></br>
-						<div class="card-action row orange-text text-darken-2">
-							<span class="col s2">Time:24min</span>&nbsp<span class="col s2">Length:6.8km</span>
+						<div class="divider"></div>
+						<br/>
+					<div class="row orange-text text-darken-2 container">
+							<span class="col m0 s1 l0">&nbsp;</span><span class="col s5 m2 l2 center-align">Time:<%=routine.getTime()%>min</span><span class="col s5 m4 l3 center-align">Length:<%=routine.getLength()%>km</span>
 							<!-- 附加信息结束 -->
-						</div>
-						<%
-							}
-						%>
 					</div>
 				</li>
+						<%
+							}
+						%>
 			</ul>
 		</div>
-		<!-- 页码，也需要动态修改 -->
+		<!-- 页码 -->
 		<!-- TODO 最后可能不足5页的边界判定 -->
-		<ul class="pagination center ">
-			<li class=<%=curPage == 1 ? "disabled" : "enabled"%>><a
-				href="?curPage=<%=curPage - 1%>"><i class="material-icons">chevron_left</i></a></li>
-			<li
-				class=<%=curPage == ((curPage - 1) / 5 * 5 + 1) ? "active light-blue lighten-4" : "waves-effect"%>><a
+		<ul class="pagination center">
+					<li class=<%=curPage == 1 ? "disabled" : "enabled"%> style="padding: 0px ! important; margin: 0px;"><a class=<%=curPage == 1 ? "teal-text" : "white-text"%>
+				href=<%=curPage <= 1 ? "#!":"?curPage=1" %>><i
+					class="material-icons" style="font-size: 1.2rem !important;">fast_rewind</i></a></li>
+			<li class=<%=curPage == 1 ? "disabled" : "enabled"%> style="padding: 0px ! important; margin: 0px;"><a class=<%=curPage == 1 ? "teal-text" : "white-text"%>
+				href=<%=curPage <= 1 ? "#!":"?curPage="+(curPage -1) %>><i
+					class="material-icons" style="font-size: 1.2rem !important;">chevron_left</i></a></li>
+			<li><a class=<%=curPage == ((curPage - 1) / 5 * 5 + 1) ? "white-text" : "teal-text"%>
 				href="?curPage=<%=(curPage - 1) / 5 * 5 + 1%>"><%=(curPage - 1) / 5 * 5 + 1%></a></li>
 			<%=((curPage - 1) / 5 * 5 + 2) > count / 10 + 1 ? "<!--" : ""%>
-			<li
-				class=<%=curPage == ((curPage - 1) / 5 * 5 + 2) ? "active light-blue lighten-4" : "waves-effect"%>><a
+			<li><a class=<%=curPage == ((curPage - 1) / 5 * 5 + 2) ? "white-text" : "teal-text"%>
 				href="?curPage=<%=(curPage - 1) / 5 * 5 + 2%>"><%=(curPage - 1) / 5 * 5 + 2%></a></li>
-			<%=((curPage - 1) / 5 * 5 + 2) > count / 10 + 1 ? "--!>" : ""%>
-			<%=((curPage - 1) / 5 * 5 + 3) > count / 10 + 1 ? "<!--" : ""%>
-			<li
-				class=<%=curPage == ((curPage - 1) / 5 * 5 + 3) ? "active light-blue lighten-4" : "waves-effect"%>><a
+			<%=((curPage - 1) / 5 * 5 + 2) > count / 10 + 1 ? "--!>" : " "%>
+			<%=((curPage - 1) / 5 * 5 + 3) > count / 10 + 1 ? "<!--" : " "%>
+			<li><a class=<%=curPage == ((curPage - 1) / 5 * 5 + 3) ? "white-text" : "teal-text"%>
 				href="?curPage=<%=(curPage - 1) / 5 * 5 + 3%>"><%=(curPage - 1) / 5 * 5 + 3%></a></li>
-			<%=((curPage - 1) / 5 * 5 + 3) > count / 10 + 1 ? "--!>" : ""%>
-			<%=((curPage - 1) / 5 * 5 + 4) > count / 10 + 1 ? "<!--" : ""%>
-			<li
-				class=<%=curPage == ((curPage - 1) / 5 * 5 + 4) ? "active light-blue lighten-4" : "waves-effect"%>><a
+			<%=((curPage - 1) / 5 * 5 + 3) > count / 10 + 1 ? "--!>" : " "%>
+			<%=((curPage - 1) / 5 * 5 + 4) > count / 10 + 1 ? "<!--" : " "%>
+			<li><a class=<%=curPage == ((curPage - 1) / 5 * 5 + 4) ? "white-text" : "teal-text" %>
 				href="?curPage=<%=(curPage - 1) / 5 * 5 + 4%>"><%=(curPage - 1) / 5 * 5 + 4%></a></li>
-			<%=((curPage - 1) / 5 * 5 + 4) > count / 10 + 1 ? "--!>" : ""%>
-			<%=((curPage - 1) / 5 * 5 + 5) > count / 10 + 1 ? "<!--" : ""%>
-			<li
-				class=<%=curPage == ((curPage - 1) / 5 * 5 + 5) ? "active light-blue lighten-4" : "waves-effect"%>><a
+			<%=((curPage - 1) / 5 * 5 + 4) > count / 10 + 1 ? "--!>" : " "%>
+			<%=((curPage - 1) / 5 * 5 + 5) > count / 10 + 1 ? "<!--" : " "%>
+			<li><a class=<%=curPage == ((curPage - 1) / 5 * 5 + 5) ? "white-text" : "teal-text"%>
 				href="?curPage=<%=(curPage - 1) / 5 * 5 + 5%>"><%=(curPage - 1) / 5 * 5 + 5%></a></li>
-			<%=((curPage - 1) / 5 * 5 + 5) > count / 10 + 1 ? "--!>" : ""%>
-			<li class=<%=curPage > count / 10 ? "disabled" : "enabled"%>><a
-				href="?curPage=<%=curPage + 1%>"><i class="material-icons">chevron_right</i></a></li>
+			<%=((curPage - 1) / 5 * 5 + 5) > count / 10 + 1 ? "--!>" : " "%>
+			<li class=<%=curPage > count / 10 ? "disabled" : "enabled"%> style=" padding: 0px ! important; margin: 0px;"><a class=<%=curPage > count / 10 ? "teal-text" : "white-text"%>
+				href=<%=curPage >= count / 10 + 1 ? "#!":"?curPage="+(curPage +1) %>><i
+					class="material-icons" style="font-size: 1.2rem !important;">chevron_right</i></a></li>
+			<li class=<%=curPage > count / 10 ? "disabled" : "enabled"%> style="padding: 0px ! important; margin: 0px;"><a class=<%=curPage > count / 10 ? "teal-text" : "white-text"%>
+				href=<%=curPage >= count / 10 + 1 ? "#!":"?curPage="+( count / 10 +1) %>><i
+					class="material-icons" style="font-size: 1.2rem !important;">fast_forward</i></a></li>
 		</ul>
-	</div>
 	</main>
-	<!-- 页脚不用修改 -->
-	<footer class="page-footer light-blue lighten-2">
-	<div class="container">
-		<div class="row">
-			<div class="col l6 s12">
-				<h5 class="white-text">Footer Content</h5>
-				<p class="grey-text text-lighten-4">Login for more functions.</p>
-			</div>
-			<div class="col l4 offset-l2 s12">
-				<h5 class="white-text">Links</h5>
-				<ul>
-					<li><a class="grey-text text-lighten-3" href="#!">Link 1</a></li>
-				</ul>
-			</div>
-		</div>
+		<div class="fixed-action-btn float-add-button" >
+		
+		<a
+			class="btn-floating btn-large float-add-button white waves-effect waves-light tooltipped"
+			data-position="top" data-delay="50" data-tooltip="new routine?">
+			<i class="material-icons cyan-text">add</i>
+		</a>
 	</div>
-	<div class="footer-copyright">
-		<div class="container">
-			© 2016 Copyright 5012 <a class="grey-text text-lighten-4 right"
-				href="#!">More Links</a>
-		</div>
-	</div>
-	</footer>
 	<!--  Scripts-->
 	<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 	<script src="js/materialize.js"></script>

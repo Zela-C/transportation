@@ -56,47 +56,33 @@
 			<a href="path.jsp"
 				class="waves-effect waves-light light-blue-text text-lighten-2"><center>Path</center></a>
 			<div class="divider"></div>
-			<a href="#"
-				class="waves-effect waves-light light-blue-text text-lighten-2"><center>Company</center></a>
+			<li style="width: 100%"
+				class="waves-effect waves-light light-blue-text text-lighten-2 active"><center>Company</center></li>
 			<div class="divider"></div>
 		</ul>
 	</div>
 	</nav> </header>
-	<main>
-	<p>&nbsp;</p>
-	<div class="row">
-		<!-- 登录界面 -->
-		<form class="col s12" action="login" method="post">
-		<div class="col s3">&nbsp;</div>
-			<div class="row">
-				<div class="input-field col s6">
-					<input id="username" name="username" type="text" class=""> <label for="">Username</label>
-				</div>
-				<div class="col s3"></div>
-			</div>
-			<div class="row">
-				<div class="col s3">&nbsp;</div>
-				<div class="input-field col s6 ">
-					<input id="password" name="password"type="password" class=""> <label
-						for="password">Password</label>
-				</div>
-				<div class="col s3"></div>
-			</div>
-			<center>
-<!-- 				<div class="btn light-blue lighten-2 waves-effect waves-light"> -->
-<!-- 					<span>&nbsp;</span> <input type="submit" value="Bingo&nbsp;"> -->
-<!-- 				</div> -->
-			  <button class="btn light-blue lighten-2 waves-effect waves-light" type="submit" name="login">Submit
-			  </button>
-			</center>
-		</form>
-	</div>
+	<main class="container">
+		<br>
+		<div class="row">
+          <div class="card blue lighten-2">
+          <div class="card-content  white-text">
+          <span class="card-title">魔仙堡管理中心</span>
+				<div>企业信息：</div>
+　林尽水源，便得一山，山有小口，仿佛若有光。便舍船，从口入。初极狭，才通人。复行数十步，豁然开朗。土地平旷，屋舍俨然，有良田美池桑竹之属。阡陌交通，鸡犬相闻。其中往来种作，男女衣着，悉如外人。黄发垂髫，并怡然自乐。
+          </div>
+          <div class="card-action  blue">
+         <span class=" white-text"> 运营情况：<span class=" teal-text text-accent-1">运营中</span></span>
+          </div>
+    </div>
+    </div>
+	
 	</main>
 	<!-- 页脚 -->
 	<footer class="page-footer light-blue lighten-2">
 	<div class="container">
-		<div class="row">
-			<div class="col l6 s12">
+		<div class="row" >
+			<div class="col l6 s12 ">
 				<h5 class="white-text">Footer Content</h5>
 				<p class="grey-text text-lighten-4">Login for more functions.</p>
 			</div>

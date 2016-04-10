@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
-	pageEncoding="utf-8"
-	import="java.util.List,entity.Station,dao.StationDao"%>
+	pageEncoding="utf-8" import="java.util.List,entity.Station,dao.StationDao"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -17,69 +16,98 @@
 	media="screen,projection" />
 <link href="css/zela.css" type="text/css" rel="stylesheet"
 	media="screen,projection" />
+	<style type="text/css">
+	.pagination li {
+	padding: 0 0px !important;
+	font-size: medium;
+}
+	</style>
 </head>
-<%!private StationDao stationDao = new StationDao();
+	<%!private StationDao stationDao = new StationDao();
 	int count = (int) stationDao.getStationsCount();
 	int curPage = 1;
 	private static final int pageSize = 10;%>
 <body>
-	<!-- 页头，不用修改 -->
-	<header> <nav class=" light-blue lighten-2">
-	<div class="nav-wrapper container">
-		<div href="#!" class="brand-logo">
-			Station<a class="flow-text"> &nbsp;change.</a>
-		</div>
-		<a href="#" data-activates="nav-mobile" class="button-collapse"><i
-			class="material-icons">menu</i></a>
-		<ul id="nav-mobile" class="side-nav fixed"
-			style="width: 200px; left: 0px;">
-			<div class="card z-depth-0"
-				style="margin: 0px 0px; padding: 0px 0px; list-style-type: none;">
-				<div class="card-image waves-effect waves-block waves-light">
-					<img class="activator" src="images/office.jpg">
+	<!-- 这个是对话框 -->
+	<div id="add_station_dialoge" class="modal grey-text text-darken-1" style="width: 270px;">
+		<form action="" method="post">
+			<div class="modal-content">
+				<h5 class="">
+					<span class="red-text text-accent-1">New</span> station?
+				</h5>
+				<div class="row" style="height: 30px">
+					<div class="input-field col s12">
+						<input id="" type="text" placeholder="Station">
+					</div>
 				</div>
-				<div class="card-content">
-					<span class="card-title activator light-blue-text text-darken-4">User<i
-						class="material-icons right">more_vert</i>
-					</span>
+				<div class="row" style="height: 30px">
+					<div class="input-field col s6">
+						<input id="" type="text" placeholder="Longitude">
+					</div>
+					<div class="input-field col s6">
+						<input id="" type="text" placeholder="Latitude">
+					</div>
 				</div>
-				<div class="card-reveal">
-					<span class="card-title light-blue-text text-darken-4">User<i
-						class="material-icons right">close</i></span>
-					<div class="light-blue-text text-darken-2"
-						style="font-size: 100%; line-height: 100%">Here is some more
-						information about this user.</div>
+				<div class="row" style="height: 30px">
+					<div class="input-field col s12">
+						<input id="" type="text" placeholder="Region">
+					</div>
 				</div>
+				<center>
+					<div class="btn-flat waves-effect waves-red">
+						<span>&nbsp;</span> <input type="submit" value="Sure&nbsp;">
+					</div>
+				</center>
 			</div>
-			<div class="divider"></div>
-			<li style="width: 100%"
-				class="waves-effect waves-light light-blue-text text-lighten-2 active"><center>Station</center></li>
-			<div class="divider"></div>
-			<a href="routine.jsp"
-				class="waves-effect waves-light light-blue-text text-lighten-2"><center>Routine</center></a>
-			<div class="divider"></div>
-			<a href="path.jsp"
-				class="waves-effect waves-light light-blue-text text-lighten-2"><center>Path</center></a>
-			<div class="divider"></div>
-			<a href="#"
-				class="waves-effect waves-light light-blue-text text-lighten-2"><center>Company</center></a>
-			<div class="divider"></div>
+		</form>
+	</div>
+	<!-- 页头 -->
+	<header> <nav class=" white header-menu navbar-fixed">
+	<div class="nav-wrapper container">
+		<img src="images/logo_icon.png" alt=""
+			class="brand-logo circle responsive-img header-menu circle responsive-img"
+			style="padding: 3px">
+		<!--       <a href="#!" class="brand-logo cyan-text header-menu">Logo</a> -->
+		<a href="#" data-activates="mobile"
+			class="button-collapse header-menu"><i
+			class="material-icons cyan-text  header-menu">menu</i></a>
+		<ul class="right hide-on-med-and-down ">
+			<li><a href="path.jsp" class="header-menu cyan-text">Path</a></li>
+			<li><a href="station.jsp" class="header-menu cyan-text">Station</a></li>
+			<li><a href="routine.jsp" class="header-menu cyan-text">Routine</a></li>
+			<li><a href="company.jsp" class="header-menu cyan-text">Company</a></li>
+		</ul>
+		<ul class="side-nav" id="mobile">
+			<li><a href="path.jsp">Path</a></li>
+			<li><a href="station.jsp">Station</a></li>
+			<li><a href="routine.jsp">Routine</a></li>
+			<li><a href="company.jsp">Company</a></li>
 		</ul>
 	</div>
 	</nav> </header>
-	<main class="">
+	<main class="cyan">
 	<div class="container">
+	<div class="row">
+		<div class="col s0 m2">&nbsp;</div>
 		<!-- 搜索框 -->
-		<div class="row">
-			<div class="col s3">&nbsp;</div>
-			<div class="col s6 input-field center">
-				<input class="left-align" type="search" placeholder="search？"
-					length="20"> <i class="material-icons">search</i>
+		<form class="container card  col s12 m8 path-search-card "
+			action="findPath" method="post">
+			<div class="row ">
+				<div class="input-field col s12 l9 m8">
+					<input placeholder="station" name="start" value="" type="text">
+				</div>
+				<div class="input-field col s12 l3 m4 center-align">
+					<button class="btn btn-rnd cyan waves-effect waves-light"
+						type="submit" required="" name="login">Search</button>
+				</div>
 			</div>
-		</div>
-		<!-- 站点信息 -->
-		<table class="centered striped collection responsive-table">
-			<thead>
+		</form>
+	</div>
+	
+	<div class="container station-rnd z-depth-1 grey-text text-darken-1">
+	<!-- 站点信息 -->
+		<table class="responsive-table station-border  centered  striped ">
+			<thead class="">
 				<tr>
 					<th>Id</th>
 					<th>Item Name</th>
@@ -90,7 +118,7 @@
 			</thead>
 
 			<tbody>
-				<%
+							<%
 					String param = request.getParameter("curPage");
 					if (null == param)
 						curPage = 1;
@@ -108,71 +136,58 @@
 					<td><%=station.getName()%></td>
 					<td><%=station.getLongitude()%></td>
 					<td><%=station.getLatitude()%></td>
-					<td><i class="btn-flat material-icons  red0 tooltipped"
+					<td><i class="btn-flat material-icons  red0 tooltipped thin"
 						data-position="top" data-delay="50" data-tooltip="delete?">×</i></td>
 				</tr>
-				<%
+								<%
 					}
 				%>
-
 			</tbody>
 		</table>
+	</div>
 		<!-- 页码 -->
 		<!-- TODO 最后可能不足5页的边界判定 -->
-		<ul class="pagination center ">
-			<li class=<%=curPage == 1 ? "disabled" : "enabled"%>><a
-				href="?curPage=<%=curPage - 1%>"><i class="material-icons">chevron_left</i></a></li>
-			<li
-				class=<%=curPage == ((curPage - 1) / 5 * 5 + 1) ? "active light-blue lighten-4" : "waves-effect"%>><a
+		<ul class="pagination center">
+					<li class=<%=curPage == 1 ? "disabled" : "enabled"%> style="padding: 0px ! important; margin: 0px;"><a class=<%=curPage == 1 ? "teal-text" : "white-text"%>
+				href=<%=curPage <= 1 ? "#!":"?curPage=1" %>><i
+					class="material-icons" style="font-size: 1.2rem !important;">fast_rewind</i></a></li>
+			<li class=<%=curPage == 1 ? "disabled" : "enabled"%> style="padding: 0px ! important; margin: 0px;"><a class=<%=curPage == 1 ? "teal-text" : "white-text"%>
+				href=<%=curPage <= 1 ? "#!":"?curPage="+(curPage -1) %>><i
+					class="material-icons" style="font-size: 1.2rem !important;">chevron_left</i></a></li>
+			<li><a class=<%=curPage == ((curPage - 1) / 5 * 5 + 1) ? "white-text" : "teal-text"%>
 				href="?curPage=<%=(curPage - 1) / 5 * 5 + 1%>"><%=(curPage - 1) / 5 * 5 + 1%></a></li>
 			<%=((curPage - 1) / 5 * 5 + 2) > count / 10 + 1 ? "<!--" : ""%>
-			<li
-				class=<%=curPage == ((curPage - 1) / 5 * 5 + 2) ? "active light-blue lighten-4" : "waves-effect"%>><a
+			<li><a class=<%=curPage == ((curPage - 1) / 5 * 5 + 2) ? "white-text" : "teal-text"%>
 				href="?curPage=<%=(curPage - 1) / 5 * 5 + 2%>"><%=(curPage - 1) / 5 * 5 + 2%></a></li>
-			<%=((curPage - 1) / 5 * 5 + 2) > count / 10 + 1 ? "--!>" : ""%>
-			<%=((curPage - 1) / 5 * 5 + 3) > count / 10 + 1 ? "<!--" : ""%>
-			<li
-				class=<%=curPage == ((curPage - 1) / 5 * 5 + 3) ? "active light-blue lighten-4" : "waves-effect"%>><a
+			<%=((curPage - 1) / 5 * 5 + 2) > count / 10 + 1 ? "--!>" : " "%>
+			<%=((curPage - 1) / 5 * 5 + 3) > count / 10 + 1 ? "<!--" : " "%>
+			<li><a class=<%=curPage == ((curPage - 1) / 5 * 5 + 3) ? "white-text" : "teal-text"%>
 				href="?curPage=<%=(curPage - 1) / 5 * 5 + 3%>"><%=(curPage - 1) / 5 * 5 + 3%></a></li>
-			<%=((curPage - 1) / 5 * 5 + 3) > count / 10 + 1 ? "--!>" : ""%>
-			<%=((curPage - 1) / 5 * 5 + 4) > count / 10 + 1 ? "<!--" : ""%>
-			<li
-				class=<%=curPage == ((curPage - 1) / 5 * 5 + 4) ? "active light-blue lighten-4" : "waves-effect"%>><a
+			<%=((curPage - 1) / 5 * 5 + 3) > count / 10 + 1 ? "--!>" : " "%>
+			<%=((curPage - 1) / 5 * 5 + 4) > count / 10 + 1 ? "<!--" : " "%>
+			<li><a class=<%=curPage == ((curPage - 1) / 5 * 5 + 4) ? "white-text" : "teal-text" %>
 				href="?curPage=<%=(curPage - 1) / 5 * 5 + 4%>"><%=(curPage - 1) / 5 * 5 + 4%></a></li>
-			<%=((curPage - 1) / 5 * 5 + 4) > count / 10 + 1 ? "--!>" : ""%>
-			<%=((curPage - 1) / 5 * 5 + 5) > count / 10 + 1 ? "<!--" : ""%>
-			<li
-				class=<%=curPage == ((curPage - 1) / 5 * 5 + 5) ? "active light-blue lighten-4" : "waves-effect"%>><a
+			<%=((curPage - 1) / 5 * 5 + 4) > count / 10 + 1 ? "--!>" : " "%>
+			<%=((curPage - 1) / 5 * 5 + 5) > count / 10 + 1 ? "<!--" : " "%>
+			<li><a class=<%=curPage == ((curPage - 1) / 5 * 5 + 5) ? "white-text" : "teal-text"%>
 				href="?curPage=<%=(curPage - 1) / 5 * 5 + 5%>"><%=(curPage - 1) / 5 * 5 + 5%></a></li>
-			<%=((curPage - 1) / 5 * 5 + 5) > count / 10 + 1 ? "--!>" : ""%>
-			<li class=<%=curPage > count / 10 ? "disabled" : "enabled"%>><a
-				href="?curPage=<%=curPage + 1%>"><i class="material-icons">chevron_right</i></a></li>
+			<%=((curPage - 1) / 5 * 5 + 5) > count / 10 + 1 ? "--!>" : " "%>
+			<li class=<%=curPage > count / 10 ? "disabled" : "enabled"%> style=" padding: 0px ! important; margin: 0px;"><a class=<%=curPage > count / 10 ? "teal-text" : "white-text"%>
+				href=<%=curPage >= count / 10 + 1 ? "#!":"?curPage="+(curPage +1) %>><i
+					class="material-icons" style="font-size: 1.2rem !important;">chevron_right</i></a></li>
+			<li class=<%=curPage > count / 10 ? "disabled" : "enabled"%> style="padding: 0px ! important; margin: 0px;"><a class=<%=curPage > count / 10 ? "teal-text" : "white-text"%>
+				href=<%=curPage >= count / 10 + 1 ? "#!":"?curPage="+( count / 10 +1) %>><i
+					class="material-icons" style="font-size: 1.2rem !important;">fast_forward</i></a></li>
 		</ul>
-	</div>
 	</main>
-	<!-- 页脚  -->
-	<footer class="page-footer light-blue lighten-2">
-	<div class="container">
-		<div class="row">
-			<div class="col l6 s12">
-				<h5 class="white-text">Footer Content</h5>
-				<p class="grey-text text-lighten-4">Login for more functions.</p>
-			</div>
-			<div class="col l4 offset-l2 s12">
-				<h5 class="white-text">Links</h5>
-				<ul>
-					<li><a class="grey-text text-lighten-3" href="#!">Link 1</a></li>
-				</ul>
-			</div>
-		</div>
+		<div class="fixed-action-btn float-add-button  modal-trigger" data-target="add_station_dialoge">
+		
+		<a
+			class="btn-floating btn-large float-add-button white waves-effect waves-light tooltipped"
+			data-position="top" data-delay="50" data-tooltip="new station?">
+			<i class="material-icons cyan-text">add</i>
+		</a>
 	</div>
-	<div class="footer-copyright">
-		<div class="container">
-			© 2016 Copyright 5012 <a class="grey-text text-lighten-4 right"
-				href="#!">More Links</a>
-		</div>
-	</div>
-	</footer>
 	<!--  Scripts-->
 	<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 	<script src="js/materialize.js"></script>

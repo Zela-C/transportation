@@ -6,19 +6,19 @@
 	padding: 0;
 }
 
-  body {
-    display: flex;
-    min-height: 100vh;
-    flex-direction: column;
-  }
-
-  main {
-    flex: 1 0 auto;
-  }
-
-header, main, footer {
-	padding-left: 200px;
+body {
+	display: flex;
+	min-height: 100vh;
+	flex-direction: column;
 }
+
+main {
+	flex: 1 0 auto;
+}
+
+/* header, main, footer { */
+/* 	padding-left: 200px; */
+/* } */
 
 @media only screen and (max-width : 992px) {
 	header, main, footer {
@@ -26,28 +26,195 @@ header, main, footer {
 	}
 }
 
-  /* label color */
-   .input-field label {
-     color: #b3e5fc;
-   }
-   /* label focus color */
-   .input-field input[type=text]:focus + label {
-     color: #4fc3f7;
-   }
-   .input-field input[type=password]:focus + label {
-     color: #4fc3f7;
-   }
-   /* label underline focus color */
-   .input-field input[type=text]:focus {
-     border-bottom: 1px solid #039be5;
-     box-shadow: 0 1px 0 0 #0288d1;
-   }
-   
-      /* label underline focus color */
-   .input-field input[type=password]:focus {
-     border-bottom: 1px solid #039be5;
-     box-shadow: 0 1px 0 0 #0288d1;
-   }
- .material-icons.red0 { color: #ff8a80; }
-  .material-icons.bule0 { color: #4fc3f7; }
-        
+/* label color */
+.input-field label {
+	color: #80deea;
+}
+/* label focus color */
+.input-field input[type=text]:focus+label {
+	color: #00bcd4;
+}
+
+.input-field input[type=password]:focus+label {
+	color: #00bcd4;
+}
+
+.input-field input[type=email]:focus+label {
+	color: #00bcd4;
+}
+
+/* label underline focus color */
+.input-field input[type=text]:focus {
+	border-bottom: 1px solid #00acc1;
+	box-shadow: 0 1px 0 0 #0097a7;
+}
+
+/* label underline focus color */
+.input-field input[type=password]:focus {
+	border-bottom: 1px solid #00acc1;
+	box-shadow: 0 1px 0 0 #0097a7;
+}
+
+.input-field input[type=email]:focus {
+	border-bottom: 1px solid #00acc1;
+	box-shadow: 0 1px 0 0 #0097a7;
+}
+
+.material-icons.red0 {
+	color: #ff8a80;
+}
+
+.material-icons.bule0 {
+	color: #4fc3f7;
+}
+
+.abrown {
+	background-color:#BDB1AD !important;
+}
+
+.aover {
+    background-color: rgba(51,51,51,0.2);
+}
+
+.border-side-white {
+	border: 1px dashed;
+	border-left: 7px solid;
+	border-color: #eee;
+}
+
+.no-margin {
+	margin: 0 !important;
+}
+
+.header-menu{
+	height:45px !important;
+	line-height:45px !important;
+}
+
+.login-text-center{
+	display:block;
+	white-text;
+	text-align: center;
+	color: white;
+	font-size: 1.5rem;
+	font-weight: 300;
+}
+
+.login-title{
+	margin:  2.1rem 0 1rem 0;
+}
+
+.border-side-white {
+	border: 1px dashed;
+	border-color: #ffffff;
+}
+
+.btn-rnd {
+	border-radius: 30px;
+	text-transform: none;
+	margin-top: 9px;
+}
+
+.path-station-rnd {
+	border-radius: 10px;
+	text-transform: none;
+	padding: 8px 8px !important;
+	line-height: initial;
+	display: inline-block;
+}
+
+.path-search-card{
+	border: 1px dashed;
+	border-color: #ffffff;
+	border-radius: 8px;
+}
+
+.path-card-margin{
+	margin: 10px 10px 10px 10px;
+	padding: 10px 10px 10px 10px;
+	border-radius:3px;
+}
+
+.path-arrow{
+	font-size: 15px; 
+	margin: 0px; 
+	padding: 0px;
+}
+
+.path-arrow-small-letter{
+	text-transform: none;
+}
+
+.path-station-change {
+	background:white;
+	transition: background 0.8s, color 0.8s;
+}
+
+.path-station-change:hover {
+    background: orange !important;
+    color: white !important;
+}
+
+.path-arrow-border {
+	border: 1px dashed;
+	border-color: #eee;
+}
+
+.station-rnd{
+	border-radius:5px;
+	background: white;
+	padding: 5px 5px 5px 5px;
+}
+
+.station-border{
+	border: 1px dashed;
+	border-color: white;
+	background: rgba(255,255,255,1); 
+}
+
+.float-add-button{
+	width: 50px !important;
+	height: 50px !important;
+	line-height:50px !important;
+}
+
+.routine-station-change {
+	transition: background 0.8s, color 0.8s;
+}
+
+.routine-station-change:hover {
+    background: orange !important;
+    color: white !important;
+}
+
+.routine-station-change2 {
+	transition: background 0.8s, color 0.8s;
+}
+
+.routine-station-change2:hover {
+    background: #ff8a80  !important;
+    color: white !important;
+}
+.routine-orientation-text{
+	margin-right: auto;
+	margin-left: auto;
+	font-size: 2.5rem;
+	display: block;
+	margin-bottom: 12px;
+}
+
+.company-card-center{
+	margin-left: auto;
+	margin-right: auto;
+	border-radius:6px;
+}
+
+.company-button{
+	border-radius: 6px; 
+	margin-right: 5px; 
+	margin-left: 5px; 
+	background: rgba(255, 255, 255, 0.9) none repeat scroll 0% 0%;
+	display: inline-block;
+	 height: 30px; 
+	 padding: 5px;
+}
