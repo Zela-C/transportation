@@ -27,7 +27,7 @@
 		<property name="hibernate.format_sql">true</property>
 		<property name="hibernate.hbm2ddl.auto">update</property>
 		<property name="current_session_context_class">thread</property>
-		<mapping class="entity.Bus" />
+		<mapping class="entity.Routine" />
 		<mapping class="entity.Company" />
 		<mapping class="entity.Region" />
 		<mapping class="entity.Station" />

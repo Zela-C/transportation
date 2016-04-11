@@ -59,7 +59,7 @@
 				<div class="input-field col s12 l3 m4">
 					<select id="sort" name="sort">
 						<option value="" disabled selected>sort by ?</option>
-						<option value="1"
+						<option value="1" class="cyan-text"
 							<%=null !=request.getAttribute("sort") || (null!=request.getParameter("sort")&&1==Integer.valueOf(request.getParameter("sort")))?"selected":""%>>time</option>
 						<option value="2"
 							<%=null!=request.getParameter("sort")&&2==Integer.valueOf(request.getParameter("sort"))?"selected":""%>>transfer</option>
@@ -99,7 +99,7 @@
 		<h4 class="thin center-align white-text">No.<span class=<%=cnt==0?"red-text text-accent-2":cnt==1?"orange-text text-accent-2": cnt==2?"teal-text text-accent-2":"white-text"%>><%=++cnt%></span></h4>
 		<hr class="" width=180px   color=#ffffff  size="1" align=center noshade>
 		           <div class=" center-align white-text"> <span >Time:<%=path.time%>min</span>
-			<span >Transfer:<%=path.transfer %></span></div>
+			<span >Transfer:<%=path.transfer-1%></span></div>
 	<div class="border-side-white no-margin cyan">
 		<div class=" path-card-margin">
               	<!-- card的正文，放在下面这个p标签里 -->

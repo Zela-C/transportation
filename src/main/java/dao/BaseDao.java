@@ -6,6 +6,7 @@ import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
@@ -40,30 +41,40 @@ public abstract class BaseDao<T> {
 
 	public Serializable save(T entity) {
 		Session sesssion = sessionFactory.openSession();
+		Transaction transaction = sesssion.beginTransaction();
 		Serializable serializable = sesssion.save(entity);
+		transaction.commit();
+		sesssion.flush();
 		sesssion.close();
 		return serializable;
 	}
 
 	public void update(T entity) {
 		Session sesssion = sessionFactory.openSession();
+		Transaction transaction =sesssion.beginTransaction();
 		sesssion.saveOrUpdate(entity);
+		transaction.commit();
+		sesssion.flush();
 		sesssion.close();
 	}
 
 	public void delete(T entity) {
 		Session sesssion = sessionFactory.openSession();
+		Transaction transaction = sesssion.beginTransaction();
 		sesssion.delete(entity);
+		transaction.commit();
 		sesssion.close();
 	}
 
-	@SuppressWarnings("unchecked")
 	public boolean delete(Class<T> entityClass, Serializable id) {
-		Session sesssion = sessionFactory.openSession();
-		T entity = (T) sesssion.get(entityClass, id);
-		sesssion.close();
+
+		T entity = get(entityClass, id);
 		if (entity != null) {
-			getSessionFactory().openSession().delete(entity);
+			Session session = sessionFactory.openSession();
+			Transaction transaction = session.beginTransaction();
+			session.delete(entity);
+			transaction.commit();
+			session.close();
 			return true;
 		} else
 			return false;

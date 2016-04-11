@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
-	pageEncoding="utf-8"  import="entity.*,dao.*"%>
+	pageEncoding="utf-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -43,38 +43,47 @@
 	</div>
 	</nav> </header>
 	<main class="cyan" style="position:relative">
-	<h1 class="center-align  thin white-text login-title">Login</h1>
+	<h1 class="center-align  thin white-text login-title">Regist</h1>
 	<hr class="" width=180px color=#ffffff size="1" align=center noshade>
-	<span class="thin  login-text-center"> Wanna A Tour?</span> <span
-		class=" thin  login-text-center">Login for more functions.</span> <br>
+	<span class="thin  login-text-center">For easy transport.</span> <br>
 	<div class="row">
 		<div class="col s1 m3">&nbsp;</div>
 		<div class="card col s10 m6">
 			<!-- 登录界面 -->
-			<form class="card-content" action="login" method="post" autocomplete="off" onsubmit="return validate_login(this);">
+			<form class="card-content" onsubmit="return validate_form(this);"
+				action="regist" method="post" autocomplete="off">
 				<div class="row">
-					<div class="col s0 m2">&nbsp;</div>
-					<div class="input-field col s12 m8">
-						<input name="username" id="username_in" type="text" class=""
-							onfocus="lose_label(this)" onBlur="validate_required(this)"
-							onchange="validate_required(this)"> <label for="username"
-							id="username_in_label" data-error="wrong"
-							data-success="ok">Username</label>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col s0 m2">&nbsp;</div>
-					<div class="input-field col s12 m8">
-						<input name="password" id="password_in" type="password" class=""
+					<div class="input-field col s12 m12 l6">
+						<input name="username" type="text" id="username" class=""
 							onfocus="lose_label(this)" onBlur="validate_required(this)"
 							onchange="validate_required(this)"> <label
-							id="password_in_label" for="password" data-error="wrong"
+							id="username_label" for="username" data-error="wrong"
+							data-success="ok">Username</label>
+					</div>
+					<div class="input-field col s12 m12 l6">
+						<input name="email" id="email" type=text class=""
+							onfocus="lose_label(this)" onBlur="validate_required(this)"
+							onchange="validate_required(this)"> <label
+							id="email_label" for="email" data-error="wrong" data-success="ok">Email</label>
+					</div>
+					<div class="input-field col s12 m12 l6">
+						<input name="password" id="password" type="password" class=""
+							onfocus="lose_label(this)" onBlur="validate_required(this)"
+							onchange="validate_required(this)"> <label
+							id="password_label" for="password" data-error="wrong"
 							data-success="ok">Password</label>
+					</div>
+					<div class="input-field col s12 m12 l6">
+						<input name="confirm" id="confirm" type="password" class=""
+							onfocus="lose_label(this)" onBlur="validate_confirm(this)"
+							onchange="validate_confirm(this)"> <label
+							id="confirm_label" for="confirm" data-error="wrong"
+							data-success="ok">Confirm</label>
 					</div>
 				</div>
 				<center>
 					<button class="btn cyan waves-effect waves-light" type="submit"
-						required="" name="login">Submit</button>
+						required="" name="regist">Submit</button>
 				</center>
 			</form>
 		</div>

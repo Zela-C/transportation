@@ -1,6 +1,5 @@
 package entity;
 
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,11 +11,15 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="bus")
-public class Bus {
+@Table(name="routine")
+public class Routine {
 	@Id
 	@GeneratedValue (strategy=GenerationType.IDENTITY)
 	private Integer id;
+	
+	@Column(nullable=false,unique=true)
+	private Integer pos;
+	
 	@Column(nullable=false,unique=true)
 	private String name;
 
@@ -38,7 +41,7 @@ public class Bus {
 	private String lenTo;
 	@Column(nullable=false,unique=true)
 	@Lob
-	private String idTo;
+	private String posTo;
 	@Column(nullable=false,unique=true)
 	@Lob
 	private String endTimeTo;
@@ -50,7 +53,7 @@ public class Bus {
 	private String lenFrom;
 	@Column(nullable=false,unique=true)
 	@Lob
-	private String idFrom;
+	private String posFrom;
 	@Column(nullable=false,unique=true)
 	@Lob
 	private String endTimeFrom;
@@ -88,6 +91,14 @@ public class Bus {
 
 	public void setId(Integer id) {
 		this.id = id;
+	}
+
+	public Integer getPos() {
+		return pos;
+	}
+
+	public void setPos(Integer pos) {
+		this.pos = pos;
 	}
 
 	public String getName() {
@@ -146,14 +157,6 @@ public class Bus {
 		this.lenTo = lenTo;
 	}
 
-	public String getIdTo() {
-		return idTo;
-	}
-
-	public void setIdTo(String idTo) {
-		this.idTo = idTo;
-	}
-
 	public String getEndTimeTo() {
 		return endTimeTo;
 	}
@@ -170,14 +173,6 @@ public class Bus {
 		this.lenFrom = lenFrom;
 	}
 
-	public String getIdFrom() {
-		return idFrom;
-	}
-
-	public void setIdFrom(String idFrom) {
-		this.idFrom = idFrom;
-	}
-
 	public String getEndTimeFrom() {
 		return endTimeFrom;
 	}
@@ -185,6 +180,21 @@ public class Bus {
 	public void setEndTimeFrom(String endTimeFrom) {
 		this.endTimeFrom = endTimeFrom;
 	}
-	
+
+	public String getPosTo() {
+		return posTo;
+	}
+
+	public void setPosTo(String posTo) {
+		this.posTo = posTo;
+	}
+
+	public String getPosFrom() {
+		return posFrom;
+	}
+
+	public void setPosFrom(String posFrom) {
+		this.posFrom = posFrom;
+	}
 }
 

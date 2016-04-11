@@ -218,3 +218,7 @@ main {
 	 height: 30px; 
 	 padding: 5px;
 }
+
+.dropdown-content li > a, .dropdown-content li > span {
+  color: #00bcd4;
+}
