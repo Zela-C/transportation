@@ -1,6 +1,6 @@
-/webapp/
 /dao/
 /entity/
 /filter/
-/servlet/
 /helper/
+/servlet/
+/webapp/

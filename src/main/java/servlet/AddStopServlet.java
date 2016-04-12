@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import dao.StationDao;
-import entity.Region;
 import entity.Station;
 
 @WebServlet(name="AddStopServlet" , urlPatterns={"/addstop"})

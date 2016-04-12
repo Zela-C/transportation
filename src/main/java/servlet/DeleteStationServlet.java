@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import dao.RoutineDao;
 import dao.StationDao;
-import entity.Bus;
+import entity.Routine;
 import entity.Station;
 
 @WebServlet(name = "DeleteStationServlet", urlPatterns = { "/deletestation" })
@@ -26,11 +26,13 @@ public class DeleteStationServlet extends HttpServlet {
 		Integer pos = Integer.valueOf(req.getParameter("pos"));
 		StationDao stationDao = new StationDao();
 		RoutineDao routineDao = new RoutineDao();
-		List<Bus> routineList = routineDao.getAllRoutines();
-		for (Bus bus : routineList) {
-			if (bus.getIdTo().contains(String.valueOf(pos) + '$') || bus.getIdFrom().contains(String.valueOf(pos) + '$')
-					|| bus.getIdTo().contains('$' + String.valueOf(pos))
-					|| bus.getIdFrom().contains('$' + String.valueOf(pos))) {
+
+		List<Routine> routineList = routineDao.getAllRoutines();
+		for (Routine bus : routineList) {
+			if (bus.getPosTo().contains(String.valueOf(pos) + '$') || bus.getPosFrom().contains(String.valueOf(pos) + '$')
+					|| bus.getPosTo().contains('$' + String.valueOf(pos))
+					|| bus.getPosFrom().contains('$' + String.valueOf(pos))) {
+
 				resp.sendRedirect("balala.jsp");
 				break;
 			}

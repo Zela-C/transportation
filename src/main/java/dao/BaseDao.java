@@ -66,7 +66,6 @@ public abstract class BaseDao<T> {
 		sesssion.close();
 	}
 
-	@SuppressWarnings("unchecked")
 	public boolean delete(Class<T> entityClass, Serializable id) {
 
 		T entity = get(entityClass, id);

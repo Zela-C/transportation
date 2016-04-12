@@ -2,31 +2,30 @@ package dao;
 
 import java.util.List;
 
-import entity.Bus;
-import entity.Station;
+import entity.Routine;
 
-public class RoutineDao extends BaseDao<Bus>{
+public class RoutineDao extends BaseDao<Routine>{
 	public RoutineDao() {
 		super();
 	}
 
-	public List<Bus> getAllRoutines() {
-		return findAll(Bus.class);
+	public List<Routine> getAllRoutines() {
+		return findAll(Routine.class);
 	}
 
 	public long getRoutineCount() {
-		return findCount(Bus.class);
+		return findCount(Routine.class);
 	}
 	
-	public Bus findByName(String name){
-		List<Bus> list = find("select distinct * from Bus where name = "+name) ;
+	public Routine findByName(String name){
+		List<Routine> list = find("select distinct * from routine where name = "+name) ;
 		if(list != null) return list.get(0);
 		else return null;
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Bus> findByPage(String hql, int pageNo, int pageSize) {
+	public List<Routine> findByPage(String hql, int pageNo, int pageSize) {
 		// 创建查询
 		return getSessionFactory().openSession().createQuery(hql)
 				// 执行分页
