@@ -1,6 +1,7 @@
 package servlet;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.security.MessageDigest;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -23,19 +24,25 @@ public class LoginServlet extends HttpServlet{
 		String name = request.getParameter("username");
 		String pwd = bytesToMD5(request.getParameter("password").getBytes());
 		UserDao userDao = new UserDao();
+		PrintWriter out = response.getWriter(); 
 		System.out.println(pwd);
 		if(!userDao.isUserExist(name)){
 			System.out.println("Error in username");
+			out. print("no_usr");
 		}
 		else if(!userDao.checkPassWord(name, pwd)){
 			System.out.println("Error in password");
+			out. print("err_pwd");
 		}
 		else{ 
 			int admin=(int)userDao.getUserAuthority(name);
 			System.out.println(admin);
 			request.getSession().setAttribute("authority", admin);
-			request.getRequestDispatcher("/path.jsp").forward(request, response);
+			out. print("suc");
+//			request.getRequestDispatcher("/path.jsp").forward(request, response);让login.jsp里的ajax方法进行页面跳转
 		}
+		out.flush();//一次性输出
+		out.close();//关闭输入流
 		
 	}
 	public String bytesToHex(byte[] bytes) {

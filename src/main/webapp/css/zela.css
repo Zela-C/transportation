@@ -222,3 +222,74 @@ main {
 .dropdown-content li > a, .dropdown-content li > span {
   color: #00bcd4;
 }
+
+#toast-container {
+	display: block;
+	position: fixed;
+	z-index: 10000;
+	bottom: 1px !important;
+	width: 100%;
+	max-width: 100% !important;
+	left: 0% !important;
+	top:unset !important;
+	height:10%;
+}
+
+.toast {
+	border-radius: 2px;
+	top: 0;
+	width: auto;
+	clear: both;
+	margin-top: 10px;
+	position: relative;
+	max-width: 100%;
+	height: auto;
+	/* min-height: 48px; */
+	line-height: 1.5em;
+	word-break: break-all;
+	padding: 8px 25px;
+	font-size: 1.1rem;
+	font-weight: 300;
+	color: #fff;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-align-items: center;
+	-ms-flex-align: center;
+	align-items: center;
+	-webkit-justify-content: space-between;
+	-ms-flex-pack: justify;
+	justify-content: space-between;
+	border: 1px solid !important;
+	text-align: center !important;
+	width: 100% !important;
+	display: inline-block !important;
+}
+
+.toast_wrong {
+	background-color: #ff5252;
+}
+
+.toast_right {
+	background-color: #69f0ae;
+}
+
+@media only screen and (max-width: 600px) {
+  #toast-container {
+    height: auto !important; 
+  }
+}
+
+.no_uppercase{
+	text-transform:none !important;
+}
+
+.delete_routine_stop_dialog{
+	width:270px;
+	height:230x;
+	top: 30% !important;
+}
+
+.row_no_margin_bottom{
+	margin-bottom: 0px !important;
+}

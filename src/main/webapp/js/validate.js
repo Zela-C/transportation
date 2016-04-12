@@ -29,7 +29,9 @@ function validate_required(field) {
 			}
 			return false;
 		} else {
-			if ($(field).attr("id") != "password" && $(field).attr("id") != "password_in" && $.trim(value) == "") {
+			if ($(field).attr("id") != "password"
+					&& $(field).attr("id") != "password_in"
+					&& $.trim(value) == "") {
 				if ($(field).hasClass("valid") == true) {
 					$(field).removeClass("valid")
 				}
@@ -122,7 +124,7 @@ function validate_form(thisform) {
 	}
 }
 
-function validate_login(thisform){
+function validate_login(thisform) {
 	with (thisform) {
 		var ret = validate_required_form(username_in);
 		ret = validate_required_form(password_in) && ret;
@@ -133,6 +135,50 @@ function validate_login(thisform){
 	}
 }
 
-function lose_label(field){
+function lose_label(field) {
 	$(field).removeClass();
+}
+
+function login_check(thisForm) {
+	if (validate_login(thisForm) == false)
+		return false;
+	var flag = true;
+	$.ajax({
+		cache : false,
+		type : "POST",
+		url : "login",
+		data : $(thisForm).serialize(),
+		async : false,
+		error : function(xmlHttpRequest, msg, exception) {
+			Materialize.toast('Request failed:' + msg, 4000, 'toast_wrong')
+		},
+		success : function(msg) {
+			if ('suc' == msg) {
+				Materialize.toast('Login successfully!', 4000,'toast_right');
+				window.location.href = "path.jsp"
+				flag = true;
+			} else if ("no_usr" == msg) {
+				Materialize.toast('User not exist!', 4000,'toast_wrong');
+				$(thisForm.username_in).addClass();
+				if ($(thisForm.username_in).hasClass("valid") == true) {
+					$(thisForm.username_in).removeClass("valid");
+				}
+				$(thisForm.username_in).addClass("invalid");
+				$(thisForm.username_in_label).addClass("active");
+				$(thisForm.password_in).removeClass();
+				flag = false;
+			} else if ('err_pwd' == msg) {
+				Materialize.toast('Wrong password!', 4000,'toast_wrong');
+				$(thisForm.password_in).addClass();
+				if ($(thisForm.password_in).hasClass("valid") == true) {
+					$(thisForm.password_in).removeClass("valid");
+				}
+				$(thisForm.password_in).addClass("invalid");
+				$(thisForm.password_in_label).addClass("active");
+				$(thisForm.username_in).removeClass();
+				flag = false;
+			}
+		}
+	});
+	return flag;
 }
