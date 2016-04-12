@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
-	pageEncoding="utf-8" import="java.util.List,dao.RoutineDao,entity.Bus,dao.StationDao"%>
+	pageEncoding="utf-8" import="java.util.List,dao.RoutineDao,entity.Routine,dao.StationDao"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -110,16 +110,16 @@
 						response.sendRedirect("/transportation/routine.jsp");
 					}
 					//按页查询
-					List<Bus> routines = routineDao.findByPage("select en from " + Bus.class.getSimpleName() + " en", curPage,
+					List<Routine> routines = routineDao.findByPage("select en from " + Routine.class.getSimpleName() + " en", curPage,
 							pageSize);
 					//遍历该页所有对象
-					for (Bus routine : routines) {
+					for (Routine routine : routines) {
 						//初始化
-						String[] idTo = routine.getIdTo().trim().split("\\$");
+						String[] idTo = routine.getPosTo().trim().split("\\$");
 						String[] endTimeTo = routine.getEndTimeTo().trim().split("\\$");
 						String[] startTimeTo = routine.getStartTimeTo().trim().split("\\$");
 
-						String from = routine.getIdFrom().trim();
+						String from = routine.getPosFrom().trim();
 
 						String[] idFrom = null;
 						String[] endTimeFrom = null;

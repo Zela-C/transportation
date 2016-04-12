@@ -51,7 +51,7 @@
 		<div class="col s1 m3">&nbsp;</div>
 		<div class="card col s10 m6">
 			<!-- 登录界面 -->
-			<form class="card-content" action="login" method="post" autocomplete="off" onsubmit="return validate_login(this);">
+			<form class="card-content"  autocomplete="off" onsubmit="return login_check(this);">
 				<div class="row">
 					<div class="col s0 m2">&nbsp;</div>
 					<div class="input-field col s12 m8">
@@ -73,8 +73,8 @@
 					</div>
 				</div>
 				<center>
-					<button class="btn cyan waves-effect waves-light" type="submit"
-						required="" name="login">Submit</button>
+					<button class="btn cyan waves-effect waves-light no_uppercase" type="submit" class="no_uppercase"
+						name="login">Submit</button>
 				</center>
 			</form>
 		</div>
@@ -83,7 +83,7 @@
 	<!--  Scripts-->
 	<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 	<script src="js/materialize.js"></script>
-	<script src="js/init.js"></script>
-	<script src="js/validate.js"></script>
+	<script type="text/javascript" src="js/init.js"></script>
+	<script type="text/javascript" src="js/validate.js"></script>
 </body>
 </html>

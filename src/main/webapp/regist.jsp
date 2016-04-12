@@ -82,8 +82,7 @@
 					</div>
 				</div>
 				<center>
-					<button class="btn cyan waves-effect waves-light" type="submit"
-						required="" name="regist">Submit</button>
+					<button class="btn cyan waves-effect waves-light no_uppercase" type="submit"  name="regist">Submit</button>
 				</center>
 			</form>
 		</div>
