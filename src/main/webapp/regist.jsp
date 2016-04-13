@@ -50,8 +50,8 @@
 		<div class="col s1 m3">&nbsp;</div>
 		<div class="card col s10 m6">
 			<!-- 登录界面 -->
-			<form class="card-content" onsubmit="return validate_form(this);"
-				action="regist" method="post" autocomplete="off">
+			<form class="card-content" onsubmit="return validate_regist(this);"
+				 autocomplete="off">
 				<div class="row">
 					<div class="input-field col s12 m12 l6">
 						<input name="username" type="text" id="username" class=""
@@ -83,6 +83,7 @@
 				</div>
 				<center>
 					<button class="btn cyan waves-effect waves-light no_uppercase" type="submit"  name="regist">Submit</button>
+					<a class="btn cyan waves-effect waves-light no_uppercase" href="login.jsp"  name="regist">Back?</a>
 				</center>
 			</form>
 		</div>
@@ -91,7 +92,7 @@
 	<!--  Scripts-->
 	<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 	<script src="js/materialize.js"></script>
-	<script src="js/init.js"></script>
-	<script src="js/validate.js"></script>
+	<script type="text/javascript" src="js/init.js"></script>
+	<script type="text/javascript" src="js/validate.js"></script>
 </body>
 </html>

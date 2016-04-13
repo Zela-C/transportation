@@ -73,8 +73,10 @@
 					</div>
 				</div>
 				<center>
-					<button class="btn cyan waves-effect waves-light no_uppercase" type="submit" class="no_uppercase"
+					<button class="btn cyan waves-effect waves-light no_uppercase" type="submit" 
 						name="login">Submit</button>
+					<a class="btn cyan waves-effect waves-light no_uppercase" href="regist.jsp"
+						name="login">Regist?</a>
 				</center>
 			</form>
 		</div>

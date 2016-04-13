@@ -19,9 +19,9 @@ function validate_required(field) {
 	var label = "#" + $(field).attr("id") + "_label";
 	with (field) {
 		if ($(field).attr("id") == "password") {
-			validate_confirm(document.getElementById("confirm"));
+			 validate_confirm(document.getElementById("confirm"));
 		}
-		if (value == null || value == "") {
+		 if (value == null || value == "") {
 			$(field).removeClass();
 			$(label).removeClass();
 			if ($(field).attr("id") == "email") {
@@ -109,18 +109,53 @@ function validate_required_form(field) {
 	}
 }
 
-function validate_form(thisform) {
-	with (thisform) {
+function validate_regist(thisForm) {
+	with (thisForm) {
+		var flag = true;
 		var ret = validate_required_form(username);
 		ret = validate_required_form(email) && ret;
 		ret = validate_required_form(password) && ret;
 		ret = validate_confirm(confirm) && ret;
 		ret = validate_required_form(confirm) && ret;
 		ret = $("#email").hasClass("valid") && ret;
-		if (ret == true) {
-			return true
-		} else
-			return false
+		if (false ==ret) {
+			return false;
+		} else{
+			$.ajax({
+				cache : false,
+				type : "POST",
+				url : "regist",
+				data : $(thisForm).serialize(),
+				async : false,
+				error : function(xmlHttpRequest, msg, exception) {
+					Materialize.toast('Request failed:' + msg, 4000, 'toast_wrong')
+				},
+				success : function(msg) {
+					if ('suc' == msg) {
+						Materialize.toast('Regist successfully! Please Login!', 4000,'toast_right');
+							window.location.replace("login.jsp")
+						flag = true;
+					} else if ('usr_exist' == msg) {
+						Materialize.toast('User has already existed!', 4000,'toast_wrong');
+						if ($(thisForm.username).hasClass("valid") == true) {
+							$(thisForm.username).removeClass("valid");
+						}
+						$(thisForm.username).addClass("invalid");
+						$(thisForm.username_label).addClass("active");
+						flag = false;
+					} else if ('email_exist' == msg) {
+						Materialize.toast('Email has already existed!', 4000,'toast_wrong');
+						if ($(thisForm.email).hasClass("valid") == true) {
+							$(thisForm.email).removeClass("valid");
+						}
+						$(thisForm.email).addClass("invalid");
+						$(thisForm.email_label).addClass("active");
+						flag = false;
+					}
+				}
+			});
+			return flag;
+		}
 	}
 }
 

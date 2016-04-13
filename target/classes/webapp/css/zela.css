@@ -293,3 +293,19 @@ main {
 .row_no_margin_bottom{
 	margin-bottom: 0px !important;
 }
+
+.user_circle{
+	padding: 0px;
+	border-radius: 1.5rem;
+	text-transform: none;
+	float: none;
+	text-align: center;
+	margin: 0px !important;
+	width: 38px;
+	height: 38px;
+	transition: all 0.3s ease-in-out 0s;
+}
+
+.user_drop_down {
+	top: unset !important;
+}

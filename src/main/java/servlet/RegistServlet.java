@@ -10,35 +10,40 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import dao.UserDao;
+import entity.User;
 
-@WebServlet(name="Login" , urlPatterns={"/login"})
-public class LoginServlet extends HttpServlet{
+@WebServlet(name="Regist" , urlPatterns={"/regist"})
+public class RegistServlet extends HttpServlet{
+
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -2537735349278237643L;
+	private static final long serialVersionUID = -4516190624074465885L;
 
 	public void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		response.setContentType("text/html;charSet=utf-8");
-		String name = request.getParameter("username");
+		String name = request.getParameter("username").trim();
+		String email = request.getParameter("email").trim();
 		String pwd = bytesToMD5(request.getParameter("password").getBytes());
 		UserDao userDao = new UserDao();
 		PrintWriter out = response.getWriter(); 
 		System.out.println(pwd);
-		if(!userDao.isUserExist(name)){
-			System.out.println("Error in username");
-			out. print("no_usr");
+		if(userDao.isUserExist(name)){
+			System.out.println("Username Exist");
+			out. print("usr_exist");
 		}
-		else if(!userDao.checkPassWord(name, pwd)){
-			System.out.println("Error in password");
-			out. print("err_pwd");
+		else if(userDao.isEmailExist(email)){
+			System.out.println("Email Exist");
+			out. print("email_exist");
 		}
 		else{ 
-			int admin=(int)userDao.getUserAuthority(name);
-			System.out.println(admin);
-			request.getSession().setAttribute("authority", admin);
-			request.getSession().setAttribute("user", name);
+			User user = new User();
+			user.setName(name);
+			user.setEmail(email);
+			user.setPassWord(pwd);
+			user.setIsAdmin(0);
+			userDao.save(user);
 			out. print("suc");
 //			request.getRequestDispatcher("/path.jsp").forward(request, response);让login.jsp里的ajax方法进行页面跳转
 		}
