@@ -42,7 +42,7 @@ public class GeneralFilter implements Filter {
 		System.out.println(url);
 		if(url.contains("routine") || url.contains("station")){
 			authorityJudge(chain);
-		}else if(url.equals("http://localhost:8080/transportation/") || url.contains("login")){
+		}else if(url.equals("http://localhost:8080/transportation/") || url.contains("login.jsp")){
 			loginStateJudge(chain);
 		}else
 			chain.doFilter(request, response);

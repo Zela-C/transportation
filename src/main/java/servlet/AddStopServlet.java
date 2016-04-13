@@ -25,5 +25,8 @@ public class AddStopServlet extends HttpServlet{
 		Station stop=dao.findByName(name);
 		if(stop==null)
 			resp.sendRedirect("balala.jsp");
+		else{
+			
+		}
 	}
 }

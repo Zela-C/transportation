@@ -39,7 +39,7 @@
       <h5 class=""><span class="red-text text-accent-1">Add</span> a station?</h5>
           <div class="row" style="height:30px">
 				<div class="input-field">
-				          <input id="station_add" type="text" placeholder="Station">
+				          <input name="stop" id="stop" type="text" placeholder="Station">
 				</div>
 			    </div>
 	<center>
