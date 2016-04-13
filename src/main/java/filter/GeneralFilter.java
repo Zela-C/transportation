@@ -1,4 +1,4 @@
-package filter;
+﻿package filter;
 
 import java.io.IOException;
 
@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-@WebFilter(filterName = "GeneralFilte", urlPatterns = { "/routine.jsp", "/station.jsp","/login.jsp","/" })
+@WebFilter(filterName = "GeneralFilte", urlPatterns = { "/*" })
 // this two module need administrator authority
 public class GeneralFilter implements Filter {
 	private FilterConfig config = null;
@@ -40,12 +40,15 @@ public class GeneralFilter implements Filter {
 		session = req.getSession();
 		url=req.getRequestURL().toString();
 		System.out.println(url);
-		if(url.contains("routine") || url.contains("station")){
+		if(url.contains("routine") || url.contains("station") || url.contains("path")||url.contains("company")){
 			authorityJudge(chain);
-		}else if(url.equals("http://localhost:8080/transportation/") || url.contains("login.jsp")){
+		}else if(url.equals("http://localhost:8080/transportation/") || url.contains("login") ||url.contains("regist")){
 			loginStateJudge(chain);
-		}else
+		}else if(url.contains("logout"))
+			logoutStateJudge(chain);
+		else{
 			chain.doFilter(request, response);
+		}
 	}
 	
 	private void authorityJudge(FilterChain chain) throws ServletException, IOException{
@@ -55,11 +58,24 @@ public class GeneralFilter implements Filter {
 		chain.doFilter(req, res);
 	}
 	
+	private void logoutStateJudge(FilterChain chain) throws ServletException, IOException{
+		if (null == session.getAttribute("authority")) {
+			res.sendRedirect("login.jsp");
+			return ;
+		}
+		chain.doFilter(req, res);
+		return ;
+	}
+	
 	private void loginStateJudge(FilterChain chain) throws ServletException, IOException{
 		if (!(null == session.getAttribute("authority"))) {
 			res.sendRedirect("path.jsp");
+			return ;
 		}
-		chain.doFilter(req, res);
+		else{
+				chain.doFilter(req, res);
+				return ;
+		}
 	}
 	
 }

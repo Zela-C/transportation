@@ -23,6 +23,50 @@
 	font-size: medium;
 }
 </style>
+
+<script type="text/javascript">
+function check_position(obj) {
+	var label="#"+$(obj).attr("id")+"_label";
+	var reg = new RegExp("^[+-]?[0-9]+(\.[0-9]+)?$");
+	with(obj){
+	if(null == value || value==""){
+		if($(label).hasClass("active")){
+			$(label).removeClass("active");
+		}
+		if($(obj).hasClass("valid") == true){
+			$(obj).removeClass("valid");
+		}
+		if($(obj).hasClass("invalid") == true){
+			$(obj).removeClass("invalid");
+		}
+		return false;
+	}
+	 if(false == reg .test(value)){
+			if($(obj).hasClass("valid") == true){
+				$(obj).removeClass("valid");
+			}
+			$(label).addClass("active");
+			$(obj).addClass("invalid");
+			return false;
+	 }
+	 else{
+			if($(obj).hasClass("invalid") == true){
+				$(obj).removeClass("invalid");
+			}
+			$(label).addClass("active");
+			$(obj).addClass("valid");
+			return true;
+	 }
+	}
+}
+
+
+function check_station_add(thisForm) {
+	return false;
+}
+
+
+</script>
 </head>
 <%!private StationDao stationDao = new StationDao();
 	int count = (int) stationDao.getStationsCount();
@@ -32,37 +76,62 @@
 	<!-- 这个是对话框 -->
 	<div id="add_station_dialoge" class="modal grey-text text-darken-1"
 		style="width: 270px;">
-		<form action="addstation" method="post">
+		<form action="addstation" method="post"
+			onsubmit="return check_station_add(this);" autocomplete="off">
 			<div class="modal-content">
 				<h5 class="">
 					<span class="red-text text-accent-1">New</span> station?
 				</h5>
 				<div class="row" style="height: 30px">
 					<div class="input-field col s12">
-						<input name="station" id="" type="text" placeholder="Station">
+						<input name="station" id="station_add" type="text"
+							placeholder="Station" onfocus="lose_label(this)"
+							onblur="validate_required(this)"
+							onchange="validate_required(this)"><label
+							for="station_add" id="station_add_label" data-error="wrong"
+							data-success="ok">&nbsp;</label>
 					</div>
 				</div>
 				<div class="row" style="height: 30px">
 					<div class="input-field col s6">
-						<input name="longtitude" id="" type="text" placeholder="Longitude">
+						<input name="longtitude" id="longtitude_add" type="text"
+							placeholder="Longitude" onfocus="lose_label(this)"
+							onblur="check_position(this)" onchange="check_position(this)">
+						<label for="longtitude_add" id="longtitude_add_label"
+							data-error="wrong" data-success="ok">&nbsp;</label>
 					</div>
 					<div class="input-field col s6">
-						<input name="latitude" id="" type="text" placeholder="Latitude">
+						<input name="latitude" id="latitude_add" type="text"
+							placeholder="Latitude" onfocus="lose_label(this)"
+							onblur="check_position(this)" onchange="check_position(this)">
+						<label for="latitude_add" id="latitude_add_label"
+							data-error="wrong" data-success="ok">&nbsp;</label>
 					</div>
 				</div>
 				<div class="row" style="height: 30px">
 					<div class="input-field col s12">
-						<input name="region" id="" type="text" placeholder="Region">
+						<input name="region" id="region_add" type="text"
+							placeholder="Region" onfocus="lose_label(this)"
+							onblur="validate_required(this)"
+							onchange="validate_required(this)"><label
+							for="region_add" id="region_add_label" data-error="wrong"
+							data-success="ok">&nbsp;</label>
 					</div>
 				</div>
 				<center>
-					<div class="btn-flat waves-effect waves-red">
+					<div class="btn-flat waves-effect waves-red no_uppercase">
 						<span>&nbsp;</span> <input type="submit" value="Sure&nbsp;">
 					</div>
 				</center>
 			</div>
 		</form>
 	</div>
+	<ul id="dropdown1" class="dropdown-content user_drop_down">
+		<li><a href="#!"><%=session.getAttribute("user")%></a></li>
+		<li class="divider"></li>
+		<li><a href="#!">My Info</a></li>
+		<li><a href="logout">Logout</a></li>
+	</ul>
 	<!-- 页头 -->
 	<header> <nav class=" white header-menu navbar-fixed">
 	<div class="nav-wrapper container">
@@ -78,12 +147,18 @@
 			<li><a href="station.jsp" class="header-menu cyan-text">Station</a></li>
 			<li><a href="routine.jsp" class="header-menu cyan-text">Routine</a></li>
 			<li><a href="company.jsp" class="header-menu cyan-text">Company</a></li>
+			<li><a class="cyan-text dropdown-button btn-flat user_circle"
+				href="#!" data-activates="dropdown1">Me</a></li>
 		</ul>
 		<ul class="side-nav" id="mobile">
 			<li><a href="path.jsp">Path</a></li>
 			<li><a href="station.jsp">Station</a></li>
 			<li><a href="routine.jsp">Routine</a></li>
 			<li><a href="company.jsp">Company</a></li>
+			<li><a href="#!"><%=session.getAttribute("user")%></a></li>
+			<li class="divider"></li>
+			<li><a href="#!">My Info</a></li>
+			<li><a href="logout">Logout</a></li>
 		</ul>
 	</div>
 	</nav> </header>
@@ -208,6 +283,7 @@
 	<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 	<script src="js/materialize.js"></script>
 	<script src="js/init.js"></script>
+	<script type="text/javascript" src="js/validate.js"></script>
 	<script type="text/javascript">
 	  function deleteStation(pos){
 		location.href="http://localhost:8080/transportation/deletestation?pos="+pos;
