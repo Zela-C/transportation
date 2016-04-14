@@ -7,20 +7,26 @@ import dao.StationDao;
 import entity.Station;
 
 public class StationPool {
-	private ArrayList<String> list=null;
-	public StationPool(){
-		list=new ArrayList<String>();
-		StationDao dao=new StationDao();
-		List<Station> stationList=dao.findAll(Station.class);
-		for(Station station:stationList){
+	private static ArrayList<String> list = null;
+
+	private static void initList(){
+		list = new ArrayList<String>();
+		StationDao dao = new StationDao();
+		List<Station> stationList = dao.findAll(Station.class);
+		for (Station station : stationList) {
 			list.add(station.getName());
 		}
 	}
-	public ArrayList<String> getList() {
+
+	public static ArrayList<String> getList() {
+		if(null == list)
+			initList();
 		return list;
 	}
-	public void setList(ArrayList<String> list) {
-		this.list = list;
-	}
 	
+	public static boolean deleteFromList(Integer pos){
+		if(null != list && list.size()>pos)
+			list.remove(pos);
+		return false;
+	}
 }

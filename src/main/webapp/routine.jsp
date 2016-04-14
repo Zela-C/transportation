@@ -36,7 +36,7 @@
 </head>
 <%!RoutineDao dao = new RoutineDao();
 	RoutineBean bean = new RoutineBean();
-	List<String> stationName = new StationPool().getList();
+	List<String> stationName = StationPool.getList();
 	List<HashMap<String, Object>> list = null;
 	int count = 0;
 	int curPage = 1;%>
@@ -150,7 +150,7 @@
 					<div class="collapsible-header grey-text text-darken-1">
 						<a><i class="material-icons bule0 tooltipped"
 							data-position="top" data-delay="50" data-tooltip="company">my_location</i></a>
-						<%=(String) map.get("name")%><%=(null == map.get("idFrom")) ? "(环)" : ""%>
+						<%=(String) map.get("name")%><%=(null == map.get("posFrom")) ? "(环)" : ""%>
 						<a href="#!" class="secondary-content"><i
 							class="material-icons red0 tooltipped" data-position="top"
 							data-delay="50" data-tooltip="delete?">close</i></a>
@@ -161,14 +161,14 @@
 						<span
 							class="thin grey-text text-darken-1 routine-orientation-text">To</span>
 						<%
-							String[] stationNameTo = (String[]) map.get("stationNameTo");
+							String[] posTo = (String[]) map.get("posTo");
 								String[] startTimeTo = (String[]) map.get("startTimeTo");
 								String[] endTimeTo = (String[]) map.get("endTimeTo");
-								String[] stationNameFrom = (String[]) map.get("stationNameFrom");
+								String[] posFrom = (String[]) map.get("posFrom");
 								String[] startTimeFrom = (String[]) map.get("startTimeFrom");
 								String[] endTimeFrom = (String[]) map.get("endTimeFrom");
-								for (int i = 0; i < stationNameTo.length; i++) {
-									if (i == 0 || i == stationNameTo.length - 1) {
+								for (int i = 0; i < posTo.length; i++) {
+									if (i == 0 || i == posTo.length - 1) {
 						%>
 
 						<!-- 站点 -->
@@ -177,7 +177,7 @@
 							data-position="top" data-delay="50"
 							data-tooltip="<%=startTimeTo[i]%>---><%=endTimeTo[i]%>" href='#'
 							onclick="deleteStop(<%=(Integer) map.get("id")%>,<%=i%>,0)">
-							<%=stationName.get(Integer.valueOf(idTo[i]))%>
+							<%=stationName.get(Integer.valueOf(posTo[i])-1)%>
 						</a>
 						<%
 							} else {
@@ -187,12 +187,12 @@
 							data-position="top" data-delay="50"
 							data-tooltip="<%=startTimeTo[i]%>---><%=endTimeTo[i]%>" href='#'
 							onclick="deleteStop(<%=(Integer) map.get("id")%>,<%=i%>,0)">
-							<%=stationName.get(Integer.valueOf(idTo[i]))%>
+							<%=stationName.get(Integer.valueOf(posTo[i])-1)%>
 						</a>
 
 						<%
 							}
-									if (i < stationNameTo.length - 1) {
+									if (i < posTo.length - 1) {
 						%>
 						<span
 							class="waves-effect waves-light  grey-text text-darken-1 btn-flat tooltipped modal-trigger"
@@ -206,14 +206,14 @@
 						%>
 
 						<%
-							if (null != stationNameFrom) {
+							if (null != posFrom) {
 						%>
 						<span
 							class="thin grey-text text-darken-1 routine-orientation-text"
 							style="margin-top: 28px;">From</span>
 						<%
-							for (int i = 0; i < stationNameFrom.length; i++) {
-										if (i == 0 || i == stationNameFrom.length - 1) {
+							for (int i = 0; i < posFrom.length; i++) {
+										if (i == 0 || i == posFrom.length - 1) {
 						%>
 						<a
 							class='routine-station-change2 path-station-rnd  disabled  cyan  white-text  z-depth-1 tooltipped'
@@ -221,7 +221,7 @@
 							data-tooltip="<%=startTimeFrom[i]%>---><%=endTimeFrom[i]%>"
 							href='#'
 							onclick="deleteStop(<%=(Integer) map.get("id")%>,<%=i%>,1)">
-							<%=stationName.get(Integer.valueOf(idFrom[i]))%>
+							<%=stationName.get(Integer.valueOf(posFrom[i])-1)%>
 
 						</a>
 						<%
@@ -234,11 +234,11 @@
 							data-tooltip="<%=startTimeFrom[i]%>---><%=endTimeFrom[i]%>"
 							href='#'
 							onclick="deleteStop(<%=(Integer) map.get("id")%>,<%=i%>,1)">
-							<%=stationName.get(Integer.valueOf(idFrom[i]))%>
+							<%=stationName.get(Integer.valueOf(posFrom[i])-1)%>
 						</a>
 						<%
 							}
-										if (i < stationNameFrom.length - 1) {
+										if (i < posFrom.length - 1) {
 						%>
 						<span
 							class="waves-effect waves-light  grey-text text-darken-1 btn-flat tooltipped modal-trigger"

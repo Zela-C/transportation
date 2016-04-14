@@ -13,6 +13,7 @@ import dao.RoutineDao;
 import dao.StationDao;
 import entity.Routine;
 import entity.Station;
+import helper.StationPool;
 
 @WebServlet(name = "DeleteStopServlet", urlPatterns = { "/deletestop" })
 public class DeleteStopServlet extends HttpServlet {
@@ -28,7 +29,10 @@ public class DeleteStopServlet extends HttpServlet {
 		Integer dir = Integer.valueOf(req.getParameter("dir"));
 		RoutineDao routineDao = new RoutineDao();
 		Routine routine = routineDao.get(Routine.class, id);
-		//delete correspond data in database.
+		// delete correspond data in the static station pool.
+		// StationPool.deleteFromList(pos);
+
+		// delete correspond data in database.
 		if (dir == 0) {
 			routine.setPosTo(cutFromString(routine.getPosTo(), pos));
 			routine.setLenTo(cutFromString(routine.getLenTo(), pos));
@@ -41,8 +45,8 @@ public class DeleteStopServlet extends HttpServlet {
 			routine.setEndTimeFrom(cutFromString(routine.getEndTimeFrom(), pos));
 		}
 		routineDao.update(routine);
-		
-		//check if the station is no longer be referenced.	
+
+		// check if the station is no longer be referenced.
 		List<Routine> routineList = routineDao.getAllRoutines();
 		String position = String.valueOf(pos);
 		boolean isRefered = false;
@@ -54,13 +58,13 @@ public class DeleteStopServlet extends HttpServlet {
 			}
 		}
 		if (false == isRefered) {
-			StationDao stationDao=new StationDao();
+			StationDao stationDao = new StationDao();
 			Station station = stationDao.findByPos(pos);
 			station.setUnreferenced(1);
 			stationDao.update(station);
 		}
-		
-		//refresh the page
+
+		// refresh the page
 		resp.sendRedirect("routine.jsp");
 	}
 

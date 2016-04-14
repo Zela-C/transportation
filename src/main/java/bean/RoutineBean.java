@@ -36,16 +36,16 @@ public class RoutineBean {
 		for (Routine routine : routines) {
 			// 初始化
 			HashMap<String, Object> map = new HashMap<String, Object>();
-			String[] idTo = routine.getPosTo().trim().split("\\$");
+			String[] posTo = routine.getPosTo().trim().split("\\$");
 			String[] endTimeTo = routine.getEndTimeTo().trim().split("\\$");
 			String[] startTimeTo = routine.getStartTimeTo().trim().split("\\$");
 			String from = routine.getPosFrom().trim();
-
-			String[] idFrom = null;
+						
+			String[] posFrom = null;
 			String[] endTimeFrom = null;
 			String[] startTimeFrom = null;
 			if (null != from && !from.equals("")) {// 不是环线
-				idFrom = from.split("\\$");
+				posFrom = from.split("\\$");
 				endTimeFrom = routine.getEndTimeFrom().trim().split("\\$");
 				startTimeFrom = routine.getStartTimeFrom().trim().split("\\$");
 			}
@@ -53,10 +53,10 @@ public class RoutineBean {
 			map.put("time", routine.getTime());
 			map.put("length", routine.getLength());
 			map.put("name", routine.getName());
-			map.put("idTo", idTo);
+			map.put("posTo", posTo);
 			map.put("endTimeTo", endTimeTo);
 			map.put("startTimeTo", startTimeTo);
-			map.put("idFrom", idFrom);
+			map.put("posFrom", posFrom);
 			map.put("endTimeFrom", endTimeFrom);
 			map.put("startTimeFrom", startTimeFrom);
 			list.add(map);

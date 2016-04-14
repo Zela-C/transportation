@@ -198,7 +198,6 @@
 						for (HashMap<String, Object> map : list) {
 					%>
 					<tr>
-<<<<<<< HEAD
 						<td><%=(Integer) map.get("pos")%></td>
 						<td><%=(String) map.get("name")%></td>
 						<td><%=(Double) map.get("longitude")%></td>
@@ -206,16 +205,6 @@
 						<td><i class="btn-flat material-icons  red0 tooltipped thin"
 							data-position="top" data-delay="50" data-tooltip="delete?"
 							onclick="deleteStation(<%=(Integer) map.get("pos")%>)">×</i></td>
-=======
-						<td><%=station.getPos()%></td>
-						<td><%=station.getName()%></td>
-						<td><%=station.getLongitude()%></td>
-						<td><%=station.getLatitude()%></td>
-						<td><i class="btn-flat material-icons  red0 tooltipped thinmodal-trigger"
-		data-target="delete_dialog"
-							data-position="top" data-delay="50" data-tooltip="delete?" id=""
-							onclick="deleteStation(<%=station.getPos()%>)">×</i></td>
->>>>>>> 64a6491b8994fbd58d4e2c62397d52861edfe0c9
 					</tr>
 					<%
 						}
