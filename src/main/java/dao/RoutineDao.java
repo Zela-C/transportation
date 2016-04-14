@@ -2,6 +2,8 @@ package dao;
 
 import java.util.List;
 
+import org.hibernate.Session;
+
 import entity.Routine;
 
 public class RoutineDao extends BaseDao<Routine>{
@@ -26,10 +28,13 @@ public class RoutineDao extends BaseDao<Routine>{
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Routine> findByPage(String hql, int pageNo, int pageSize) {
+		Session session = getSessionFactory().openSession();
 		// 创建查询
-		return getSessionFactory().openSession().createQuery(hql)
+		List<Routine> list = session.createQuery(hql)
 				// 执行分页
 				.setFirstResult((pageNo - 1) * pageSize).setMaxResults(pageSize).list();
+		session.close();
+		return list;
 	}
 	
 }

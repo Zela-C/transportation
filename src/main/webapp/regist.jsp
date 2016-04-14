@@ -83,7 +83,7 @@
 				</div>
 				<center>
 					<button class="btn cyan waves-effect waves-light no_uppercase" type="submit"  name="regist">Submit</button>
-					<a class="btn cyan waves-effect waves-light no_uppercase" href="login.jsp"  name="regist">Back?</a>
+					<a class="btn cyan waves-effect waves-light no_uppercase" href="login.jsp" >Back?</a>
 				</center>
 			</form>
 		</div>

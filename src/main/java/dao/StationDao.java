@@ -2,6 +2,9 @@ package dao;
 
 import java.util.List;
 
+import org.hibernate.Query;
+import org.hibernate.Session;
+
 import entity.Station;
 
 public class StationDao extends BaseDao<Station> {
@@ -39,18 +42,13 @@ public class StationDao extends BaseDao<Station> {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Station> findByPage(String hql, int pageNo, int pageSize) {
-		// 创建查询
-		return getSessionFactory().openSession().createQuery(hql)
+		Session session = getSessionFactory().openSession();
+		List<Station> list = session.createQuery(hql)
 				// 执行分页
 				.setFirstResult((pageNo - 1) * pageSize).setMaxResults(pageSize).list();
-	}
 
-	@Override
-	public List<Station> find(String hql) {
-		return super.find(hql);
-	}
-
-	public String getStationName(Integer pos) {
-		return get(Station.class, findByPos(pos).getId()).getName();
+		session.close();
+		// 创建查询
+		return list;
 	}
 }

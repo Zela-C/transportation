@@ -232,7 +232,7 @@ main {
 	max-width: 100% !important;
 	left: 0% !important;
 	top:unset !important;
-	height:10%;
+/* 	height:9.4%; */
 }
 
 .toast {
@@ -308,4 +308,16 @@ main {
 
 .user_drop_down {
 	top: unset !important;
+}
+
+.block_center{
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	background-color:inherit !important;
+}
+
+.routine_add_container{
+	height:100% !important;
+	max-height:100% !important;
 }

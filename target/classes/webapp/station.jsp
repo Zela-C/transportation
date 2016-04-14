@@ -23,50 +23,16 @@
 	font-size: medium;
 }
 </style>
-
 <script type="text/javascript">
-function check_position(obj) {
-	var label="#"+$(obj).attr("id")+"_label";
-	var reg = new RegExp("^[+-]?[0-9]+(\.[0-9]+)?$");
-	with(obj){
-	if(null == value || value==""){
-		if($(label).hasClass("active")){
-			$(label).removeClass("active");
-		}
-		if($(obj).hasClass("valid") == true){
-			$(obj).removeClass("valid");
-		}
-		if($(obj).hasClass("invalid") == true){
-			$(obj).removeClass("invalid");
-		}
-		return false;
-	}
-	 if(false == reg .test(value)){
-			if($(obj).hasClass("valid") == true){
-				$(obj).removeClass("valid");
-			}
-			$(label).addClass("active");
-			$(obj).addClass("invalid");
-			return false;
-	 }
-	 else{
-			if($(obj).hasClass("invalid") == true){
-				$(obj).removeClass("invalid");
-			}
-			$(label).addClass("active");
-			$(obj).addClass("valid");
-			return true;
-	 }
-	}
-}
-
-
-function check_station_add(thisForm) {
-	return false;
-}
-
-
-</script>
+	var pos=-1;
+	  function deleteStation(tpos){
+		  pos=tpos;
+		  $('#delete_dialog').openModal();
+	  }
+	  function tosServlet(){
+			window.location.href="http://localhost:8080/transportation/deletestation?pos="+pos;
+	  }
+	</script>
 </head>
 <%!private StationDao stationDao = new StationDao();
 	int count = (int) stationDao.getStationsCount();
@@ -118,14 +84,23 @@ function check_station_add(thisForm) {
 							data-success="ok">&nbsp;</label>
 					</div>
 				</div>
-				<center>
-					<div class="btn-flat waves-effect waves-red no_uppercase">
-						<span>&nbsp;</span> <input type="submit" value="Sure&nbsp;">
-					</div>
-				</center>
+					<button class="grey-text text-darken-1 btn-flat white waves-effect waves-red no_uppercase block_center" type="submit">  Sure
+					</button>
 			</div>
 		</form>
 	</div>
+	<!-- 这个是删除对话框 -->
+	  <div id="delete_dialog" class="modal delete_routine_stop_dialog">
+<div class="modal-content  grey-text text-darken-1">
+      <h5 class=""><span class="red-text text-accent-1">Delete</span> this station?</h5>
+          <div class="row row_no_margin_bottom">
+		<a class="btn-flat col s6 center-align modal-close waves-effect waves-red grey-text text-darken-1"  onclick="tosServlet()">Yes</a>
+		<a class="btn-flat col s6 center-align modal-close waves-effect waves-red grey-text text-darken-1" href="#!">No</a>
+    </div>
+  
+  </div>
+  </div>
+  
 	<ul id="dropdown1" class="dropdown-content user_drop_down">
 		<li><a href="#!"><%=session.getAttribute("user")%></a></li>
 		<li class="divider"></li>
@@ -213,8 +188,9 @@ function check_station_add(thisForm) {
 						<td><%=station.getName()%></td>
 						<td><%=station.getLongitude()%></td>
 						<td><%=station.getLatitude()%></td>
-						<td><i class="btn-flat material-icons  red0 tooltipped thin"
-							data-position="top" data-delay="50" data-tooltip="delete?"
+						<td><i class="btn-flat material-icons  red0 tooltipped thinmodal-trigger"
+		data-target="delete_dialog"
+							data-position="top" data-delay="50" data-tooltip="delete?" id=""
 							onclick="deleteStation(<%=station.getPos()%>)">×</i></td>
 					</tr>
 					<%
@@ -284,10 +260,5 @@ function check_station_add(thisForm) {
 	<script src="js/materialize.js"></script>
 	<script src="js/init.js"></script>
 	<script type="text/javascript" src="js/validate.js"></script>
-	<script type="text/javascript">
-	  function deleteStation(pos){
-		location.href="http://localhost:8080/transportation/deletestation?pos="+pos;
-	  } 
-	</script>
 </body>
 </html>

@@ -133,7 +133,6 @@ function validate_regist(thisForm) {
 				success : function(msg) {
 					if ('suc' == msg) {
 						Materialize.toast('Regist successfully! Please Login!', 4000,'toast_right');
-							window.location.replace("login.jsp")
 						flag = true;
 					} else if ('usr_exist' == msg) {
 						Materialize.toast('User has already existed!', 4000,'toast_wrong');
@@ -154,7 +153,10 @@ function validate_regist(thisForm) {
 					}
 				}
 			});
-			return flag;
+			if(flag){
+				window.location.replace("login.jsp")
+			}
+			return false;
 		}
 	}
 }
@@ -190,7 +192,6 @@ function login_check(thisForm) {
 		success : function(msg) {
 			if ('suc' == msg) {
 				Materialize.toast('Login successfully!', 4000,'toast_right');
-				window.location.href = "path.jsp"
 				flag = true;
 			} else if ("no_usr" == msg) {
 				Materialize.toast('User not exist!', 4000,'toast_wrong');
@@ -215,5 +216,103 @@ function login_check(thisForm) {
 			}
 		}
 	});
-	return flag;
+	if(flag){
+		window.location.replace("path.jsp")
+	}
+	return false;
+}
+
+function check_position(obj) {
+	var label="#"+$(obj).attr("id")+"_label";
+	var reg = new RegExp("^[+-]?[0-9]+(\.[0-9]+)?$");
+	with(obj){
+	if(null == value || value==""){
+		if($(label).hasClass("active")){
+			$(label).removeClass("active");
+		}
+		if($(obj).hasClass("valid") == true){
+			$(obj).removeClass("valid");
+		}
+		if($(obj).hasClass("invalid") == true){
+			$(obj).removeClass("invalid");
+		}
+		return false;
+	}
+	 if(false == reg .test(value)){
+			if($(obj).hasClass("valid") == true){
+				$(obj).removeClass("valid");
+			}
+			$(label).addClass("active");
+			$(obj).addClass("invalid");
+			return false;
+	 }
+	 else{
+			if($(obj).hasClass("invalid") == true){
+				$(obj).removeClass("invalid");
+			}
+			$(label).addClass("active");
+			$(obj).addClass("valid");
+			return true;
+	 }
+	}
+}
+
+
+function check_station_add(thisForm) {
+	var ret=true;
+	with(thisForm){
+		ret=validate_required_form(station_add)&&ret;
+		ret=check_position(longtitude_add)&&ret;
+		ret=check_position(latitude_add)&&ret;
+		ret=validate_required_form(longtitude_add)&&ret;
+		ret=validate_required_form(latitude_add)&&ret;
+		ret=validate_required_form(region_add)&&ret;
+		if(!ret){
+			return false;
+		}
+		$.ajax({
+			cache : false,
+			type : "POST",
+			url : "addstation",
+			data : $(thisForm).serialize(),
+			async : false,
+			error : function(xmlHttpRequest, msg, exception) {
+				Materialize.toast('Request failed:' + msg, 4000, 'toast_wrong')
+			},
+			success : function(msg) {
+				if ('suc' == msg) {
+					Materialize.toast('Add Station successfully!', 4000,'toast_right');
+					flag = true;
+				} else if ('region_err' == msg) {
+					if ($(thisForm.region_add).hasClass("valid") == true) {
+						$(thisForm.region_add).removeClass("valid");
+					}
+					$(thisForm.region_add).addClass("invalid");
+					$(thisForm.region_add_label).addClass("active");
+					flag = false;
+				} else if ('station_err' == msg) {
+					if ($(thisForm.station_add).hasClass("valid") == true) {
+						$(thisForm.station_add).removeClass("valid");
+					}
+					$(thisForm.station_add).addClass("invalid");
+					$(thisForm.station_add_label).addClass("active");
+					flag = false;
+				} else if ('pos_err' == msg) {
+					if ($(thisForm.latitude_add).hasClass("valid") == true) {
+						$(thisForm.latitude_add).removeClass("valid");
+					}
+					if ($(thisForm.longtitude_add).hasClass("valid") == true) {
+						$(thisForm.longtitude_add).removeClass("valid");
+					}
+					$(thisForm.longtitude_add).addClass("invalid");
+					$(thisForm.longtitude_add_label).addClass("active");
+					flag = false;
+				}
+			}
+		});
+		if(flag){
+			window.location.reload();
+		}
+		return false;
+	}
 }

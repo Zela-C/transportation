@@ -35,34 +35,34 @@ public class RoutineBean {
 		for (Routine routine : routines) {
 			// 初始化
 			HashMap<String, Object> map = new HashMap<String, Object>();
-			String[] idTo = routine.getPosTo().trim().split("\\$");
+			String[] posTo = routine.getPosTo().trim().split("\\$");
 			String[] endTimeTo = routine.getEndTimeTo().trim().split("\\$");
 			String[] startTimeTo = routine.getStartTimeTo().trim().split("\\$");
-			for (int i =0;i<idTo.length;i++) {
-				idTo[i] = stationDao.getStationName(Integer.valueOf(idTo[i]));
+			for (int i =0;i<posTo.length;i++) {
+				posTo[i] = stationDao.findByPos(Integer.valueOf(posTo[i])).getName();
 			}
 			String from = routine.getPosFrom().trim();
 
-			String[] idFrom = null;
+			String[] posFrom = null;
 			String[] endTimeFrom = null;
 			String[] startTimeFrom = null;
 			if (null != from && !from.equals("")) {// 不是环线
-				idFrom = from.split("\\$");
+				posFrom = from.split("\\$");
 				endTimeFrom = routine.getEndTimeFrom().trim().split("\\$");
 				startTimeFrom = routine.getStartTimeFrom().trim().split("\\$");
 
-				for (int i = 0 ; i<idFrom.length;i++) {
-					idFrom[i]= stationDao.getStationName(Integer.valueOf(idFrom[i]));
+				for (int i = 0 ; i<posFrom.length;i++) {
+					posFrom[i]= stationDao.findByPos(Integer.valueOf(posFrom[i])).getName();
 				}
 			}
 			map.put("id", routine.getId());	
 			map.put("time", routine.getTime());
 			map.put("length", routine.getLength());
 			map.put("name", routine.getName());
-			map.put("idTo", idTo);
+			map.put("stationNameTo", posTo);
 			map.put("endTimeTo", endTimeTo);
 			map.put("startTimeTo", startTimeTo);
-			map.put("idFrom", idFrom);
+			map.put("stationNameFrom", posFrom);
 			map.put("endTimeFrom", endTimeFrom);
 			map.put("startTimeFrom", startTimeFrom);
 			list.add(map);

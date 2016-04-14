@@ -157,14 +157,14 @@
 						<span
 							class="thin grey-text text-darken-1 routine-orientation-text">To</span>
 						<%
-							String[] idTo = (String[]) map.get("idTo");
+							String[] stationNameTo = (String[]) map.get("stationNameTo");
 								String[] startTimeTo = (String[]) map.get("startTimeTo");
 								String[] endTimeTo = (String[]) map.get("endTimeTo");
-								String[] idFrom = (String[]) map.get("idFrom");
+								String[] stationNameFrom = (String[]) map.get("stationNameFrom");
 								String[] startTimeFrom = (String[]) map.get("startTimeFrom");
 								String[] endTimeFrom = (String[]) map.get("endTimeFrom");
-								for (int i = 0; i < idTo.length; i++) {
-									if (i == 0 || i == idTo.length - 1) {
+								for (int i = 0; i < stationNameTo.length; i++) {
+									if (i == 0 || i == stationNameTo.length - 1) {
 						%>
 
 						<!-- 站点 -->
@@ -172,7 +172,7 @@
 							class='routine-station-change2 path-station-rnd   cyan  white-text  z-depth-1 tooltipped'
 							data-position="top" data-delay="50"
 							data-tooltip="<%=startTimeTo[i]%>---><%=endTimeTo[i]%>" href='#'
-							onclick="deleteStop(<%=(Integer)map.get("id")%>,<%=i%>,0)"> <%=idTo[i]%>
+							onclick="deleteStop(<%=(Integer)map.get("id")%>,<%=i%>,0)"> <%=stationNameTo[i]%>
 						</a>
 						<%
 							} else {
@@ -181,12 +181,12 @@
 							class='routine-station-change path-station-rnd  disabled  white grey-text text-darken-1 z-depth-1 tooltipped'
 							data-position="top" data-delay="50"
 							data-tooltip="<%=startTimeTo[i]%>---><%=endTimeTo[i]%>" href='#'
-							onclick="deleteStop(<%=(Integer)map.get("id")%>,<%=i%>,0)"> <%=idTo[i]%>
+							onclick="deleteStop(<%=(Integer)map.get("id")%>,<%=i%>,0)"> <%=stationNameTo[i]%>
 						</a>
 
 						<%
 							}
-									if (i < idTo.length - 1) {
+									if (i < stationNameTo.length - 1) {
 						%>
 						<span
 							class="waves-effect waves-light  grey-text text-darken-1 btn-flat tooltipped modal-trigger"
@@ -200,20 +200,20 @@
 						%>
 
 						<%
-							if (null != idFrom) {
+							if (null != stationNameFrom) {
 						%>
 						<span
 							class="thin grey-text text-darken-1 routine-orientation-text"
 							style="margin-top: 28px;">From</span>
 						<%
-							for (int i = 0; i < idFrom.length; i++) {
-										if (i == 0 || i == idFrom.length - 1) {
+							for (int i = 0; i < stationNameFrom.length; i++) {
+										if (i == 0 || i == stationNameFrom.length - 1) {
 						%>
 						<a
 							class='routine-station-change2 path-station-rnd  disabled  cyan  white-text  z-depth-1 tooltipped'
 							data-position="top" data-delay="50"
 							data-tooltip="<%=startTimeFrom[i]%>---><%=endTimeFrom[i]%>" href='#' 
-							onclick="deleteStop(<%=(Integer)map.get("id")%>,<%=i%>,1)"> <%=idFrom[i]%>
+							onclick="deleteStop(<%=(Integer)map.get("id")%>,<%=i%>,1)"> <%=stationNameFrom[i]%>
 						</a>
 						<%
 							} else {
@@ -223,11 +223,11 @@
 							class='routine-station-change path-station-rnd  white grey-text text-darken-1  z-depth-1 tooltipped'
 							data-position="top" data-delay="50"
 							data-tooltip="<%=startTimeFrom[i]%>---><%=endTimeFrom[i]%>"	href='#'
-							onclick="deleteStop(<%=(Integer)map.get("id")%>,<%=i%>,1)"> <%=idFrom[i]%>
+							onclick="deleteStop(<%=(Integer)map.get("id")%>,<%=i%>,1)"> <%=stationNameFrom[i]%>
 						</a>
 						<%
 							}
-										if (i < idFrom.length - 1) {
+										if (i < stationNameFrom.length - 1) {
 						%>
 						<span
 							class="waves-effect waves-light  grey-text text-darken-1 btn-flat tooltipped modal-trigger"
@@ -244,8 +244,8 @@
 						<br />
 						<div class="row orange-text text-darken-2 container">
 							<span class="col m0 s1 l0">&nbsp;</span><span
-								class="col s5 m2 l2 center-align">Time :<%=(Integer) map.get("time")%>&nbsp min
-							</span><span class="col s5 m4 l3 center-align">Length :<%=(Double) map.get("length")%>&nbsp km
+								class="col s5 m2 l2 center-align">Time :<%=(Integer) map.get("time")%>min
+							</span><span class="col s5 m4 l3 center-align">Length :<%=(Double) map.get("length")%>km
 							</span>
 							<!-- 附加信息结束 -->
 						</div>
