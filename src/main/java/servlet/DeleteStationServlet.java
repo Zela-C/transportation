@@ -26,22 +26,19 @@ public class DeleteStationServlet extends HttpServlet {
 		Integer pos = Integer.valueOf(req.getParameter("pos"));
 		StationDao stationDao = new StationDao();
 		RoutineDao routineDao = new RoutineDao();
-		List<Routine> routineList = routineDao.getAllRoutines();
-		for (Routine bus : routineList) {
-			if (bus.getPosTo().contains(String.valueOf(pos) + '$') || bus.getPosFrom().contains(String.valueOf(pos) + '$')
-					|| bus.getPosTo().contains('$' + String.valueOf(pos))
-					|| bus.getPosFrom().contains('$' + String.valueOf(pos))) {
-				resp.sendRedirect("balala.jsp");
-				break;
+
+		Station stationDelete = stationDao.findByPos(pos);
+		if (1 == stationDelete.getUnreferenced()) {//the station isn't referred by any routine ,can be deleted safely
+			stationDao.delete(Station.class, stationDelete.getId());
+			List<Station> list = stationDao.find("from Station where pos>" + pos);
+			if (!list.isEmpty()) {
+				for (Station station : list) {
+					station.setPos(station.getPos() - 1);
+					stationDao.update(station);
+				}
 			}
-		}
-		stationDao.delete(Station.class, stationDao.findByPos(pos).getId());
-		List<Station> list = stationDao.find("from Station where pos>" + pos);
-		if (!list.isEmpty()) {
-			for (Station station : list) {
-				station.setPos(station.getPos() - 1);
-				stationDao.update(station);
-			}
+		} else {//the station is being referred by some routine , can not be deleted
+			//TODO
 		}
 		resp.sendRedirect("station.jsp");
 	}
