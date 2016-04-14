@@ -107,7 +107,7 @@ public abstract class BaseDao<T> {
 
 	// 根据HQL语句查询实体
 	@SuppressWarnings("unchecked")
-	protected List<T> find(String hql) {
+	public List<T> find(String hql) {
 		Session sesssion = sessionFactory.openSession();
 		List<T> list = (List<T>) sesssion.createQuery(hql).list();
 		sesssion.close();

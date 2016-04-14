@@ -1,3 +1,5 @@
+<%@page import="java.util.HashMap"%>
+<%@page import="bean.StationBean"%>
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"
 	import="java.util.List,entity.Station,dao.StationDao"%>
@@ -68,8 +70,10 @@ function check_station_add(thisForm) {
 
 </script>
 </head>
-<%!private StationDao stationDao = new StationDao();
-	int count = (int) stationDao.getStationsCount();
+<%!StationDao dao = new StationDao();
+	StationBean bean = new StationBean();
+	List<HashMap<String, Object>> list = null;
+	int count = 0;
 	int curPage = 1;
 	private static final int pageSize = 10;%>
 <body>
@@ -167,15 +171,15 @@ function check_station_add(thisForm) {
 		<div class="row">
 			<div class="col s0 m2">&nbsp;</div>
 			<!-- 搜索框 -->
-			<form class="container card  col s12 m8 path-search-card "
-				action="findPath" method="post">
+			<form class="container card  col s12 m8 path-search-card " action=""
+				method="get">
 				<div class="row ">
 					<div class="input-field col s12 l9 m8">
-						<input placeholder="station" name="start" value="" type="text">
+						<input placeholder="station" name="station" value="" type="text">
 					</div>
 					<div class="input-field col s12 l3 m4 center-align">
 						<button class="btn btn-rnd cyan waves-effect waves-light"
-							type="submit" required="" name="login">Search</button>
+							type="submit">Search</button>
 					</div>
 				</div>
 			</form>
@@ -204,18 +208,28 @@ function check_station_add(thisForm) {
 						if (curPage < 1 || curPage > count / 10 + 1) {
 							response.sendRedirect("/transportation/station.jsp");
 						}
-						List<Station> stations = stationDao.findByPage("select en from " + Station.class.getSimpleName() + " en",
-								curPage, pageSize);
-						for (Station station : stations) {
+
+						String name = request.getParameter("station");
+						if (null == name) {
+							list = bean.getByPage(curPage);
+							count = (int) dao.getStationsCount();
+						} else {
+							list = bean.searchByPage(name, curPage);
+							count = (int) dao.findCount("select count(*) from Station where name like '%" + name + "%'",
+									Station.class);
+							System.out.println("快的一笔！" + count);
+						}
+
+						for (HashMap<String, Object> map : list) {
 					%>
 					<tr>
-						<td><%=station.getPos()%></td>
-						<td><%=station.getName()%></td>
-						<td><%=station.getLongitude()%></td>
-						<td><%=station.getLatitude()%></td>
+						<td><%=(Integer) map.get("pos")%></td>
+						<td><%=(String) map.get("name")%></td>
+						<td><%=(Double) map.get("longitude")%></td>
+						<td><%=(Double) map.get("latitude")%></td>
 						<td><i class="btn-flat material-icons  red0 tooltipped thin"
 							data-position="top" data-delay="50" data-tooltip="delete?"
-							onclick="deleteStation(<%=station.getPos()%>)">×</i></td>
+							onclick="deleteStation(<%=(Integer) map.get("pos")%>)">×</i></td>
 					</tr>
 					<%
 						}
@@ -228,45 +242,49 @@ function check_station_add(thisForm) {
 			<li class=<%=curPage == 1 ? "disabled" : "enabled"%>
 				style="padding: 0px ! important; margin: 0px;"><a
 				class=<%=curPage == 1 ? "teal-text" : "white-text"%>
-				href=<%=curPage <= 1 ? "#!" : "?curPage=1"%>><i
+				href=<%=curPage <= 1 ? "#!" : "?curPage=1" + (name == null ? "" : "&station=" + name)%>><i
 					class="material-icons" style="font-size: 1.2rem !important;">fast_rewind</i></a></li>
 			<li class=<%=curPage == 1 ? "disabled" : "enabled"%>
 				style="padding: 0px ! important; margin: 0px;"><a
 				class=<%=curPage == 1 ? "teal-text" : "white-text"%>
-				href=<%=curPage <= 1 ? "#!" : "?curPage=" + (curPage - 1)%>><i
+				href=<%=curPage <= 1 ? "#!" : "?curPage=" + (curPage - 1) + (name == null ? "" : "&station=" + name)%>><i
 					class="material-icons" style="font-size: 1.2rem !important;">chevron_left</i></a></li>
 			<li><a
 				class=<%=curPage == ((curPage - 1) / 5 * 5 + 1) ? "white-text" : "teal-text"%>
-				href="?curPage=<%=(curPage - 1) / 5 * 5 + 1%>"><%=(curPage - 1) / 5 * 5 + 1%></a></li>
+				href="?curPage=<%=(curPage - 1) / 5 * 5 + 1%><%=name == null ? "" : "&station=" + name%>"><%=(curPage - 1) / 5 * 5 + 1%></a></li>
 			<%=((curPage - 1) / 5 * 5 + 2) > count / 10 + 1 ? "<!--" : ""%>
 			<li><a
 				class=<%=curPage == ((curPage - 1) / 5 * 5 + 2) ? "white-text" : "teal-text"%>
-				href="?curPage=<%=(curPage - 1) / 5 * 5 + 2%>"><%=(curPage - 1) / 5 * 5 + 2%></a></li>
+				href="?curPage=<%=(curPage - 1) / 5 * 5 + 2%><%=name == null ? "" : "&station=" + name%>"><%=(curPage - 1) / 5 * 5 + 2%></a></li>
 			<%=((curPage - 1) / 5 * 5 + 2) > count / 10 + 1 ? "--!>" : " "%>
 			<%=((curPage - 1) / 5 * 5 + 3) > count / 10 + 1 ? "<!--" : " "%>
 			<li><a
 				class=<%=curPage == ((curPage - 1) / 5 * 5 + 3) ? "white-text" : "teal-text"%>
-				href="?curPage=<%=(curPage - 1) / 5 * 5 + 3%>"><%=(curPage - 1) / 5 * 5 + 3%></a></li>
+				href="?curPage=<%=(curPage - 1) / 5 * 5 + 3%><%=name == null ? "" : "&station=" + name%>"><%=(curPage - 1) / 5 * 5 + 3%></a></li>
 			<%=((curPage - 1) / 5 * 5 + 3) > count / 10 + 1 ? "--!>" : " "%>
 			<%=((curPage - 1) / 5 * 5 + 4) > count / 10 + 1 ? "<!--" : " "%>
 			<li><a
 				class=<%=curPage == ((curPage - 1) / 5 * 5 + 4) ? "white-text" : "teal-text"%>
-				href="?curPage=<%=(curPage - 1) / 5 * 5 + 4%>"><%=(curPage - 1) / 5 * 5 + 4%></a></li>
+				href="?curPage=<%=(curPage - 1) / 5 * 5 + 4%><%=name == null ? "" : "&station=" + name%>"><%=(curPage - 1) / 5 * 5 + 4%></a></li>
 			<%=((curPage - 1) / 5 * 5 + 4) > count / 10 + 1 ? "--!>" : " "%>
 			<%=((curPage - 1) / 5 * 5 + 5) > count / 10 + 1 ? "<!--" : " "%>
 			<li><a
 				class=<%=curPage == ((curPage - 1) / 5 * 5 + 5) ? "white-text" : "teal-text"%>
-				href="?curPage=<%=(curPage - 1) / 5 * 5 + 5%>"><%=(curPage - 1) / 5 * 5 + 5%></a></li>
+				href="?curPage=<%=(curPage - 1) / 5 * 5 + 5%><%=name == null ? "" : "&station=" + name%>"><%=(curPage - 1) / 5 * 5 + 5%></a></li>
 			<%=((curPage - 1) / 5 * 5 + 5) > count / 10 + 1 ? "--!>" : " "%>
 			<li class=<%=curPage > count / 10 ? "disabled" : "enabled"%>
 				style="padding: 0px ! important; margin: 0px;"><a
 				class=<%=curPage > count / 10 ? "teal-text" : "white-text"%>
-				href=<%=curPage >= count / 10 + 1 ? "#!" : "?curPage=" + (curPage + 1)%>><i
+				href=<%=curPage >= count / 10 + 1
+					? "#!"
+					: "?curPage=" + (curPage + 1) + (name == null ? "" : "&station=" + name)%>><i
 					class="material-icons" style="font-size: 1.2rem !important;">chevron_right</i></a></li>
 			<li class=<%=curPage > count / 10 ? "disabled" : "enabled"%>
 				style="padding: 0px ! important; margin: 0px;"><a
 				class=<%=curPage > count / 10 ? "teal-text" : "white-text"%>
-				href=<%=curPage >= count / 10 + 1 ? "#!" : "?curPage=" + (count / 10 + 1)%>><i
+				href=<%=curPage >= count / 10 + 1
+					? "#!"
+					: "?curPage=" + (count / 10 + 1) + (name == null ? "" : "&station=" + name)%>><i
 					class="material-icons" style="font-size: 1.2rem !important;">fast_forward</i></a></li>
 		</ul>
 	</main>

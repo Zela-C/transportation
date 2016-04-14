@@ -9,9 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import dao.RoutineDao;
 import dao.StationDao;
-import entity.Routine;
 import entity.Station;
 
 @WebServlet(name = "DeleteStationServlet", urlPatterns = { "/deletestation" })
@@ -25,7 +23,6 @@ public class DeleteStationServlet extends HttpServlet {
 		System.out.println("你妈炸了！！！！");
 		Integer pos = Integer.valueOf(req.getParameter("pos"));
 		StationDao stationDao = new StationDao();
-		RoutineDao routineDao = new RoutineDao();
 
 		Station stationDelete = stationDao.findByPos(pos);
 		if (1 == stationDelete.getUnreferenced()) {//the station isn't referred by any routine ,can be deleted safely

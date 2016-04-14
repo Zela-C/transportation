@@ -3,6 +3,7 @@ package servlet;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.security.MessageDigest;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -10,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import dao.UserDao;
+import helper.StationPool;
 
 @WebServlet(name="Login" , urlPatterns={"/login"})
 public class LoginServlet extends HttpServlet{
@@ -36,7 +38,6 @@ public class LoginServlet extends HttpServlet{
 		}
 		else{ 
 			int admin=(int)userDao.getUserAuthority(name);
-			System.out.println(admin);
 			request.getSession().setAttribute("authority", admin);
 			request.getSession().setAttribute("user", name);
 			out. print("suc");
@@ -46,7 +47,7 @@ public class LoginServlet extends HttpServlet{
 		out.close();//关闭输入流
 		
 	}
-	public String bytesToHex(byte[] bytes) {
+	private String bytesToHex(byte[] bytes) {
 		StringBuffer md5str = new StringBuffer();
 		//把数组每一字节换成16进制连成md5字符串
 		int digital;
@@ -64,7 +65,7 @@ public class LoginServlet extends HttpServlet{
 	}
 	
 	//把字节数组转换成md5
-	public String bytesToMD5(byte[] input) {
+	private String bytesToMD5(byte[] input) {
 		String md5str = null;
 		try {
 			//创建一个提供信息摘要算法的对象，初始化为md5算法对象
