@@ -93,6 +93,16 @@ public abstract class BaseDao<T> {
 			return (Long) list.get(0);
 		}
 		return 0;
+	}	
+	
+	// 获取实体总数
+	public long findCount(String hql,Class<T> entityClazz) {
+		List<?> list = find(hql);
+		// 返回查询得到的实体总数
+		if (list != null && list.size() == 1) {
+			return (Long) list.get(0);
+		}
+		return 0;
 	}
 
 	// 根据HQL语句查询实体

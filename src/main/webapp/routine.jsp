@@ -1,6 +1,11 @@
-<%@ page language="java" contentType="text/html; charset=utf-8"
-	pageEncoding="utf-8"
-	import="java.util.List,dao.RoutineDao,entity.Routine,dao.StationDao"%>
+<%@page import="java.net.URLDecoder"%>
+<%@page import="entity.Routine"%>
+<%@page import="java.util.List"%>
+<%@page import="dao.RoutineDao"%>
+<%@page import="java.util.HashMap"%>
+<%@page import="bean.RoutineBean"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -28,11 +33,11 @@
 }
 </style>
 </head>
-<%!private RoutineDao routineDao = new RoutineDao();
-	private StationDao stationDao = new StationDao();
-	int count = (int) routineDao.getRoutineCount();
-	int curPage = 1;
-	private static final int pageSize = 10;%>
+<%!RoutineBean bean = new RoutineBean();
+	List<HashMap<String, Object>> list = null;
+	RoutineDao dao = new RoutineDao();
+	int count = 0;
+	int curPage = 1;%>
 <body>
 	<div id="add_stop_dialoge" class="modal"
 		style="width: 270px; height: 230x">
@@ -55,8 +60,8 @@
 		</form>
 	</div>
 	<ul id="dropdown1" class="dropdown-content user_drop_down">
-			<li><a href="#!"><%=session.getAttribute("user")%></a></li>
-	<li class="divider"></li>
+		<li><a href="#!"><%=session.getAttribute("user")%></a></li>
+		<li class="divider"></li>
 		<li><a href="#!">My Info</a></li>
 		<li><a href="logout">Logout</a></li>
 	</ul>
@@ -84,9 +89,9 @@
 			<li><a href="routine.jsp">Routine</a></li>
 			<li><a href="company.jsp">Company</a></li>
 			<li><a href="#!"><%=session.getAttribute("user")%></a></li>
-	<li class="divider"></li>
-		<li><a href="#!">My Info</a></li>
-		<li><a href="logout">Logout</a></li>
+			<li class="divider"></li>
+			<li><a href="#!">My Info</a></li>
+			<li><a href="logout">Logout</a></li>
 		</ul>
 	</div>
 	</nav> </header>
@@ -96,14 +101,14 @@
 			<div class="col s0 m2">&nbsp;</div>
 			<!-- 搜索框 -->
 			<form class="container card  col s12 m8 path-search-card " action=""
-				method="post">
+				method="get">
 				<div class="row ">
 					<div class="input-field col s12 l9 m8">
 						<input placeholder="routine" name="routine" value="" type="text">
 					</div>
 					<div class="input-field col s12 l3 m4 center-align">
 						<button class="btn btn-rnd cyan waves-effect waves-light"
-							type="submit" required="" name="search">Search</button>
+							type="submit"  >Search</button>
 					</div>
 				</div>
 			</form>
@@ -125,33 +130,23 @@
 					if (curPage < 1 || curPage > count / 10 + 1) {
 						response.sendRedirect("/transportation/routine.jsp");
 					}
-					//按页查询
-					List<Routine> routines = routineDao.findByPage("select en from " + Routine.class.getSimpleName() + " en",
-							curPage, pageSize);
-					//遍历该页所有对象
-					for (Routine routine : routines) {
-						//初始化
-						String[] idTo = routine.getPosTo().trim().split("\\$");
-						String[] endTimeTo = routine.getEndTimeTo().trim().split("\\$");
-						String[] startTimeTo = routine.getStartTimeTo().trim().split("\\$");
-
-						String from = routine.getPosFrom().trim();
-
-						String[] idFrom = null;
-						String[] endTimeFrom = null;
-						String[] startTimeFrom = null;
-						if (null != from && !from.equals("")) {
-							idFrom = from.split("\\$");
-							endTimeFrom = routine.getEndTimeFrom().trim().split("\\$");
-							startTimeFrom = routine.getStartTimeFrom().trim().split("\\$");
-						}
+					String name=request.getParameter("routine");
+					if(null==name){
+						list = bean.getByPage(curPage);
+						count=(int) dao.findCount(Routine.class);	
+					}else{
+						//name=URLDecoder.decode(name,"utf-8");
+						list = bean.searchByPage(name, curPage);
+						count=(int)dao.findCount("select count(*) from Routine where name like '%"+name+"%'",Routine.class);
+					}
+					for (HashMap<String, Object> map : list) {
 				%>
 				<li>
 					<!-- 线路名称信息 -->
 					<div class="collapsible-header grey-text text-darken-1">
 						<a><i class="material-icons bule0 tooltipped"
 							data-position="top" data-delay="50" data-tooltip="company">my_location</i></a>
-						<%=routine.getName()%><%=(null == idFrom) ? "(环)" : ""%>
+						<%=(String) map.get("name")%><%=(null == map.get("idFrom")) ? "(环)" : ""%>
 						<a href="#!" class="secondary-content"><i
 							class="material-icons red0 tooltipped" data-position="top"
 							data-delay="50" data-tooltip="delete?">close</i></a>
@@ -162,7 +157,13 @@
 						<span
 							class="thin grey-text text-darken-1 routine-orientation-text">To</span>
 						<%
-							for (int i = 0; i < idTo.length; i++) {
+							String[] idTo = (String[]) map.get("idTo");
+								String[] startTimeTo = (String[]) map.get("startTimeTo");
+								String[] endTimeTo = (String[]) map.get("endTimeTo");
+								String[] idFrom = (String[]) map.get("idFrom");
+								String[] startTimeFrom = (String[]) map.get("startTimeFrom");
+								String[] endTimeFrom = (String[]) map.get("endTimeFrom");
+								for (int i = 0; i < idTo.length; i++) {
 									if (i == 0 || i == idTo.length - 1) {
 						%>
 
@@ -170,8 +171,8 @@
 						<a
 							class='routine-station-change2 path-station-rnd   cyan  white-text  z-depth-1 tooltipped'
 							data-position="top" data-delay="50"
-							data-tooltip="<%=startTimeTo[i]%>---><%=endTimeTo[i]%>" href='#'>
-							<%=stationDao.getStationName(Integer.valueOf(idTo[i]))%>
+							data-tooltip="<%=startTimeTo[i]%>---><%=endTimeTo[i]%>" href='#'
+							onclick="deleteStop(<%=(Integer)map.get("id")%>,<%=i%>,0)"> <%=idTo[i]%>
 						</a>
 						<%
 							} else {
@@ -179,8 +180,8 @@
 						<a
 							class='routine-station-change path-station-rnd  disabled  white grey-text text-darken-1 z-depth-1 tooltipped'
 							data-position="top" data-delay="50"
-							data-tooltip="<%=startTimeTo[i]%>---><%=endTimeTo[i]%>" href='#'>
-							<%=stationDao.getStationName(Integer.valueOf(idTo[i]))%>
+							data-tooltip="<%=startTimeTo[i]%>---><%=endTimeTo[i]%>" href='#'
+							onclick="deleteStop(<%=(Integer)map.get("id")%>,<%=i%>,0)"> <%=idTo[i]%>
 						</a>
 
 						<%
@@ -211,8 +212,8 @@
 						<a
 							class='routine-station-change2 path-station-rnd  disabled  cyan  white-text  z-depth-1 tooltipped'
 							data-position="top" data-delay="50"
-							data-tooltip="<%=startTimeFrom[i]%>---><%=endTimeFrom[i]%>"
-							href='#'> <%=stationDao.getStationName(Integer.valueOf(idFrom[i]))%>
+							data-tooltip="<%=startTimeFrom[i]%>---><%=endTimeFrom[i]%>" href='#' 
+							onclick="deleteStop(<%=(Integer)map.get("id")%>,<%=i%>,1)"> <%=idFrom[i]%>
 						</a>
 						<%
 							} else {
@@ -221,8 +222,8 @@
 						<a
 							class='routine-station-change path-station-rnd  white grey-text text-darken-1  z-depth-1 tooltipped'
 							data-position="top" data-delay="50"
-							data-tooltip="<%=startTimeFrom[i]%>---><%=endTimeFrom[i]%>"
-							href='#'> <%=stationDao.getStationName(Integer.valueOf(idFrom[i]))%>
+							data-tooltip="<%=startTimeFrom[i]%>---><%=endTimeFrom[i]%>"	href='#'
+							onclick="deleteStop(<%=(Integer)map.get("id")%>,<%=i%>,1)"> <%=idFrom[i]%>
 						</a>
 						<%
 							}
@@ -243,8 +244,8 @@
 						<br />
 						<div class="row orange-text text-darken-2 container">
 							<span class="col m0 s1 l0">&nbsp;</span><span
-								class="col s5 m2 l2 center-align">Time:<%=routine.getTime()%>min
-							</span><span class="col s5 m4 l3 center-align">Length:<%=routine.getLength()%>km
+								class="col s5 m2 l2 center-align">Time :<%=(Integer) map.get("time")%>&nbsp min
+							</span><span class="col s5 m4 l3 center-align">Length :<%=(Double) map.get("length")%>&nbsp km
 							</span>
 							<!-- 附加信息结束 -->
 						</div>
@@ -259,45 +260,51 @@
 			<li class=<%=curPage == 1 ? "disabled" : "enabled"%>
 				style="padding: 0px ! important; margin: 0px;"><a
 				class=<%=curPage == 1 ? "teal-text" : "white-text"%>
-				href=<%=curPage <= 1 ? "#!" : "?curPage=1"%>><i
+				href=<%=curPage <= 1 ? "#!" : "?curPage=1"%><%=name==null?"":"&routine="+name %>><i
 					class="material-icons" style="font-size: 1.2rem !important;">fast_rewind</i></a></li>
 			<li class=<%=curPage == 1 ? "disabled" : "enabled"%>
 				style="padding: 0px ! important; margin: 0px;"><a
 				class=<%=curPage == 1 ? "teal-text" : "white-text"%>
-				href=<%=curPage <= 1 ? "#!" : "?curPage=" + (curPage - 1)%>><i
+				href=<%=curPage <= 1 ? "#!" : "?curPage=" + (curPage - 1)%><%=name==null?"":"&routine="+name %>><i
 					class="material-icons" style="font-size: 1.2rem !important;">chevron_left</i></a></li>
+			<!-- 1页 -->
 			<li><a
 				class=<%=curPage == ((curPage - 1) / 5 * 5 + 1) ? "white-text" : "teal-text"%>
-				href="?curPage=<%=(curPage - 1) / 5 * 5 + 1%>"><%=(curPage - 1) / 5 * 5 + 1%></a></li>
+				href="?curPage=<%=(curPage - 1) / 5 * 5 + 1%><%=name==null?"":"&routine="+name %>"><%=(curPage - 1) / 5 * 5 + 1%></a></li>
 			<%=((curPage - 1) / 5 * 5 + 2) > count / 10 + 1 ? "<!--" : ""%>
+			
 			<li><a
 				class=<%=curPage == ((curPage - 1) / 5 * 5 + 2) ? "white-text" : "teal-text"%>
-				href="?curPage=<%=(curPage - 1) / 5 * 5 + 2%>"><%=(curPage - 1) / 5 * 5 + 2%></a></li>
+				href="?curPage=<%=(curPage - 1) / 5 * 5 + 2%><%=name==null?"":"&routine="+name %>"><%=(curPage - 1) / 5 * 5 + 2%></a></li>
 			<%=((curPage - 1) / 5 * 5 + 2) > count / 10 + 1 ? "--!>" : " "%>
 			<%=((curPage - 1) / 5 * 5 + 3) > count / 10 + 1 ? "<!--" : " "%>
+			
 			<li><a
 				class=<%=curPage == ((curPage - 1) / 5 * 5 + 3) ? "white-text" : "teal-text"%>
-				href="?curPage=<%=(curPage - 1) / 5 * 5 + 3%>"><%=(curPage - 1) / 5 * 5 + 3%></a></li>
+				href="?curPage=<%=(curPage - 1) / 5 * 5 + 3%><%=name==null?"":"&routine="+name %>"><%=(curPage - 1) / 5 * 5 + 3%></a></li>
 			<%=((curPage - 1) / 5 * 5 + 3) > count / 10 + 1 ? "--!>" : " "%>
 			<%=((curPage - 1) / 5 * 5 + 4) > count / 10 + 1 ? "<!--" : " "%>
+			
 			<li><a
 				class=<%=curPage == ((curPage - 1) / 5 * 5 + 4) ? "white-text" : "teal-text"%>
-				href="?curPage=<%=(curPage - 1) / 5 * 5 + 4%>"><%=(curPage - 1) / 5 * 5 + 4%></a></li>
+				href="?curPage=<%=(curPage - 1) / 5 * 5 + 4%><%=name==null?"":"&routine="+name %>"><%=(curPage - 1) / 5 * 5 + 4%></a></li>
 			<%=((curPage - 1) / 5 * 5 + 4) > count / 10 + 1 ? "--!>" : " "%>
 			<%=((curPage - 1) / 5 * 5 + 5) > count / 10 + 1 ? "<!--" : " "%>
+			
 			<li><a
 				class=<%=curPage == ((curPage - 1) / 5 * 5 + 5) ? "white-text" : "teal-text"%>
-				href="?curPage=<%=(curPage - 1) / 5 * 5 + 5%>"><%=(curPage - 1) / 5 * 5 + 5%></a></li>
+				href="?curPage=<%=(curPage - 1) / 5 * 5 + 5%><%=name==null?"":"&routine="+name %>"><%=(curPage - 1) / 5 * 5 + 5%></a></li>
 			<%=((curPage - 1) / 5 * 5 + 5) > count / 10 + 1 ? "--!>" : " "%>
+			
 			<li class=<%=curPage > count / 10 ? "disabled" : "enabled"%>
 				style="padding: 0px ! important; margin: 0px;"><a
 				class=<%=curPage > count / 10 ? "teal-text" : "white-text"%>
-				href=<%=curPage >= count / 10 + 1 ? "#!" : "?curPage=" + (curPage + 1)%>><i
+				href=<%=curPage >= count / 10 + 1 ? "#!" : "?curPage=" + (curPage + 1)%><%=name==null?"":"&routine="+name %>><i
 					class="material-icons" style="font-size: 1.2rem !important;">chevron_right</i></a></li>
 			<li class=<%=curPage > count / 10 ? "disabled" : "enabled"%>
 				style="padding: 0px ! important; margin: 0px;"><a
 				class=<%=curPage > count / 10 ? "teal-text" : "white-text"%>
-				href=<%=curPage >= count / 10 + 1 ? "#!" : "?curPage=" + (count / 10 + 1)%>><i
+				href=<%=curPage >= count / 10 + 1 ? "#!" : "?curPage=" + (count / 10 + 1)%><%=name==null?"":"&routine="+name %>><i
 					class="material-icons" style="font-size: 1.2rem !important;">fast_forward</i></a></li>
 		</ul>
 	</main>
@@ -313,6 +320,11 @@
 	<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 	<script src="js/materialize.js"></script>
 	<script src="js/init.js"></script>
+	<script type="text/javascript">
+	  function deleteStop(id,pos,dir){
+		location.href="http://localhost:8080/transportation/deletestop?id="+id+"&pos="+pos+"&dir="+dir;
+	  } 
+	</script>
 
 </body>
 </html>

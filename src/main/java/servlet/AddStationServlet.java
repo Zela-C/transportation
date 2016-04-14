@@ -48,7 +48,7 @@ public class AddStationServlet extends HttpServlet {
 		newStation.setLatitude(latitude);
 		newStation.setLongitude(longitude);
 		newStation.setRegion(region);
-		
+		newStation.setUnreferenced(1);
 		dao.save(newStation);
 
 		resp.sendRedirect("station.jsp");
