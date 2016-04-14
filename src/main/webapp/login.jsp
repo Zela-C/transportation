@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
-	pageEncoding="utf-8"  import="entity.*,dao.*"%>
+	pageEncoding="utf-8" import="entity.*,dao.*"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -51,15 +51,15 @@
 		<div class="col s1 m3">&nbsp;</div>
 		<div class="card col s10 m6">
 			<!-- 登录界面 -->
-			<form class="card-content"  autocomplete="off" onsubmit="return login_check(this);">
+			<form class="card-content" autocomplete="off"
+				onsubmit="return login_check(this);">
 				<div class="row">
 					<div class="col s0 m2">&nbsp;</div>
 					<div class="input-field col s12 m8">
 						<input name="username" id="username_in" type="text" class=""
 							onfocus="lose_label(this)" onBlur="validate_required(this)"
 							onchange="validate_required(this)"> <label for="username"
-							id="username_in_label" data-error="wrong"
-							data-success="ok">Username</label>
+							id="username_in_label" data-error="wrong" data-success="ok">Username</label>
 					</div>
 				</div>
 				<div class="row">
@@ -73,10 +73,10 @@
 					</div>
 				</div>
 				<center>
-					<button class="btn cyan waves-effect waves-light no_uppercase" type="submit" 
-						name="login">Submit</button>
-					<a class="btn cyan waves-effect waves-light no_uppercase" href="regist.jsp"
-						name="login">Regist?</a>
+					<button class="btn cyan waves-effect waves-light no_uppercase"
+						type="submit" name="login">Submit</button>
+					<a class="btn cyan waves-effect waves-light no_uppercase"
+						href="regist.jsp">Regist?</a>
 				</center>
 			</form>
 		</div>

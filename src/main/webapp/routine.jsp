@@ -161,14 +161,14 @@
 						<span
 							class="thin grey-text text-darken-1 routine-orientation-text">To</span>
 						<%
-							String[] idTo = (String[]) map.get("idTo");
+							String[] stationNameTo = (String[]) map.get("stationNameTo");
 								String[] startTimeTo = (String[]) map.get("startTimeTo");
 								String[] endTimeTo = (String[]) map.get("endTimeTo");
-								String[] idFrom = (String[]) map.get("idFrom");
+								String[] stationNameFrom = (String[]) map.get("stationNameFrom");
 								String[] startTimeFrom = (String[]) map.get("startTimeFrom");
 								String[] endTimeFrom = (String[]) map.get("endTimeFrom");
-								for (int i = 0; i < idTo.length; i++) {
-									if (i == 0 || i == idTo.length - 1) {
+								for (int i = 0; i < stationNameTo.length; i++) {
+									if (i == 0 || i == stationNameTo.length - 1) {
 						%>
 
 						<!-- 站点 -->
@@ -192,7 +192,7 @@
 
 						<%
 							}
-									if (i < idTo.length - 1) {
+									if (i < stationNameTo.length - 1) {
 						%>
 						<span
 							class="waves-effect waves-light  grey-text text-darken-1 btn-flat tooltipped modal-trigger"
@@ -206,14 +206,14 @@
 						%>
 
 						<%
-							if (null != idFrom) {
+							if (null != stationNameFrom) {
 						%>
 						<span
 							class="thin grey-text text-darken-1 routine-orientation-text"
 							style="margin-top: 28px;">From</span>
 						<%
-							for (int i = 0; i < idFrom.length; i++) {
-										if (i == 0 || i == idFrom.length - 1) {
+							for (int i = 0; i < stationNameFrom.length; i++) {
+										if (i == 0 || i == stationNameFrom.length - 1) {
 						%>
 						<a
 							class='routine-station-change2 path-station-rnd  disabled  cyan  white-text  z-depth-1 tooltipped'
@@ -222,6 +222,7 @@
 							href='#'
 							onclick="deleteStop(<%=(Integer) map.get("id")%>,<%=i%>,1)">
 							<%=stationName.get(Integer.valueOf(idFrom[i]))%>
+
 						</a>
 						<%
 							} else {
@@ -237,7 +238,7 @@
 						</a>
 						<%
 							}
-										if (i < idFrom.length - 1) {
+										if (i < stationNameFrom.length - 1) {
 						%>
 						<span
 							class="waves-effect waves-light  grey-text text-darken-1 btn-flat tooltipped modal-trigger"
