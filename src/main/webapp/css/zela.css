@@ -321,3 +321,11 @@ main {
 	height:100% !important;
 	max-height:100% !important;
 }
+
+.routine_add_padding{
+	padding-bottom: 0px !important;
+}
+
+.routine_add_btn{
+	margin: 6px !important;
+}

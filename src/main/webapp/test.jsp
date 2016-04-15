@@ -5,30 +5,63 @@
 <script type="text/javascript">
 var id=3;
 function add_stop(){
-var name = document.createElement("div");
-var start = document.createElement("div");
-var end = document.createElement("div");
-var cost = document.createElement("div");
-var input = document.createElement("input");
-var label = document.createElement("label");
-var label_text = document.createTextNode("Station Name");
-name.id="routine_add_station_name"+id;
-start.id="routine_add_station_start"+id;
-end.id="routine_add_station_end"+id;
-cost.id="routine_add_station_cost"+id;
-name.className +="input-field col s12 m4 l4";
-start.className +="input-field col s12 m4 l4";
-end.className +="input-field col s12 m4 l4";
-cost.className +="input-field col s12 m12 l12";
-input.type="text";
-label.appendChild(label_text);
-
-name.appendChild(input);
-name.appendChild(label);
-
-
 var element = document.getElementById("stations");
-element.appendChild(name);
+
+var div4 = document.createElement("div");
+div4.className +="input-field col s12 m12 l12";
+var input4 = document.createElement("input");
+input4.id="routine_add_station_cost"+(id-1);
+input4.type="text";
+var label4 = document.createElement("label");
+label4.id=input4.id+"_label";
+var label4_text = document.createTextNode("Cost");
+label4.appendChild(label4_text);
+
+div4.appendChild(input4);
+div4.appendChild(label4);
+element.appendChild(div4);
+	
+
+var div1 = document.createElement("div");
+div1.className +="input-field col s12 m4 l4";
+var input1 = document.createElement("input");
+input1.id="routine_add_station_name"+id;
+input1.type="text";
+var label1 = document.createElement("label");
+label1.id=input1.id+"_label";
+var label_text1 = document.createTextNode("Station Name");
+label1.appendChild(label_text1);
+div1.appendChild(input1);
+div1.appendChild(label1);
+element.appendChild(div1);
+
+var div2 = document.createElement("div");
+div2.className +="input-field col s12 m4 l4";
+var input2 = document.createElement("input");
+input2.id="routine_add_station_start"+id;
+input2.type="text";
+var label2 = document.createElement("label");
+label2.id=input2.id+"_label";
+var label_text2 = document.createTextNode("Start Time");
+label2.appendChild(label_text2);
+div2.appendChild(input2);
+div2.appendChild(label2);
+element.appendChild(div2);
+
+var div3 = document.createElement("div");
+div3.className +="input-field col s12 m4 l4";
+var input3 = document.createElement("input");
+input3.id="routine_add_station_end"+id;
+input3.type="text";
+var label3 = document.createElement("label");
+label3.id=input3.id+"_label";
+var label_text3 = document.createTextNode("End Time");
+label3.appendChild(label_text3);
+div3.appendChild(input3);
+div3.appendChild(label3);
+element.appendChild(div3);
+
+++id;
 }
 </script>
 <head>
@@ -60,13 +93,13 @@ element.appendChild(name);
   
   <!-- Modal Structure -->
   <div id="modal1" class="modal bottom-sheet routine_add_container cyan">
-    <div class="modal-content container white">
-      <h3 class="cyan-text thin">Add a routine?</h3>
-      <p class="cyan-text">here you can set info. for a new routine.</p>
-      <form autocomplete="off">
+        <form autocomplete="off">
+    <div class="modal-content container white routine_add_padding">
+      <h4 class="cyan-text thin">Add a routine?</h4>
+<p style="font-size: 1.2rem;margin-bottom: 0px ! important;" class="cyan-text">Routine Info.</p>
       <div class="row">
         <div class="input-field col s12 m4 l4">
-          <input  id="routine_add_name" type="text" class="validate">
+          <input  id="routine_add_name" type="text">
           <label for="routine_add_name">Name</label>
         </div>
         <div class="input-field col s6 m4 l4">
@@ -80,11 +113,11 @@ element.appendChild(name);
         </div>
         <div class="row">
         <div class="input-field col s12 m4 l4">
-          <input  id="routine_add_company" type="text" class="validate">
+          <input  id="routine_add_company" type="text">
           <label for="routine_add_company">Company</label>
         </div>
         <div class="input-field col s12 m4 l4">
-          <input  id="routine_add_num" type="text" class="validate">
+          <input  id="routine_add_num" type="text">
           <label for="routine_add_num">Number of station</label>
         </div>
                 <div class="input-field col s6 m2 l2">
@@ -96,10 +129,10 @@ element.appendChild(name);
      			 <label for="routine_add_cross">cross?</label>
       </div>
       </div>
-      <h4 class="cyan-text thin">Stations.</h4>
-         <div class="row" id="stations">
+<p style="font-size: 1.2rem;margin-bottom: 0px ! important;" class="cyan-text">Stations Info.</p>
+         <div class="row" style="margin-bottom: 0px ! important;" id="stations">
         <div class="input-field col s12 m4 l4">
-          <input  id="routine_add_station_name1" type="text" class="validate">
+          <input  id="routine_add_station_name1" type="text">
           <label for="routine_add_station_name1">Station Name</label>
         </div>
         <div class="input-field col s6 m4 l4">
@@ -115,7 +148,7 @@ element.appendChild(name);
           <label for="routine_add_station_cost1">Cost</label>
         </div>
         <div class="input-field col s12 m4 l4">
-          <input  id="routine_add_station_name2" type="text" class="validate">
+          <input  id="routine_add_station_name2" type="text">
           <label for="routine_add_station_name2">Station Name</label>
         </div>
         <div class="input-field col s6 m4 l4">
@@ -128,10 +161,14 @@ element.appendChild(name);
         </div>
         </div>
         <a class="btn-floating btn waves-effect waves-light white block_center" onclick="add_stop()"><i class="material-icons cyan-text">add</i></a>
-      <button class="modal-close btn  waves-effect waves-green" type="submit">Submit </button>
+            <div class="modal-footer white" style="height:50px !important;padding:0px 0px !important;">
+      <button class="modal-close btn  waves-effect waves-light cyan no_uppercase routine_add_btn" type="button">Cancel </button>
+      <button class="modal-close btn  waves-effect waves-light cyan no_uppercase routine_add_btn" type="submit">Submit </button>
+      
+    </div>
+      </div>
       </form>
     </div>
-  </div>
 	
 	<!-- 页头 -->
 	<header> <nav class=" white header-menu navbar-fixed">

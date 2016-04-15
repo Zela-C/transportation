@@ -1,4 +1,4 @@
-package servlet;
+﻿package servlet;
 
 import java.io.IOException;
 import java.util.List;
@@ -20,9 +20,9 @@ public class DeleteStationServlet extends HttpServlet {
 	protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		req.setCharacterEncoding("utf-8");
 		resp.setCharacterEncoding("utf-8");
-		System.out.println("你妈炸了！！！！");
 		Integer pos = Integer.valueOf(req.getParameter("pos"));
 		StationDao stationDao = new StationDao();
+
 		Station stationDelete = stationDao.findByPos(pos);
 		if (1 == stationDelete.getUnreferenced()) {//the station isn't referred by any routine ,can be deleted safely
 			stationDao.delete(Station.class, stationDelete.getId());

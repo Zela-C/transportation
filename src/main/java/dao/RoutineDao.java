@@ -6,7 +6,7 @@ import org.hibernate.Session;
 
 import entity.Routine;
 
-public class RoutineDao extends BaseDao<Routine>{
+public class RoutineDao extends BaseDao<Routine> {
 	public RoutineDao() {
 		super();
 	}
@@ -18,11 +18,13 @@ public class RoutineDao extends BaseDao<Routine>{
 	public long getRoutineCount() {
 		return findCount(Routine.class);
 	}
-	
-	public Routine findByName(String name){
-		List<Routine> list = find("select distinct * from routine where name = "+name) ;
-		if(list != null) return list.get(0);
-		else return null;
+
+	public Routine findByName(String name) {
+		List<Routine> list = find("select distinct * from routine where name = " + name);
+		if (list != null)
+			return list.get(0);
+		else
+			return null;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -36,5 +38,5 @@ public class RoutineDao extends BaseDao<Routine>{
 		session.close();
 		return list;
 	}
-	
+
 }

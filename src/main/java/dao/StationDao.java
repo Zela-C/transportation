@@ -2,7 +2,6 @@ package dao;
 
 import java.util.List;
 
-import org.hibernate.Query;
 import org.hibernate.Session;
 
 import entity.Station;
@@ -51,4 +50,9 @@ public class StationDao extends BaseDao<Station> {
 		// 创建查询
 		return list;
 	}
+
+	public String getStationName(Integer pos) {
+		return findByPos(pos).getName();
+	}
+
 }

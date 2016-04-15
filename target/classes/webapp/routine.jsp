@@ -1,3 +1,4 @@
+<%@page import="helper.StationPool"%>
 <%@page import="java.net.URLDecoder"%>
 <%@page import="entity.Routine"%>
 <%@page import="java.util.List"%>
@@ -33,9 +34,10 @@
 }
 </style>
 </head>
-<%!RoutineBean bean = new RoutineBean();
+<%!RoutineDao dao = new RoutineDao();
+	RoutineBean bean = new RoutineBean();
+	List<String> stationName = StationPool.getList();
 	List<HashMap<String, Object>> list = null;
-	RoutineDao dao = new RoutineDao();
 	int count = 0;
 	int curPage = 1;%>
 <body>
@@ -108,7 +110,7 @@
 					</div>
 					<div class="input-field col s12 l3 m4 center-align">
 						<button class="btn btn-rnd cyan waves-effect waves-light"
-							type="submit"  >Search</button>
+							type="submit">Search</button>
 					</div>
 				</div>
 			</form>
@@ -130,14 +132,16 @@
 					if (curPage < 1 || curPage > count / 10 + 1) {
 						response.sendRedirect("/transportation/routine.jsp");
 					}
-					String name=request.getParameter("routine");
-					if(null==name){
+					String name = request.getParameter("routine");
+					if (null == name) {
 						list = bean.getByPage(curPage);
-						count=(int) dao.findCount(Routine.class);	
-					}else{
+						count = (int) dao.getRoutineCount();
+					} else {
 						//name=URLDecoder.decode(name,"utf-8");
 						list = bean.searchByPage(name, curPage);
-						count=(int)dao.findCount("select count(*) from Routine where name like '%"+name+"%'",Routine.class);
+						count = (int) dao.findCount("select count(*) from Routine where name like '%" + name + "%'",
+								Routine.class);
+						System.out.println("快的一笔！" + count);
 					}
 					for (HashMap<String, Object> map : list) {
 				%>
@@ -146,7 +150,7 @@
 					<div class="collapsible-header grey-text text-darken-1">
 						<a><i class="material-icons bule0 tooltipped"
 							data-position="top" data-delay="50" data-tooltip="company">my_location</i></a>
-						<%=(String) map.get("name")%><%=(null == map.get("idFrom")) ? "(环)" : ""%>
+						<%=(String) map.get("name")%><%=(null == map.get("posFrom")) ? "(环)" : ""%>
 						<a href="#!" class="secondary-content"><i
 							class="material-icons red0 tooltipped" data-position="top"
 							data-delay="50" data-tooltip="delete?">close</i></a>
@@ -157,14 +161,14 @@
 						<span
 							class="thin grey-text text-darken-1 routine-orientation-text">To</span>
 						<%
-							String[] stationNameTo = (String[]) map.get("stationNameTo");
+							String[] posTo = (String[]) map.get("posTo");
 								String[] startTimeTo = (String[]) map.get("startTimeTo");
 								String[] endTimeTo = (String[]) map.get("endTimeTo");
-								String[] stationNameFrom = (String[]) map.get("stationNameFrom");
+								String[] posFrom = (String[]) map.get("posFrom");
 								String[] startTimeFrom = (String[]) map.get("startTimeFrom");
 								String[] endTimeFrom = (String[]) map.get("endTimeFrom");
-								for (int i = 0; i < stationNameTo.length; i++) {
-									if (i == 0 || i == stationNameTo.length - 1) {
+								for (int i = 0; i < posTo.length; i++) {
+									if (i == 0 || i == posTo.length - 1) {
 						%>
 
 						<!-- 站点 -->
@@ -172,7 +176,8 @@
 							class='routine-station-change2 path-station-rnd   cyan  white-text  z-depth-1 tooltipped'
 							data-position="top" data-delay="50"
 							data-tooltip="<%=startTimeTo[i]%>---><%=endTimeTo[i]%>" href='#'
-							onclick="deleteStop(<%=(Integer)map.get("id")%>,<%=i%>,0)"> <%=stationNameTo[i]%>
+							onclick="deleteStop(<%=(Integer) map.get("id")%>,<%=i%>,0)">
+							<%=stationName.get(Integer.valueOf(posTo[i])-1)%>
 						</a>
 						<%
 							} else {
@@ -181,12 +186,13 @@
 							class='routine-station-change path-station-rnd  disabled  white grey-text text-darken-1 z-depth-1 tooltipped'
 							data-position="top" data-delay="50"
 							data-tooltip="<%=startTimeTo[i]%>---><%=endTimeTo[i]%>" href='#'
-							onclick="deleteStop(<%=(Integer)map.get("id")%>,<%=i%>,0)"> <%=stationNameTo[i]%>
+							onclick="deleteStop(<%=(Integer) map.get("id")%>,<%=i%>,0)">
+							<%=stationName.get(Integer.valueOf(posTo[i])-1)%>
 						</a>
 
 						<%
 							}
-									if (i < stationNameTo.length - 1) {
+									if (i < posTo.length - 1) {
 						%>
 						<span
 							class="waves-effect waves-light  grey-text text-darken-1 btn-flat tooltipped modal-trigger"
@@ -200,20 +206,23 @@
 						%>
 
 						<%
-							if (null != stationNameFrom) {
+							if (null != posFrom) {
 						%>
 						<span
 							class="thin grey-text text-darken-1 routine-orientation-text"
 							style="margin-top: 28px;">From</span>
 						<%
-							for (int i = 0; i < stationNameFrom.length; i++) {
-										if (i == 0 || i == stationNameFrom.length - 1) {
+							for (int i = 0; i < posFrom.length; i++) {
+										if (i == 0 || i == posFrom.length - 1) {
 						%>
 						<a
 							class='routine-station-change2 path-station-rnd  disabled  cyan  white-text  z-depth-1 tooltipped'
 							data-position="top" data-delay="50"
-							data-tooltip="<%=startTimeFrom[i]%>---><%=endTimeFrom[i]%>" href='#' 
-							onclick="deleteStop(<%=(Integer)map.get("id")%>,<%=i%>,1)"> <%=stationNameFrom[i]%>
+							data-tooltip="<%=startTimeFrom[i]%>---><%=endTimeFrom[i]%>"
+							href='#'
+							onclick="deleteStop(<%=(Integer) map.get("id")%>,<%=i%>,1)">
+							<%=stationName.get(Integer.valueOf(posFrom[i])-1)%>
+
 						</a>
 						<%
 							} else {
@@ -222,12 +231,14 @@
 						<a
 							class='routine-station-change path-station-rnd  white grey-text text-darken-1  z-depth-1 tooltipped'
 							data-position="top" data-delay="50"
-							data-tooltip="<%=startTimeFrom[i]%>---><%=endTimeFrom[i]%>"	href='#'
-							onclick="deleteStop(<%=(Integer)map.get("id")%>,<%=i%>,1)"> <%=stationNameFrom[i]%>
+							data-tooltip="<%=startTimeFrom[i]%>---><%=endTimeFrom[i]%>"
+							href='#'
+							onclick="deleteStop(<%=(Integer) map.get("id")%>,<%=i%>,1)">
+							<%=stationName.get(Integer.valueOf(posFrom[i])-1)%>
 						</a>
 						<%
 							}
-										if (i < stationNameFrom.length - 1) {
+										if (i < posFrom.length - 1) {
 						%>
 						<span
 							class="waves-effect waves-light  grey-text text-darken-1 btn-flat tooltipped modal-trigger"
@@ -244,8 +255,10 @@
 						<br />
 						<div class="row orange-text text-darken-2 container">
 							<span class="col m0 s1 l0">&nbsp;</span><span
-								class="col s5 m2 l2 center-align">Time :<%=(Integer) map.get("time")%>min
-							</span><span class="col s5 m4 l3 center-align">Length :<%=(Double) map.get("length")%>km
+								class="col s5 m2 l2 center-align">Time :<%=(Integer) map.get("time")%>&nbsp
+								min
+							</span><span class="col s5 m4 l3 center-align">Length :<%=(Double) map.get("length")%>&nbsp
+								km
 							</span>
 							<!-- 附加信息结束 -->
 						</div>
@@ -260,51 +273,55 @@
 			<li class=<%=curPage == 1 ? "disabled" : "enabled"%>
 				style="padding: 0px ! important; margin: 0px;"><a
 				class=<%=curPage == 1 ? "teal-text" : "white-text"%>
-				href=<%=curPage <= 1 ? "#!" : "?curPage=1"%><%=name==null?"":"&routine="+name %>><i
+				href=<%=curPage <= 1 ? "#!" : "?curPage=1" + (name == null ? "" : "&routine=" + name)%>><i
 					class="material-icons" style="font-size: 1.2rem !important;">fast_rewind</i></a></li>
 			<li class=<%=curPage == 1 ? "disabled" : "enabled"%>
 				style="padding: 0px ! important; margin: 0px;"><a
 				class=<%=curPage == 1 ? "teal-text" : "white-text"%>
-				href=<%=curPage <= 1 ? "#!" : "?curPage=" + (curPage - 1)%><%=name==null?"":"&routine="+name %>><i
+				href=<%=curPage <= 1 ? "#!" : "?curPage=" + (curPage - 1) + (name == null ? "" : "&routine=" + name)%>><i
 					class="material-icons" style="font-size: 1.2rem !important;">chevron_left</i></a></li>
 			<!-- 1页 -->
 			<li><a
 				class=<%=curPage == ((curPage - 1) / 5 * 5 + 1) ? "white-text" : "teal-text"%>
-				href="?curPage=<%=(curPage - 1) / 5 * 5 + 1%><%=name==null?"":"&routine="+name %>"><%=(curPage - 1) / 5 * 5 + 1%></a></li>
+				href="?curPage=<%=(curPage - 1) / 5 * 5 + 1%><%=name == null ? "" : "&routine=" + name%>"><%=(curPage - 1) / 5 * 5 + 1%></a></li>
 			<%=((curPage - 1) / 5 * 5 + 2) > count / 10 + 1 ? "<!--" : ""%>
-			
+
 			<li><a
 				class=<%=curPage == ((curPage - 1) / 5 * 5 + 2) ? "white-text" : "teal-text"%>
-				href="?curPage=<%=(curPage - 1) / 5 * 5 + 2%><%=name==null?"":"&routine="+name %>"><%=(curPage - 1) / 5 * 5 + 2%></a></li>
+				href="?curPage=<%=(curPage - 1) / 5 * 5 + 2%><%=name == null ? "" : "&routine=" + name%>"><%=(curPage - 1) / 5 * 5 + 2%></a></li>
 			<%=((curPage - 1) / 5 * 5 + 2) > count / 10 + 1 ? "--!>" : " "%>
 			<%=((curPage - 1) / 5 * 5 + 3) > count / 10 + 1 ? "<!--" : " "%>
-			
+
 			<li><a
 				class=<%=curPage == ((curPage - 1) / 5 * 5 + 3) ? "white-text" : "teal-text"%>
-				href="?curPage=<%=(curPage - 1) / 5 * 5 + 3%><%=name==null?"":"&routine="+name %>"><%=(curPage - 1) / 5 * 5 + 3%></a></li>
+				href="?curPage=<%=(curPage - 1) / 5 * 5 + 3%><%=name == null ? "" : "&routine=" + name%>"><%=(curPage - 1) / 5 * 5 + 3%></a></li>
 			<%=((curPage - 1) / 5 * 5 + 3) > count / 10 + 1 ? "--!>" : " "%>
 			<%=((curPage - 1) / 5 * 5 + 4) > count / 10 + 1 ? "<!--" : " "%>
-			
+
 			<li><a
 				class=<%=curPage == ((curPage - 1) / 5 * 5 + 4) ? "white-text" : "teal-text"%>
-				href="?curPage=<%=(curPage - 1) / 5 * 5 + 4%><%=name==null?"":"&routine="+name %>"><%=(curPage - 1) / 5 * 5 + 4%></a></li>
+				href="?curPage=<%=(curPage - 1) / 5 * 5 + 4%><%=name == null ? "" : "&routine=" + name%>"><%=(curPage - 1) / 5 * 5 + 4%></a></li>
 			<%=((curPage - 1) / 5 * 5 + 4) > count / 10 + 1 ? "--!>" : " "%>
 			<%=((curPage - 1) / 5 * 5 + 5) > count / 10 + 1 ? "<!--" : " "%>
-			
+
 			<li><a
 				class=<%=curPage == ((curPage - 1) / 5 * 5 + 5) ? "white-text" : "teal-text"%>
-				href="?curPage=<%=(curPage - 1) / 5 * 5 + 5%><%=name==null?"":"&routine="+name %>"><%=(curPage - 1) / 5 * 5 + 5%></a></li>
+				href="?curPage=<%=(curPage - 1) / 5 * 5 + 5%><%=name == null ? "" : "&routine=" + name%>"><%=(curPage - 1) / 5 * 5 + 5%></a></li>
 			<%=((curPage - 1) / 5 * 5 + 5) > count / 10 + 1 ? "--!>" : " "%>
-			
+
 			<li class=<%=curPage > count / 10 ? "disabled" : "enabled"%>
 				style="padding: 0px ! important; margin: 0px;"><a
 				class=<%=curPage > count / 10 ? "teal-text" : "white-text"%>
-				href=<%=curPage >= count / 10 + 1 ? "#!" : "?curPage=" + (curPage + 1)%><%=name==null?"":"&routine="+name %>><i
+				href=<%=curPage >= count / 10 + 1
+					? "#!"
+					: "?curPage=" + (curPage + 1) + (name == null ? "" : "&routine=" + name)%>><i
 					class="material-icons" style="font-size: 1.2rem !important;">chevron_right</i></a></li>
 			<li class=<%=curPage > count / 10 ? "disabled" : "enabled"%>
 				style="padding: 0px ! important; margin: 0px;"><a
 				class=<%=curPage > count / 10 ? "teal-text" : "white-text"%>
-				href=<%=curPage >= count / 10 + 1 ? "#!" : "?curPage=" + (count / 10 + 1)%><%=name==null?"":"&routine="+name %>><i
+				href=<%=curPage >= count / 10 + 1
+					? "#!"
+					: "?curPage=" + (count / 10 + 1) + (name == null ? "" : "&routine=" + name)%>><i
 					class="material-icons" style="font-size: 1.2rem !important;">fast_forward</i></a></li>
 		</ul>
 	</main>
