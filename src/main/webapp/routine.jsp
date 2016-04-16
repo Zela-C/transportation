@@ -41,25 +41,109 @@
 	int count = 0;
 	int curPage = 1;%>
 <body>
-	<div id="add_stop_dialoge" class="modal"
-		style="width: 270px; height: 230x">
-		<form action="" method="post">
-			<div class="modal-content">
-				<h5 class="">
-					<span class="red-text text-accent-1">Add</span> a station?
-				</h5>
-				<div class="row" style="height: 30px">
-					<div class="input-field">
-						<input id="station_add" type="text" placeholder="Station">
+	<!-- 这个是添加线路站点对话框 -->
+	<div id="add_routine_dialog"
+		class="modal bottom-sheet routine_add_container cyan">
+		<form autocomplete="off">
+			<div class="modal-content container white routine_add_padding">
+				<h4 class="cyan-text thin">Add a routine?</h4>
+				<p style="font-size: 1.2rem; margin-bottom: 0px ! important;"
+					class="cyan-text">Routine Info.</p>
+				<div class="row">
+					<div class="input-field col s12 m4 l4">
+						<input id="routine_add_name" type="text"> <label
+							for="routine_add_name">Name</label>
+					</div>
+					<div class="input-field col s6 m4 l4">
+						<input id="routine_add_length" type="text"> <label
+							for="routine_add_length">Length</label>
+					</div>
+					<div class="input-field col s6 m4 l4">
+						<input id="routine_add_time" type="text"> <label
+							for="routine_add_time">Time</label>
 					</div>
 				</div>
-				<center>
-					<div class="btn-flat waves-effect waves-red">
-						<span>&nbsp;</span> <input type="submit" value="Sure&nbsp;">
+				<div class="row">
+					<div class="input-field col s12 m4 l4">
+						<input id="routine_add_company" type="text"> <label
+							for="routine_add_company">Company</label>
 					</div>
-				</center>
+					<div class="input-field col s12 m4 l4">
+						<input id="routine_add_num" type="text"> <label
+							for="routine_add_num">Number of station</label>
+					</div>
+					<div class="input-field col s6 m2 l2">
+						<input type="checkbox" id="routine_add_circle" /> <label
+							for="routine_add_circle">circle?</label>
+					</div>
+					<div class="input-field col s6 m2 l2">
+						<input type="checkbox" id="routine_add_cross" /> <label
+							for="routine_add_cross">cross?</label>
+					</div>
+				</div>
+				<p style="font-size: 1.2rem; margin-bottom: 0px ! important;"
+					class="cyan-text">Stations Info.</p>
+				<div class="row" style="margin-bottom: 0px ! important;"
+					id="stations">
+					<div class="input-field col s12 m4 l4">
+						<input id="routine_add_station_name1" type="text"> <label
+							for="routine_add_station_name1">Station Name</label>
+					</div>
+					<div class="input-field col s6 m4 l4">
+						<input id="routine_add_station_start1" type="text"> <label
+							for="routine_add_station_start1">Start Time</label>
+					</div>
+					<div class="input-field col s6 m4 l4">
+						<input id="routine_add_station_end1" type="text"> <label
+							for="routine_add_station_end1">End Time</label>
+					</div>
+					<div class="input-field col s12 m12 l12">
+						<input id="routine_add_station_cost1" type="text"> <label
+							for="routine_add_station_cost1">Cost</label>
+					</div>
+					<div class="input-field col s12 m4 l4">
+						<input id="routine_add_station_name2" type="text"> <label
+							for="routine_add_station_name2">Station Name</label>
+					</div>
+					<div class="input-field col s6 m4 l4">
+						<input id="routine_add_station_start2" type="text"> <label
+							for="routine_add_station_start2">Start Time</label>
+					</div>
+					<div class="input-field col s6 m4 l4">
+						<input id="routine_add_station_end2" type="text"> <label
+							for="routine_add_station_end2">End Time</label>
+					</div>
+				</div>
+				<a
+					class="btn-floating btn waves-effect waves-light white block_center"
+					onclick="add_stop()"><i class="material-icons cyan-text">add</i></a>
+				<div class="modal-footer white"
+					style="height: 50px !important; padding: 0px 0px !important;">
+					<button
+						class="modal-close btn  waves-effect waves-light cyan no_uppercase routine_add_btn"
+						type="button">Cancel</button>
+					<button
+						class="modal-close btn  waves-effect waves-light cyan no_uppercase routine_add_btn"
+						type="submit">Submit</button>
+				</div>
 			</div>
 		</form>
+	</div>
+	<!-- 这个是删除对话框 -->
+	<div id="delete_routine_dialog"
+		class="modal delete_routine_stop_dialog">
+		<div class="modal-content  grey-text text-darken-1">
+			<h5 class="">
+				<span class="red-text text-accent-1">Delete</span> this routine?
+			</h5>
+			<div class="row row_no_margin_bottom">
+				<a
+					class="btn-flat col s6 center-align modal-close waves-effect waves-red grey-text text-darken-1"
+					onclick="toDelteteRoutineServlet()">Yes</a> <a
+					class="btn-flat col s6 center-align modal-close waves-effect waves-red grey-text text-darken-1"
+					href="#!">No</a>
+			</div>
+		</div>
 	</div>
 	<ul id="dropdown1" class="dropdown-content user_drop_down">
 		<li><a href="#!"><%=session.getAttribute("user")%></a></li>
@@ -115,7 +199,6 @@
 				</div>
 			</form>
 		</div>
-
 		<div>
 			<!-- 区域名字title -->
 			<h4 class="white-text  center thin ">松江区</h4>
@@ -145,7 +228,7 @@
 					}
 					for (HashMap<String, Object> map : list) {
 				%>
-				<li>
+				<li id=<%="routine_pos"+(Integer) map.get("pos")%>>
 					<!-- 线路名称信息 -->
 					<div class="collapsible-header grey-text text-darken-1">
 						<a><i class="material-icons bule0 tooltipped"
@@ -153,7 +236,8 @@
 						<%=(String) map.get("name")%><%=(null == map.get("posFrom")) ? "(环)" : ""%>
 						<a href="#!" class="secondary-content"><i
 							class="material-icons red0 tooltipped" data-position="top"
-							data-delay="50" data-tooltip="delete?">close</i></a>
+							data-delay="50" data-tooltip="delete?"
+							onclick="deleteRoutine(<%=(Integer) map.get("pos")%>)">close</i></a>
 					</div> <!-- 线路的站点信息 -->
 					<div class="collapsible-body white">
 						<!-- p标签用来调行间距 -->
@@ -175,9 +259,8 @@
 						<a
 							class='routine-station-change2 path-station-rnd   cyan  white-text  z-depth-1 tooltipped'
 							data-position="top" data-delay="50"
-							data-tooltip="<%=startTimeTo[i]%>---><%=endTimeTo[i]%>" href='#'
-							onclick="deleteStop(<%=(Integer) map.get("id")%>,<%=i%>,0)">
-							<%=stationName.get(Integer.valueOf(posTo[i])-1)%>
+							data-tooltip="<%=startTimeTo[i]%>---><%=endTimeTo[i]%>" href='#!'>
+							<%=stationName.get(Integer.valueOf(posTo[i]) - 1)%>
 						</a>
 						<%
 							} else {
@@ -185,9 +268,8 @@
 						<a
 							class='routine-station-change path-station-rnd  disabled  white grey-text text-darken-1 z-depth-1 tooltipped'
 							data-position="top" data-delay="50"
-							data-tooltip="<%=startTimeTo[i]%>---><%=endTimeTo[i]%>" href='#'
-							onclick="deleteStop(<%=(Integer) map.get("id")%>,<%=i%>,0)">
-							<%=stationName.get(Integer.valueOf(posTo[i])-1)%>
+							data-tooltip="<%=startTimeTo[i]%>---><%=endTimeTo[i]%>" href='#!'>
+							<%=stationName.get(Integer.valueOf(posTo[i]) - 1)%>
 						</a>
 
 						<%
@@ -195,9 +277,8 @@
 									if (i < posTo.length - 1) {
 						%>
 						<span
-							class="waves-effect waves-light  grey-text text-darken-1 btn-flat tooltipped modal-trigger"
+							class="waves-effect waves-light  grey-text text-darken-1 btn-flat tooltipped "
 							data-position="top" data-delay="50" data-tooltip="add?"
-							data-target="add_stop_dialoge"
 							style="font-size: 20px; margin: 0px; padding: 0px"> ---->
 						</span>
 						<%
@@ -219,31 +300,24 @@
 							class='routine-station-change2 path-station-rnd  disabled  cyan  white-text  z-depth-1 tooltipped'
 							data-position="top" data-delay="50"
 							data-tooltip="<%=startTimeFrom[i]%>---><%=endTimeFrom[i]%>"
-							href='#'
-							onclick="deleteStop(<%=(Integer) map.get("id")%>,<%=i%>,1)">
-							<%=stationName.get(Integer.valueOf(posFrom[i])-1)%>
-
+							href='#!'> <%=stationName.get(Integer.valueOf(posFrom[i]) - 1)%>
 						</a>
 						<%
 							} else {
 						%>
-
 						<a
 							class='routine-station-change path-station-rnd  white grey-text text-darken-1  z-depth-1 tooltipped'
 							data-position="top" data-delay="50"
 							data-tooltip="<%=startTimeFrom[i]%>---><%=endTimeFrom[i]%>"
-							href='#'
-							onclick="deleteStop(<%=(Integer) map.get("id")%>,<%=i%>,1)">
-							<%=stationName.get(Integer.valueOf(posFrom[i])-1)%>
+							href='#!'> <%=stationName.get(Integer.valueOf(posFrom[i]) - 1)%>
 						</a>
 						<%
 							}
 										if (i < posFrom.length - 1) {
 						%>
 						<span
-							class="waves-effect waves-light  grey-text text-darken-1 btn-flat tooltipped modal-trigger"
+							class="waves-effect waves-light  grey-text text-darken-1 btn-flat tooltipped"
 							data-position="top" data-delay="50" data-tooltip="add?"
-							data-target="add_stop_dialoge"
 							style="font-size: 20px; margin: 0px; padding: 0px"> ---->
 						</span>
 						<%
@@ -255,9 +329,9 @@
 						<br />
 						<div class="row orange-text text-darken-2 container">
 							<span class="col m0 s1 l0">&nbsp;</span><span
-								class="col s5 m2 l2 center-align">Time :<%=(Integer) map.get("time")%>&nbsp
+								class="col s5 m2 l2 center-align">Time :<%=(Integer) map.get("time")%>
 								min
-							</span><span class="col s5 m4 l3 center-align">Length :<%=(Double) map.get("length")%>&nbsp
+							</span><span class="col s5 m4 l3 center-align">Length :<%=(Double) map.get("length")%>
 								km
 							</span>
 							<!-- 附加信息结束 -->
@@ -312,21 +386,19 @@
 			<li class=<%=curPage > count / 10 ? "disabled" : "enabled"%>
 				style="padding: 0px ! important; margin: 0px;"><a
 				class=<%=curPage > count / 10 ? "teal-text" : "white-text"%>
-				href=<%=curPage >= count / 10 + 1
-					? "#!"
+				href=<%=curPage >= count / 10 + 1 ? "#!"
 					: "?curPage=" + (curPage + 1) + (name == null ? "" : "&routine=" + name)%>><i
 					class="material-icons" style="font-size: 1.2rem !important;">chevron_right</i></a></li>
 			<li class=<%=curPage > count / 10 ? "disabled" : "enabled"%>
 				style="padding: 0px ! important; margin: 0px;"><a
 				class=<%=curPage > count / 10 ? "teal-text" : "white-text"%>
-				href=<%=curPage >= count / 10 + 1
-					? "#!"
+				href=<%=curPage >= count / 10 + 1 ? "#!"
 					: "?curPage=" + (count / 10 + 1) + (name == null ? "" : "&routine=" + name)%>><i
 					class="material-icons" style="font-size: 1.2rem !important;">fast_forward</i></a></li>
 		</ul>
 	</main>
-	<div class="fixed-action-btn float-add-button">
-
+	<div class="fixed-action-btn float-add-button modal-trigger"
+		data-target="add_routine_dialog">
 		<a
 			class="btn-floating btn-large float-add-button white waves-effect waves-light tooltipped"
 			data-position="top" data-delay="50" data-tooltip="new routine?">
@@ -337,11 +409,6 @@
 	<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 	<script src="js/materialize.js"></script>
 	<script src="js/init.js"></script>
-	<script type="text/javascript">
-	  function deleteStop(id,pos,dir){
-		location.href="http://localhost:8080/transportation/deletestop?id="+id+"&pos="+pos+"&dir="+dir;
-	  } 
-	</script>
-
+	<script src="js/abitalo.js"></script>
 </body>
 </html>

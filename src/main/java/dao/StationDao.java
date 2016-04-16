@@ -51,8 +51,8 @@ public class StationDao extends BaseDao<Station> {
 		return list;
 	}
 
-	public String getStationName(Integer pos) {
-		return findByPos(pos).getName();
-	}
+//	public String getStationName(Integer pos) {
+//		return findByPos(pos).getName();
+//	}
 
 }

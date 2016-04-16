@@ -25,16 +25,6 @@
 	font-size: medium;
 }
 </style>
-<script type="text/javascript">
-	var pos=-1;
-	  function deleteStation(tpos){
-		  pos=tpos;
-		  $('#delete_dialog').openModal();
-	  }
-	  function tosServlet(){
-			window.location.href="http://localhost:8080/transportation/deletestation?pos="+pos;
-	  }
-	</script>
 </head>
 <%!StationDao dao = new StationDao();
 	StationBean bean = new StationBean();
@@ -44,7 +34,7 @@
 	private static final int pageSize = 10;%>
 <body>
 	<!-- 这个是对话框 -->
-	<div id="add_station_dialoge" class="modal grey-text text-darken-1"
+	<div id="add_station_dialog" class="modal grey-text text-darken-1"
 		style="width: 270px;">
 		<form action="addstation" method="post"
 			onsubmit="return check_station_add(this);" autocomplete="off">
@@ -88,23 +78,28 @@
 							data-success="ok">&nbsp;</label>
 					</div>
 				</div>
-					<button class="grey-text text-darken-1 btn-flat white waves-effect waves-red no_uppercase block_center" type="submit">  Sure
-					</button>
+				<button
+					class="grey-text text-darken-1 btn-flat white waves-effect waves-red no_uppercase block_center"
+					type="submit">Sure</button>
 			</div>
 		</form>
 	</div>
 	<!-- 这个是删除对话框 -->
-	  <div id="delete_dialog" class="modal delete_routine_stop_dialog">
-<div class="modal-content  grey-text text-darken-1">
-      <h5 class=""><span class="red-text text-accent-1">Delete</span> this station?</h5>
-          <div class="row row_no_margin_bottom">
-		<a class="btn-flat col s6 center-align modal-close waves-effect waves-red grey-text text-darken-1"  onclick="tosServlet()">Yes</a>
-		<a class="btn-flat col s6 center-align modal-close waves-effect waves-red grey-text text-darken-1" href="#!">No</a>
-    </div>
-  
-  </div>
-  </div>
-  
+	<div id="delete_dialog" class="modal delete_routine_stop_dialog">
+		<div class="modal-content  grey-text text-darken-1">
+			<h5 class="">
+				<span class="red-text text-accent-1">Delete</span> this station?
+			</h5>
+			<div class="row row_no_margin_bottom">
+				<a
+					class="btn-flat col s6 center-align modal-close waves-effect waves-red grey-text text-darken-1"
+					onclick="toServlet()">Yes</a> <a
+					class="btn-flat col s6 center-align modal-close waves-effect waves-red grey-text text-darken-1"
+					href="#!">No</a>
+			</div>
+		</div>
+	</div>
+
 	<ul id="dropdown1" class="dropdown-content user_drop_down">
 		<li><a href="#!"><%=session.getAttribute("user")%></a></li>
 		<li class="divider"></li>
@@ -250,21 +245,19 @@
 			<li class=<%=curPage > count / 10 ? "disabled" : "enabled"%>
 				style="padding: 0px ! important; margin: 0px;"><a
 				class=<%=curPage > count / 10 ? "teal-text" : "white-text"%>
-				href=<%=curPage >= count / 10 + 1
-					? "#!"
+				href=<%=curPage >= count / 10 + 1 ? "#!"
 					: "?curPage=" + (curPage + 1) + (name == null ? "" : "&station=" + name)%>><i
 					class="material-icons" style="font-size: 1.2rem !important;">chevron_right</i></a></li>
 			<li class=<%=curPage > count / 10 ? "disabled" : "enabled"%>
 				style="padding: 0px ! important; margin: 0px;"><a
 				class=<%=curPage > count / 10 ? "teal-text" : "white-text"%>
-				href=<%=curPage >= count / 10 + 1
-					? "#!"
+				href=<%=curPage >= count / 10 + 1 ? "#!"
 					: "?curPage=" + (count / 10 + 1) + (name == null ? "" : "&station=" + name)%>><i
 					class="material-icons" style="font-size: 1.2rem !important;">fast_forward</i></a></li>
 		</ul>
 	</main>
 	<div class="fixed-action-btn float-add-button  modal-trigger"
-		data-target="add_station_dialoge">
+		data-target="add_station_dialog">
 
 		<a
 			class="btn-floating btn-large float-add-button white waves-effect waves-light tooltipped"
@@ -273,9 +266,10 @@
 		</a>
 	</div>
 	<!--  Scripts-->
-	<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-	<script src="js/materialize.js"></script>
-	<script src="js/init.js"></script>
+	<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+	<script type="text/javascript" src="js/materialize.js"></script>
+	<script type="text/javascript" src="js/abitalo.js"></script>
+	<script type="text/javascript" src="js/init.js"></script>
 	<script type="text/javascript" src="js/validate.js"></script>
 </body>
 </html>
