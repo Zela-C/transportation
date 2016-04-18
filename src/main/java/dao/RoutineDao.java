@@ -28,7 +28,6 @@ public class RoutineDao extends BaseDao<Routine> {
 	}
 	public Routine findByPos(Integer pos) {
 		List<Routine> list = find("from Routine where pos = '" + pos + "'");
-		System.out.println("查询的结果：" + list.size());
 		if (null != list && 0 != list.size())
 			return list.get(0);
 		else

@@ -40,9 +40,9 @@ public class GeneralFilter implements Filter {
 		url = req.getRequestURL().toString();
 		System.out.println(url);
 		if (url.contains("routine") || url.contains("station")) {
-			membershipJudge(chain);
-		} else if (url.contains("path") || url.contains("company")) {
 			administrationJudge(chain);
+		} else if (url.contains("path") || url.contains("company")) {
+			membershipJudge(chain);
 		} else if (url.equals("http://localhost:8080/transportation/") || url.contains("login")
 				|| url.contains("regist")) {
 			loginStateJudge(chain);

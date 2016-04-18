@@ -20,9 +20,7 @@ public class StationDao extends BaseDao<Station> {
 	}
 
 	public Station findByName(String name) {
-
 		List<Station> list = find("from Station where name = '" + name + "'");
-		System.out.println("查询的结果：" + list.size());
 		if (null != list && 0 != list.size())
 			return list.get(0);
 		else
@@ -31,7 +29,6 @@ public class StationDao extends BaseDao<Station> {
 
 	public Station findByPos(Integer pos) {
 		List<Station> list = find("from Station where pos = '" + pos + "'");
-		System.out.println("查询的结果：" + list.size());
 		if (null != list && 0 != list.size())
 			return list.get(0);
 		else

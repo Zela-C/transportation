@@ -11,7 +11,7 @@ public class User {
 	@Id
 	private String name;
 	@Column(nullable=false)
-	private String passWord;
+	private String password;
 	private Integer isAdmin;
 	@Column(nullable=false)
 	private String email;
@@ -29,11 +29,11 @@ public class User {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getPassWord() {
-		return passWord;
+	public String getPassword() {
+		return password;
 	}
-	public void setPassWord(String passWord) {
-		this.passWord = passWord;
+	public void setPassword(String password) {
+		this.password = password;
 	}
 	public Integer getIsAdmin() {
 		return isAdmin;

@@ -41,7 +41,7 @@ public class RegistServlet extends HttpServlet{
 			User user = new User();
 			user.setName(name);
 			user.setEmail(email);
-			user.setPassWord(pwd);
+			user.setPassword(pwd);
 			user.setIsAdmin(0);
 			userDao.save(user);
 			out. print("suc");
