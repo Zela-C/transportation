@@ -30,9 +30,9 @@
 	<!-- 页头 -->
 	<header> <nav class=" white header-menu navbar-fixed">
 	<div class="nav-wrapper container">
-		<img src="images/logo_icon.png" alt=""
+		<a href="login.jsp"><img src="images/logo_icon.png" alt=""
 			class="brand-logo circle responsive-img header-menu circle responsive-img"
-			style="padding: 3px">
+			style="padding: 3px"></a>
 		<!--       <a href="#!" class="brand-logo cyan-text header-menu">Logo</a> -->
 		<a href="#" data-activates="mobile"
 			class="button-collapse header-menu"><i
@@ -60,7 +60,7 @@
 	<main class="cyan" style="position:relative">
 	<div class="container">
 		<br>
-		<h4 class=" cyan-text center-align white-text thin">上海松江公共交通有限公司</h4>
+		<h4 class=" cyan-text center-align white-text thin"><%=company.getName() %></h4>
 		<hr class="" width=65% color=#ffffff size="1" align=center noshade>
 		<div class="center-align">
 			<a href="#!" class="z-depth-1 hoverable  company-button"> <i

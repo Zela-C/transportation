@@ -37,7 +37,7 @@ public class UserDao extends BaseDao<User> {
 	
 	public int getUserAuthority(Serializable name){
 		User user=((User)get(User.class,name));
-		return user==null?-1:user.getIsAdmin();
+		return user==null?-1:user.getAuthority();
 	}
 	
 }

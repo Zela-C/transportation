@@ -1,7 +1,5 @@
-/webapp/
-/bean/
-/dao/
 /entity/
-/filter/
-/helper/
 /servlet/
+/dao/
+/bean/
+/webapp/

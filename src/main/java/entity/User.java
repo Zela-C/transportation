@@ -12,7 +12,8 @@ public class User {
 	private String name;
 	@Column(nullable=false)
 	private String password;
-	private Integer isAdmin;
+	@Column(nullable=false)
+	private Integer authority;
 	@Column(nullable=false)
 	private String email;
 	
@@ -35,11 +36,11 @@ public class User {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public Integer getIsAdmin() {
-		return isAdmin;
+	public Integer getAuthority() {
+		return authority;
 	}
-	public void setIsAdmin(Integer isAdmin) {
-		this.isAdmin = isAdmin;
+	public void setAuthority(Integer authority) {
+		this.authority = authority;
 	}
 	
 	

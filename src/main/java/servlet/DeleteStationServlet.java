@@ -25,7 +25,7 @@ public class DeleteStationServlet extends HttpServlet {
 		StationDao stationDao = new StationDao();
 		PrintWriter out = resp.getWriter();
 		Station stationDelete = stationDao.findByPos(pos);
-		if (1 == stationDelete.getUnreferenced()) {//the station isn't referred by any routine ,can be deleted safely
+		if (stationDelete.getUnreferenced()) {//the station isn't referred by any routine ,can be deleted safely
 			stationDao.delete(Station.class, stationDelete.getId());
 			List<Station> list = stationDao.find("from Station where pos>" + pos);
 			if (!list.isEmpty()) {

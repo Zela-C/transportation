@@ -28,13 +28,13 @@ public class Station {
 	@ManyToOne(targetEntity = Region.class)
 	@JoinColumn(name = "regionId", nullable = false)
 	private Region region;
-	private Integer unreferenced;
-	
-	public Integer getUnreferenced() {
+	private Boolean unreferenced;
+
+	public Boolean getUnreferenced() {
 		return unreferenced;
 	}
 
-	public void setUnreferenced(Integer unreferenced) {
+	public void setUnreferenced(Boolean unreferenced) {
 		this.unreferenced = unreferenced;
 	}
 

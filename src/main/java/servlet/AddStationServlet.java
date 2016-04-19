@@ -56,7 +56,7 @@ public class AddStationServlet extends HttpServlet {
 		newStation.setLatitude(latitude);
 		newStation.setLongitude(longitude);
 		newStation.setRegion(region);
-		newStation.setUnreferenced(1);
+		newStation.setUnreferenced(true);
 		stationDao.save(newStation);
 		System.out.println("成功");
 		out.print("suc");

@@ -109,9 +109,9 @@
 	<!-- 页头 -->
 	<header> <nav class=" white header-menu navbar-fixed">
 	<div class="nav-wrapper container">
-		<img src="images/logo_icon.png" alt=""
+		<a href="login.jsp"><img src="images/logo_icon.png" alt=""
 			class="brand-logo circle responsive-img header-menu circle responsive-img"
-			style="padding: 3px">
+			style="padding: 3px"></a>
 		<!--       <a href="#!" class="brand-logo cyan-text header-menu">Logo</a> -->
 		<a href="#" data-activates="mobile"
 			class="button-collapse header-menu"><i

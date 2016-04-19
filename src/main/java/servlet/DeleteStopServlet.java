@@ -13,7 +13,6 @@ import dao.RoutineDao;
 import dao.StationDao;
 import entity.Routine;
 import entity.Station;
-import helper.StationPool;
 
 @WebServlet(name = "DeleteStopServlet", urlPatterns = { "/deletestop" })
 public class DeleteStopServlet extends HttpServlet {
@@ -23,7 +22,6 @@ public class DeleteStopServlet extends HttpServlet {
 	protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		req.setCharacterEncoding("utf-8");
 		resp.setCharacterEncoding("utf-8");
-		System.out.println("你妈炸了！！！！");
 		Integer id = Integer.valueOf(req.getParameter("id"));
 		Integer pos = Integer.valueOf(req.getParameter("pos"));
 		Integer dir = Integer.valueOf(req.getParameter("dir"));
@@ -60,7 +58,7 @@ public class DeleteStopServlet extends HttpServlet {
 		if (false == isRefered) {
 			StationDao stationDao = new StationDao();
 			Station station = stationDao.findByPos(pos);
-			station.setUnreferenced(1);
+			station.setUnreferenced(true);
 			stationDao.update(station);
 		}
 

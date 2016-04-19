@@ -26,38 +26,38 @@ public class Routine {
 	@ManyToOne(targetEntity = Company.class)
 	@JoinColumn(name = "companyId",nullable=false)
 	private Company company;
-	
-	private Integer isCircle;
-	
-	private Integer isCross;
-	
+
+	@Column(nullable=false)
+	private Boolean isCircle;
+
+	@Column(nullable=false)
+	private Boolean isCross;
+
+	@Column(nullable=false)
 	private Integer numStation;
 	
 	private double length;
 	
 	private Integer time;
-	@Column(nullable=false,unique=true)
+	
+	@Column(nullable=false)
 	@Lob
 	private String lenTo;
-	@Column(nullable=false,unique=true)
+	@Column(nullable=false)
 	@Lob
 	private String posTo;
-	@Column(nullable=false,unique=true)
+	@Column(nullable=false)
 	@Lob
 	private String endTimeTo;
-	@Column(nullable=false,unique=true)
+	@Column(nullable=false)
 	@Lob
 	private String startTimeTo;
-	@Column(nullable=false,unique=true)
 	@Lob
 	private String lenFrom;
-	@Column(nullable=false,unique=true)
 	@Lob
 	private String posFrom;
-	@Column(nullable=false,unique=true)
 	@Lob
 	private String endTimeFrom;
-	@Column(nullable=false,unique=true)
 	@Lob
 	private String startTimeFrom;
 	
@@ -109,19 +109,19 @@ public class Routine {
 		this.name = name;
 	}
 
-	public Integer getIsCircle() {
+	public Boolean getIsCircle() {
 		return isCircle;
 	}
 
-	public void setIsCircle(Integer isCircle) {
+	public void setIsCircle(Boolean isCircle) {
 		this.isCircle = isCircle;
 	}
 
-	public Integer getIsCross() {
+	public Boolean getIsCross() {
 		return isCross;
 	}
 
-	public void setIsCross(Integer isCross) {
+	public void setIsCross(Boolean isCross) {
 		this.isCross = isCross;
 	}
 
