@@ -20,8 +20,15 @@ public class RoutineDao extends BaseDao<Routine> {
 	}
 
 	public Routine findByName(String name) {
-		List<Routine> list = find("select distinct * from routine where name = " + name);
+		List<Routine> list = find("select distinct * from Routine where name = " + name);
 		if (list != null)
+			return list.get(0);
+		else
+			return null;
+	}
+	public Routine findByPos(Integer pos) {
+		List<Routine> list = find("from Routine where pos = '" + pos + "'");
+		if (null != list && 0 != list.size())
 			return list.get(0);
 		else
 			return null;

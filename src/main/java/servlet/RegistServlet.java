@@ -41,8 +41,8 @@ public class RegistServlet extends HttpServlet{
 			User user = new User();
 			user.setName(name);
 			user.setEmail(email);
-			user.setPassWord(pwd);
-			user.setIsAdmin(0);
+			user.setPassword(pwd);
+			user.setAuthority(0);
 			userDao.save(user);
 			out. print("suc");
 //			request.getRequestDispatcher("/path.jsp").forward(request, response);让login.jsp里的ajax方法进行页面跳转

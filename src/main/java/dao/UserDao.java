@@ -3,7 +3,6 @@ package dao;
 import java.io.Serializable;
 import java.util.List;
 
-import entity.Station;
 import entity.User;
 
 public class UserDao extends BaseDao<User> {
@@ -26,11 +25,11 @@ public class UserDao extends BaseDao<User> {
 			return false;
 	}
 	
-	public boolean checkPassWord(Serializable name,Serializable pwd){
+	public boolean checkPassword(Serializable name,Serializable pwd){
 		User user = get(User.class,name);
 		if(user==null)
 			return false;
-		if(user.getPassWord().equals(pwd)){
+		if(user.getPassword().equals(pwd)){
 			return true;
 		}
 		else return false;
@@ -38,7 +37,7 @@ public class UserDao extends BaseDao<User> {
 	
 	public int getUserAuthority(Serializable name){
 		User user=((User)get(User.class,name));
-		return user==null?-1:user.getIsAdmin();
+		return user==null?-1:user.getAuthority();
 	}
 	
 }

@@ -1,6 +1,7 @@
 ﻿package servlet;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -22,9 +23,9 @@ public class DeleteStationServlet extends HttpServlet {
 		resp.setCharacterEncoding("utf-8");
 		Integer pos = Integer.valueOf(req.getParameter("pos"));
 		StationDao stationDao = new StationDao();
-
+		PrintWriter out = resp.getWriter();
 		Station stationDelete = stationDao.findByPos(pos);
-		if (1 == stationDelete.getUnreferenced()) {//the station isn't referred by any routine ,can be deleted safely
+		if (stationDelete.getUnreferenced()) {//the station isn't referred by any routine ,can be deleted safely
 			stationDao.delete(Station.class, stationDelete.getId());
 			List<Station> list = stationDao.find("from Station where pos>" + pos);
 			if (!list.isEmpty()) {
@@ -33,9 +34,12 @@ public class DeleteStationServlet extends HttpServlet {
 					stationDao.update(station);
 				}
 			}
+			out.print("suc");
+			return ;
 		} else {//the station is being referred by some routine , can not be deleted
 			//TODO
+			out.print("err");
+			return ;
 		}
-		resp.sendRedirect("station.jsp");
 	}
 }

@@ -50,6 +50,7 @@ public class RoutineBean {
 				startTimeFrom = routine.getStartTimeFrom().trim().split("\\$");
 			}
 			map.put("id", routine.getId()); // the pos of the whole routine
+			map.put("pos", routine.getPos());
 			map.put("time", routine.getTime());
 			map.put("length", routine.getLength());
 			map.put("name", routine.getName());

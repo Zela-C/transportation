@@ -1,3 +1,5 @@
+<%@page import="entity.Company"%>
+<%@page import="dao.CompanyDao"%>
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -17,6 +19,7 @@
 <link href="css/zela.css" type="text/css" rel="stylesheet"
 	media="screen,projection" />
 </head>
+<%!Company company = new CompanyDao().getAllCompanys().get(0);%>
 <body>
 	<ul id="dropdown1" class="dropdown-content user_drop_down">
 		<li><a href="#!"><%=session.getAttribute("user")%></a></li>
@@ -27,9 +30,9 @@
 	<!-- 页头 -->
 	<header> <nav class=" white header-menu navbar-fixed">
 	<div class="nav-wrapper container">
-		<img src="images/logo_icon.png" alt=""
+		<a href="login.jsp"><img src="images/logo_icon.png" alt=""
 			class="brand-logo circle responsive-img header-menu circle responsive-img"
-			style="padding: 3px">
+			style="padding: 3px"></a>
 		<!--       <a href="#!" class="brand-logo cyan-text header-menu">Logo</a> -->
 		<a href="#" data-activates="mobile"
 			class="button-collapse header-menu"><i
@@ -57,7 +60,7 @@
 	<main class="cyan" style="position:relative">
 	<div class="container">
 		<br>
-		<h4 class=" cyan-text center-align white-text thin">上海松江公共交通有限公司</h4>
+		<h4 class=" cyan-text center-align white-text thin"><%=company.getName() %></h4>
 		<hr class="" width=65% color=#ffffff size="1" align=center noshade>
 		<div class="center-align">
 			<a href="#!" class="z-depth-1 hoverable  company-button"> <i
@@ -71,17 +74,17 @@
 			class="card white container company-card-center grey-text text-darken-1">
 			<div class="card-content">
 				<div>企业信息：</div>
-				林尽水源，便得一山，山有小口，仿佛若有光。便舍船，从口入。初极狭，才通人。复行数十步，豁然开朗。土地平旷，屋舍俨然，有良田美池桑竹之属。阡陌交通，鸡犬相闻。其中往来种作，男女衣着，悉如外人。黄发垂髫，并怡然自乐。
+				<%=company.getInfo()%>
 			</div>
 			<div style="" class="card-action row">
 				<span class="col s12 m6 l6">地址：<span
-					class="grey-text text-darken-1 ">松江区茸惠路558号</span></span> <span
-					class="col s12 m6 l6"> 邮编：<span
-					class="grey-text text-darken-1">201613</span></span> <span
+					class="grey-text text-darken-1 "><%=company.getAddress()%></span></span>
+				<span class="col s12 m6 l6"> 邮编：<span
+					class="grey-text text-darken-1"><%=company.getPost()%></span></span> <span
 					class="col s12 m6 l6"> 电话：<span
-					class="grey-text text-darken-1">021-57821111</span></span> <span
+					class="grey-text text-darken-1"><%=company.getContact()%></span></span> <span
 					class="col s12 m6 l6"> 邮箱：<span
-					class="grey-text text-darken-1">sjgjts@163.com</span></span>
+					class="grey-text text-darken-1"><%=company.getEmail()%></span></span>
 			</div>
 		</div>
 	</div>

@@ -17,8 +17,6 @@ public class Region {
 	@Column(nullable=false,unique=true)
 	private String name;
 
-	private String message;
-
 	public Integer getId() {
 		return id;
 	}
@@ -34,15 +32,5 @@ public class Region {
 	public void setName(String name) {
 		this.name = name;
 	}
-
-	public String getMessage() {
-		return message;
-	}
-
-	public void setMessage(String message) {
-		this.message = message;
-	}
-	
-	
 	
 }

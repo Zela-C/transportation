@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import dao.UserDao;
-import helper.StationPool;
 
 @WebServlet(name="Login" , urlPatterns={"/login"})
 public class LoginServlet extends HttpServlet{
@@ -32,7 +31,7 @@ public class LoginServlet extends HttpServlet{
 			System.out.println("Error in username");
 			out. print("no_usr");
 		}
-		else if(!userDao.checkPassWord(name, pwd)){
+		else if(!userDao.checkPassword(name, pwd)){
 			System.out.println("Error in password");
 			out. print("err_pwd");
 		}
